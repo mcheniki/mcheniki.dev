@@ -3,7 +3,7 @@ title: 'Montefiore Apartments'
 stack: ['wordpress', 'ovh', 'cpanel']
 image: './montefiore.webp'
 url: 'https://montefiore-apartments.com'
-order: 3
+order: 4
 mission: 'Migration infra'
 ---
 

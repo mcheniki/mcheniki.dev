@@ -3,7 +3,7 @@ title: 'Télé-Loisirs'
 stack: ['javascript', 'jest', 'sass', 'react']
 image: './tele-loisirs.webp'
 url: 'https://www.programme-tv.net'
-order: 2
+order: 3
 mission: 'Développeur Front-end'
 ---
 
