@@ -123,7 +123,7 @@ export function Form({ ...rest }) {
 						sitekey={siteKey}
 						onVerify={onVerify}
 						theme="dark"
-						className="mt-24"
+						className="mt-24 text-left"
 					/>
 
 					{error && <p className="mt-24 text-14 font-bold text-error-500">{error}</p>}

@@ -18,27 +18,26 @@ import ShapeH2 from '@svgs/shape-h2.svg';
 		<h3
 			class="mb-24 text-48 md:text-64 leading-[1.3em] tracking-tighter text-base-50 font-extralight -tracking-tighter]"
 		>
-			Prêt pour ton prochain projet ?
+			On discute ?
 		</h3>
 		<p class="mb-32">
-			Tu veux qu'on bosse ensemble ? Ou peut-être juste dire bonjour ? Utilise le formulaire !
+			Un projet, une question, ou juste un bonjour, le formulaire est là pour ça.
 		</p>
-	</header>
-	<div class="flex gap-24 justify-between">
-		<address class="basis-1/3 max-md:hidden">
-			<h4 class="text-25 text-base-50 tracking-[0.025em] not-italic mb-32">
-				Information de contact
-			</h4>
-			<a href="mailto:hello@mcheniki.dev" class="mb-12 flex items-center gap-6">
-				<IconMail width="20" height="16" fill="currentColor" />
-
-				hello@mcheniki.dev
-			</a>
-		</address>
-		<div class="basis-full md:basis-2/3">
-			<ErrorBoundary client:only>
-				<Form client:only />
-			</ErrorBoundary>
+		<div class="flex gap-24 justify-between">
+			<address class="basis-1/3 max-md:hidden">
+				<h4 class="text-25 text-base-50 tracking-[0.025em] not-italic mb-32 text-left">
+					Information de contact
+				</h4>
+				<a href="mailto:hello@mcheniki.dev" class="mb-12 flex items-center gap-6">
+					<IconMail width="20" height="16" fill="currentColor" />
+					hello@mcheniki.dev
+				</a>
+			</address>
+			<div class="basis-full md:basis-2/3">
+				<ErrorBoundary client:only>
+					<Form client:only />
+				</ErrorBoundary>
+			</div>
 		</div>
-	</div>
+	</header>
 </Container>

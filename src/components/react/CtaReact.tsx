@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { type MouseEvent } from 'react';
 
 const styles = cva(
-	'font-jetbrains text-base-0 font-bold flex items-center gap-6 justify-center disabled:opacity-75 disabled:pointer-events-none',
+	'font-jetbrains cursor-pointer text-base-0 font-bold flex items-center gap-6 justify-center disabled:opacity-75 disabled:pointer-events-none',
 	{
 		variants: {
 			indent: {
