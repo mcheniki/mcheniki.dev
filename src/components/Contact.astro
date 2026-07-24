@@ -6,7 +6,7 @@ import { Form } from '@components/react/Form';
 import IconMail from '@svgs/mail.svg';
 import ShapeH2 from '@svgs/shape-h2.svg';
 import type { Locale } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
+import { errorBoundaryMessages, formMessages, useTranslations } from '../i18n/ui';
 
 type Props = {
 	locale: Locale;
@@ -43,8 +43,8 @@ const t = useTranslations(locale);
 				</a>
 			</address>
 			<div class="basis-full md:basis-2/3">
-				<ErrorBoundary client:only>
-					<Form client:only />
+				<ErrorBoundary client:only locale={locale} messages={errorBoundaryMessages[locale]}>
+					<Form client:only locale={locale} messages={formMessages[locale]} />
 				</ErrorBoundary>
 			</div>
 		</div>

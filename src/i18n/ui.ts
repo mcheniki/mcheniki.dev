@@ -167,6 +167,111 @@ const en = {
 
 export const ui = { fr, en } satisfies Record<Locale, TranslationCatalog>;
 
+export type FormMessages = {
+	name: string;
+	email: string;
+	message: string;
+	send: string;
+	sending: string;
+	successTitle: string;
+	successDescription: string;
+	emailRequired: string;
+	emailInvalid: string;
+	nameRequired: string;
+	messageMin: string;
+	messageMax: string;
+	genericError: string;
+	turnstileError: string;
+	sendError: string;
+};
+
+export const formMessages = {
+	fr: {
+		name: fr['form.name'],
+		email: fr['form.email'],
+		message: fr['form.message'],
+		send: fr['form.send'],
+		sending: fr['form.sending'],
+		successTitle: fr['form.successTitle'],
+		successDescription: fr['form.successDescription'],
+		emailRequired: fr['errors.emailRequired'],
+		emailInvalid: fr['errors.emailInvalid'],
+		nameRequired: fr['errors.nameRequired'],
+		messageMin: fr['errors.messageMin'],
+		messageMax: fr['errors.messageMax'],
+		genericError: fr['errors.generic'],
+		turnstileError: fr['errors.turnstile'],
+		sendError: fr['errors.send'],
+	},
+	en: {
+		name: en['form.name'],
+		email: en['form.email'],
+		message: en['form.message'],
+		send: en['form.send'],
+		sending: en['form.sending'],
+		successTitle: en['form.successTitle'],
+		successDescription: en['form.successDescription'],
+		emailRequired: en['errors.emailRequired'],
+		emailInvalid: en['errors.emailInvalid'],
+		nameRequired: en['errors.nameRequired'],
+		messageMin: en['errors.messageMin'],
+		messageMax: en['errors.messageMax'],
+		genericError: en['errors.generic'],
+		turnstileError: en['errors.turnstile'],
+		sendError: en['errors.send'],
+	},
+} as const satisfies Record<Locale, FormMessages>;
+
+export type ErrorBoundaryMessages = {
+	title: string;
+	description: string;
+};
+
+export const errorBoundaryMessages = {
+	fr: {
+		title: fr['errors.formUnavailable'],
+		description: fr['errors.formUnavailableDescription'],
+	},
+	en: {
+		title: en['errors.formUnavailable'],
+		description: en['errors.formUnavailableDescription'],
+	},
+} as const satisfies Record<Locale, ErrorBoundaryMessages>;
+
+export type SceneMessages = {
+	unavailable: string;
+};
+
+export const sceneMessages = {
+	fr: { unavailable: fr['errors.sceneUnavailable'] },
+	en: { unavailable: en['errors.sceneUnavailable'] },
+} as const satisfies Record<Locale, SceneMessages>;
+
+export type StackDescriptions = {
+	hoverPrompt: string;
+	react: string;
+	javascript: string;
+	wordpress: string;
+	php: string;
+};
+
+export const stackDescriptions = {
+	fr: {
+		hoverPrompt: fr['stack.hoverPrompt'],
+		react: fr['stack.reactDescription'],
+		javascript: fr['stack.javascriptDescription'],
+		wordpress: fr['stack.wordpressDescription'],
+		php: fr['stack.phpDescription'],
+	},
+	en: {
+		hoverPrompt: en['stack.hoverPrompt'],
+		react: en['stack.reactDescription'],
+		javascript: en['stack.javascriptDescription'],
+		wordpress: en['stack.wordpressDescription'],
+		php: en['stack.phpDescription'],
+	},
+} as const satisfies Record<Locale, StackDescriptions>;
+
 export type TranslationKey = keyof typeof fr;
 
 type TranslationValues = {

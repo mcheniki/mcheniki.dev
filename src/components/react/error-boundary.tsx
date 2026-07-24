@@ -1,8 +1,13 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
+import type { ErrorBoundaryMessages } from '../../i18n/ui';
+import type { Locale } from '../../i18n/config';
+
 interface Props {
 	children: ReactNode;
 	fallback?: ReactNode;
+	locale: Locale;
+	messages: ErrorBoundaryMessages;
 }
 
 interface State {
@@ -25,11 +30,9 @@ export class ErrorBoundary extends Component<Props, State> {
 			return (
 				this.props.fallback || (
 					<div className="rounded-8 border border-base-700 bg-base-900 p-16 text-center">
-						<p className="text-base-300">
-							Le formulaire est temporairement indisponible.
-						</p>
+						<p className="text-base-300">{this.props.messages.title}</p>
 						<p className="mt-8 text-14 text-base-500">
-							Veuillez réessayer plus tard ou me contacter par email.
+							{this.props.messages.description}
 						</p>
 					</div>
 				)

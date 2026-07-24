@@ -5,7 +5,7 @@ import { Scene } from '@components/react/ThreeScene/Scene';
 
 import ShapeH2 from '@svgs/shape-h2.svg';
 import type { Locale } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
+import { sceneMessages, useTranslations } from '../i18n/ui';
 
 type Props = {
 	locale: Locale;
@@ -52,7 +52,7 @@ const t = useTranslations(locale);
 				10
 			</p>
 			<div class="relative bg-no-repeat">
-				<Scene client:visible />
+				<Scene client:visible locale={locale} messages={sceneMessages[locale]} />
 			</div>
 		</div>
 	</div>

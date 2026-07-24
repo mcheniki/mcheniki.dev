@@ -6,7 +6,15 @@ import { KernelSize, Resolution } from 'postprocessing';
 //Model
 import { Avatar } from './Avatar';
 
-export function Scene() {
+import type { SceneMessages } from '../../../i18n/ui';
+import type { Locale } from '../../../i18n/config';
+
+type SceneProps = {
+	locale: Locale;
+	messages: SceneMessages;
+};
+
+export function Scene({ locale: _locale, messages }: SceneProps) {
 	return (
 		<div
 			className="relative h-[530px] items-center justify-center lg:h-[80dvh]"
@@ -18,7 +26,7 @@ export function Scene() {
 				className="mx-auto"
 				fallback={
 					<div className="flex h-full items-center justify-center text-center text-base-300">
-						La scène 3D n’est pas disponible sur cet appareil.
+						{messages.unavailable}
 					</div>
 				}
 			>

@@ -6,6 +6,7 @@ import IconJS from '@svgs/js.svg?react';
 import IconWP from '@svgs/wp.svg?react';
 import IconPHP from '@svgs/php.svg?react';
 import CardStack from './CardStack';
+import type { StackDescriptions } from '../../../i18n/ui';
 
 export type SVGComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
@@ -74,113 +75,116 @@ type InfoCardProps = {
 	tech: Technology;
 };
 
-export const technologies: Technology[] = [
-	{
-		id: 1,
-		name: 'React',
-		Icon: IconReact as SVGComponent,
-		description:
-			"Le framework JavaScript que j'ai choisi pour réaliser des interfaces utilisateur de qualité et performantes.",
-		connections: [2, 3],
-		animation: {
-			y: {
-				duration: 3,
-				repeat: Infinity,
-				repeatType: 'reverse',
-				ease: 'easeInOut',
-				delay: 0,
-				amount: 10,
-			},
-			hover: {
-				transition: {
-					type: 'spring',
-					stiffness: 300,
-					damping: 10,
+function createTechnologies(descriptions: StackDescriptions): Technology[] {
+	return [
+		{
+			id: 1,
+			name: 'React',
+			Icon: IconReact as SVGComponent,
+			description: descriptions.react,
+			connections: [2, 3],
+			animation: {
+				y: {
+					duration: 3,
+					repeat: Infinity,
+					repeatType: 'reverse',
+					ease: 'easeInOut',
+					delay: 0,
+					amount: 10,
+				},
+				hover: {
+					transition: {
+						type: 'spring',
+						stiffness: 300,
+						damping: 10,
+					},
 				},
 			},
 		},
-	},
-	{
-		id: 2,
-		name: 'JavaScript',
-		Icon: IconJS as SVGComponent,
-		description:
-			"Le langage que j'utilise pour améliorer l'expérience utilisateur au travers d'interactions et d'animations.",
-		connections: [1],
-		animation: {
-			y: {
-				duration: 4,
-				repeat: Infinity,
-				repeatType: 'reverse',
-				ease: 'easeInOut',
-				delay: 0.5,
-				amount: 15,
-			},
-			hover: {
-				transition: {
-					type: 'spring',
-					stiffness: 400,
-					damping: 8,
+		{
+			id: 2,
+			name: 'JavaScript',
+			Icon: IconJS as SVGComponent,
+			description: descriptions.javascript,
+			connections: [1],
+			animation: {
+				y: {
+					duration: 4,
+					repeat: Infinity,
+					repeatType: 'reverse',
+					ease: 'easeInOut',
+					delay: 0.5,
+					amount: 15,
+				},
+				hover: {
+					transition: {
+						type: 'spring',
+						stiffness: 400,
+						damping: 8,
+					},
 				},
 			},
 		},
-	},
-	{
-		id: 3,
-		name: 'WordPress',
-		Icon: IconWP as SVGComponent,
-		description:
-			"Avec 10 ans d'expérience sur WordPress, c'est le CMS que je propose à mes clients pour la gestion de leur contenu.",
-		connections: [2, 4],
-		animation: {
-			y: {
-				duration: 3.5,
-				repeat: Infinity,
-				repeatType: 'reverse',
-				ease: 'easeInOut',
-				delay: 1,
-				amount: 12,
-			},
-			hover: {
-				transition: {
-					type: 'spring',
-					stiffness: 350,
-					damping: 12,
+		{
+			id: 3,
+			name: 'WordPress',
+			Icon: IconWP as SVGComponent,
+			description: descriptions.wordpress,
+			connections: [2, 4],
+			animation: {
+				y: {
+					duration: 3.5,
+					repeat: Infinity,
+					repeatType: 'reverse',
+					ease: 'easeInOut',
+					delay: 1,
+					amount: 12,
+				},
+				hover: {
+					transition: {
+						type: 'spring',
+						stiffness: 350,
+						damping: 12,
+					},
 				},
 			},
 		},
-	},
-	{
-		id: 4,
-		name: 'PHP',
-		Icon: IconPHP as SVGComponent,
-		description:
-			'Je développe des fonctionnalités WordPress sur mesure en PHP pour créer des expériences uniques et personnalisées',
-		connections: [3],
-		animation: {
-			y: {
-				duration: 3.2,
-				repeat: Infinity,
-				repeatType: 'reverse',
-				ease: 'easeInOut',
-				delay: 1.5,
-				amount: 8,
-			},
-			hover: {
-				transition: {
-					type: 'spring',
-					stiffness: 450,
-					damping: 15,
+		{
+			id: 4,
+			name: 'PHP',
+			Icon: IconPHP as SVGComponent,
+			description: descriptions.php,
+			connections: [3],
+			animation: {
+				y: {
+					duration: 3.2,
+					repeat: Infinity,
+					repeatType: 'reverse',
+					ease: 'easeInOut',
+					delay: 1.5,
+					amount: 8,
+				},
+				hover: {
+					transition: {
+						type: 'spring',
+						stiffness: 450,
+						damping: 15,
+					},
 				},
 			},
 		},
-	},
-];
+	];
+}
 const random = Math.floor(Math.random() * (10 - 1) + 1);
 
 const coeffRandom = random % 4 === 0 ? random + 1 : random;
 
-const TechConstellation: React.FC = () => {
+type TechConstellationProps = {
+	messages: StackDescriptions;
+};
+
+const TechConstellation: React.FC<TechConstellationProps> = ({ messages }) => {
+	const technologies = createTechnologies(messages);
 	const [hoveredTech, setHoveredTech] = useState<Technology | null>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [dimensions, setDimensions] = useState<Dimensions>({
@@ -233,7 +237,7 @@ const TechConstellation: React.FC = () => {
 								<InfoCard tech={hoveredTech} />
 							) : (
 								<p className="text-center text-[0.875rem] font-bold tracking-[1.3px] text-primary-500">
-									Survol une des icones
+									{messages.hoverPrompt}
 								</p>
 							)}
 						</div>

@@ -17,8 +17,9 @@ export const server = {
 			email: z.email(),
 			message: z.string().min(10).max(1000),
 			turnstileToken: z.string(),
+			locale: z.enum(['fr', 'en']),
 		}),
-		handler: async ({ name, email, message, turnstileToken }) => {
+		handler: async ({ name, email, message, turnstileToken, locale }) => {
 			try {
 				const response = await fetch(
 					'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -42,12 +43,12 @@ export const server = {
 
 				const container = await experimental_AstroContainer.create();
 				const templateEmailString = await container.renderToString(EmailTemplate, {
-					props: { name, email, message },
+					props: { name, email, message, locale },
 				});
 				const { error } = await resend.emails.send({
 					from: 'Portfolio <noreply@mcheniki.dev>',
 					to: ['contact@mcheniki.dev'],
-					subject: 'Contact Form Portfolio',
+					subject: `[${locale.toUpperCase()}] Contact Form Portfolio`,
 					html: templateEmailString,
 				});
 

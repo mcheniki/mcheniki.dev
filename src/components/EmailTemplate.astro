@@ -3,13 +3,15 @@ type Props = {
 	name: string;
 	email: string;
 	message: string;
+	locale: 'fr' | 'en';
 };
 
-const { name, email, message }: Props = Astro.props;
+const { name, email, message, locale }: Props = Astro.props;
 ---
 
 <div>
 	<h1>Formulaire contact</h1>
+	<p>Locale: {locale}</p>
 	<p>Name: {name}</p>
 	<p>Email: {email}</p>
 	<p>

@@ -1,6 +1,6 @@
 import { actions } from 'astro:actions';
 
-import { useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type FormHTMLAttributes, type SyntheticEvent } from 'react';
 
 import TurnstileModule, { type BoundTurnstileObject } from 'react-turnstile';
 import { z } from 'zod';
@@ -11,7 +11,9 @@ import { Input } from './Input';
 import { Textarea } from './Textarea';
 
 import IconRocket from '@svgs/rocket.svg?react';
-import { formSchema, type FormErrors } from './validation';
+import type { Locale } from '../../i18n/config';
+import type { FormMessages } from '../../i18n/ui';
+import { createFormSchema, type FormErrors } from './validation';
 
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY!;
 
@@ -20,7 +22,12 @@ const Turnstile =
 		? TurnstileModule
 		: (TurnstileModule as unknown as { default: typeof TurnstileModule }).default;
 
-export function Form({ ...rest }) {
+type FormProps = FormHTMLAttributes<HTMLFormElement> & {
+	locale: Locale;
+	messages: FormMessages;
+};
+
+export function Form({ locale, messages, ...rest }: FormProps) {
 	const [sending, setSending] = useState(false);
 	const [fieldErrors, setFieldErrors] = useState<FormErrors>();
 	const [success, setSuccess] = useState(false);
@@ -33,11 +40,11 @@ export function Form({ ...rest }) {
 		setTurnstileToken(token);
 	};
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (!turnstileToken) {
-			console.log('Turnstile verification not completed yet');
+			setError(messages.turnstileError);
 			return;
 		}
 
@@ -58,23 +65,23 @@ export function Form({ ...rest }) {
 			email: formData.get('email'),
 			message: formData.get('message'),
 		};
-		const validate = formSchema.safeParse(formValues);
+		const validate = createFormSchema(messages).safeParse(formValues);
 
 		if (validate.success) {
 			try {
 				const sendResponse = await actions.sendForm(formData);
 
 				if (sendResponse.error || !sendResponse.data) {
-					setError('Une erreur est survenue, veuillez réessayer.');
+					setError(messages.genericError);
 				} else if (sendResponse.data.status === 'success') {
 					setSuccess(true);
 				} else if (sendResponse.data.status === 'turnstile-error') {
-					setError('La vérification anti-robot a échoué, veuillez réessayer.');
+					setError(messages.turnstileError);
 				} else {
-					setError("L'envoi du message a échoué, veuillez réessayer.");
+					setError(messages.sendError);
 				}
 			} catch {
-				setError('Une erreur est survenue, veuillez réessayer.');
+				setError(messages.genericError);
 			}
 		} else {
 			setFieldErrors(z.flattenError(validate.error).fieldErrors);
@@ -90,11 +97,11 @@ export function Form({ ...rest }) {
 			{success ? (
 				<p className="flex-1 self-center text-center font-jetbrains">
 					<span className="text-36 font-bold text-primary-500">
-						Merci pour ton message!
+						{messages.successTitle}
 					</span>
 					<br />
 					<span className="text-25 font-semibold">
-						Je reviens vers toi dès que j'ai fini mon café! <br />
+						{messages.successDescription} <br />
 					</span>
 					<span aria-hidden="true" className="text-48">
 						&#9749;
@@ -102,8 +109,9 @@ export function Form({ ...rest }) {
 				</p>
 			) : (
 				<form {...rest} method="post" onSubmit={handleSubmit} noValidate autoComplete="off">
+					<input type="hidden" name="locale" value={locale} />
 					<div className="flex items-center gap-24 max-md:flex-col md:gap-12">
-						<FormGroup name="nom" className="w-full flex-1">
+						<FormGroup label={messages.name} controlId="name" className="w-full flex-1">
 							<Input type="text" id="name" name="name" required="required" />
 							{fieldErrors && (
 								<span className="absolute top-full left-0 text-12 font-bold text-error-500">
@@ -111,7 +119,11 @@ export function Form({ ...rest }) {
 								</span>
 							)}
 						</FormGroup>
-						<FormGroup name="e-mail" className="w-full flex-1">
+						<FormGroup
+							label={messages.email}
+							controlId="email"
+							className="w-full flex-1"
+						>
 							<Input type="email" id="email" name="email" required="required" />
 							{fieldErrors && (
 								<span className="absolute top-full left-0 text-12 font-bold text-error-500">
@@ -120,7 +132,7 @@ export function Form({ ...rest }) {
 							)}
 						</FormGroup>
 					</div>
-					<FormGroup name="message" className="mt-24">
+					<FormGroup label={messages.message} controlId="message" className="mt-24">
 						<Textarea id="message" required="required" />
 						{fieldErrors && (
 							<span className="absolute top-full left-0 text-12 font-bold text-error-500">
@@ -131,6 +143,7 @@ export function Form({ ...rest }) {
 					<Turnstile
 						sitekey={siteKey}
 						onVerify={onVerify}
+						language={locale}
 						theme="dark"
 						className="mt-24 text-left"
 					/>
@@ -142,7 +155,7 @@ export function Form({ ...rest }) {
 							<IconRocket
 								className={`fill-current ${sending ? 'animate-shake' : ''}`}
 							/>
-							Envoyer
+							{sending ? messages.sending : messages.send}
 						</CtaReact>
 					</div>
 				</form>
