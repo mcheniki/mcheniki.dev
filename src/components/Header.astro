@@ -13,6 +13,7 @@ type Props = {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
+const alternateLocale = locales.find((language) => language !== locale);
 ---
 
 <header class="fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-base-800 py-24">
@@ -34,29 +35,23 @@ const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
 			<ul
 				class="flex flex-col gap-32 px-24 py-32 max-md:items-start md:flex-row md:items-center md:px-0 md:py-0"
 			>
-				<li class="flex items-center gap-12" aria-label={t('header.languagePicker')}>
+				<li aria-label={t('header.languagePicker')}>
 					{
-						locales.map((language) => (
+						alternateLocale && (
 							<a
-								href={getRelativeLocaleUrl(language)}
-								lang={localeMetadata[language].html}
-								hreflang={localeMetadata[language].hreflang}
-								aria-current={language === locale ? 'page' : undefined}
+								href={getRelativeLocaleUrl(alternateLocale)}
+								lang={localeMetadata[alternateLocale].html}
+								hreflang={localeMetadata[alternateLocale].hreflang}
 								aria-label={
-									language === 'fr'
+									alternateLocale === 'fr'
 										? t('header.showFrench')
 										: t('header.showEnglish')
 								}
-								class:list={[
-									'rounded-6 px-6 py-3 font-jetbrains text-12 font-bold transition-colors hover:text-primary-400 focus-visible:outline-2 focus-visible:outline-offset-2',
-									language === locale
-										? 'bg-primary-500 text-base-900 underline decoration-2 underline-offset-4'
-										: 'text-base-50',
-								]}
+								class="rounded-6 px-6 py-3 font-jetbrains text-12 font-bold text-base-50 transition-colors hover:text-primary-400 focus-visible:outline-2 focus-visible:outline-offset-2"
 							>
-								{language.toUpperCase()}
+								{alternateLocale.toUpperCase()}
 							</a>
-						))
+						)
 					}
 				</li>
 				<li>
