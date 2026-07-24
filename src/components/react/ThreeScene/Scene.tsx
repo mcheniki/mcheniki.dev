@@ -16,6 +16,11 @@ export function Scene() {
 				camera={{ fov: 60, position: [-4, 3, 6] }}
 				frameloop={'always'}
 				className="mx-auto"
+				fallback={
+					<div className="flex h-full items-center justify-center text-center text-base-300">
+						La scène 3D n’est pas disponible sur cet appareil.
+					</div>
+				}
 			>
 				<ambientLight intensity={4} color={'#FFF3F0'} />
 				<spotLight
