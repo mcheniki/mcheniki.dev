@@ -58,14 +58,12 @@ isolé, hors de cette validation de dépendances.
 - Le build client ne contient aucune occurrence des noms de variables secrètes
   utilisées côté serveur (`SECRET_*`, Resend ou Turnstile).
 
-La prévisualisation a été vérifiée en bureau. Le contrôle automatisé de la taille
-de viewport ne s'applique pas au navigateur intégré dans cet environnement ; la
-checklist visuelle mobile reste à rejouer manuellement sur un appareil ou un
-navigateur avec émulation mobile fonctionnelle avant mise en production. Il faut
-aussi relever les réponses HTTP de `/robots.txt`, du sitemap, des assets et de
-chaque route de projet lorsqu'elles sont disponibles. Enfin, les états de succès,
-d'erreur serveur contrôlée et le rendu HTML de l'email exigent des clés de test et
-un destinataire de test ; ils ne sont pas couverts par le rejet sans captcha.
+La prévisualisation a été vérifiée en bureau et la checklist visuelle mobile a été
+validée manuellement. Il faut encore relever les réponses HTTP de `/robots.txt`,
+du sitemap, des assets et de chaque route de projet lorsqu'elles sont disponibles.
+Enfin, les états de succès, d'erreur serveur contrôlée et le rendu HTML de l'email
+exigent des clés de test et un destinataire de test ; ils ne sont pas couverts par
+le rejet sans captcha.
 
 ## Taille des bundles
 
@@ -88,8 +86,7 @@ dans le ticket 009 ; aucune refonte du chargement n'est introduite ici.
       sur bureau, sans erreur console ni e-mail réel.
 - [x] Secrets absents du bundle client.
 - [x] Versions, hints et mises à jour reportées consignés.
-- [ ] Rendu mobile à rejouer manuellement avant production (limite du navigateur
-      intégré).
+- [x] Rendu mobile validé manuellement.
 - [ ] Réponses HTTP de toutes les routes, ressources publiques et sitemaps à
       relever en préproduction.
 - [ ] Succès simulé, erreur serveur contrôlée et rendu HTML de l'email à valider
