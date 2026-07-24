@@ -167,6 +167,23 @@ const en = {
 
 export const ui = { fr, en } satisfies Record<Locale, TranslationCatalog>;
 
+/** Returns the keys that are missing from one of the translation catalogues. */
+export function getTranslationParityErrors() {
+	const referenceKeys = Object.keys(ui.fr);
+	const englishKeys = new Set(Object.keys(ui.en));
+	const errors = referenceKeys
+		.filter((key) => !englishKeys.has(key))
+		.map((key) => `Missing English translation key: ${key}`);
+
+	for (const key of englishKeys) {
+		if (!(key in ui.fr)) {
+			errors.push(`Missing French translation key: ${key}`);
+		}
+	}
+
+	return errors;
+}
+
 export type FormMessages = {
 	name: string;
 	email: string;
