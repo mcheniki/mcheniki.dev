@@ -11,9 +11,9 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.6",
-		"@astrojs/node": "^9.5.1",
-		"@astrojs/react": "^4.4.2",
+		"@astrojs/check": "0.9.9",
+		"@astrojs/node": "^10.0.0",
+		"@astrojs/react": "^5.0.0",
 		"@astrojs/sitemap": "^3.6.0",
 		"@react-three/fiber": "^9.5.0",
 		"@react-three/postprocessing": "^3.0.4",
@@ -21,7 +21,7 @@
 		"@tweenjs/tween.js": "^25.0.0",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
-		"astro": "^5.16.6",
+		"astro": "^6.0.0",
 		"class-variance-authority": "^0.7.1",
 		"framer-motion": "^12.24.10",
 		"postprocessing": "^6.38.2",
@@ -32,7 +32,7 @@
 		"sass": "^1.97.2",
 		"simple-icons": "^16.5.0",
 		"three": "^0.182.0",
-		"typescript": "^5.9.3",
+		"typescript": "6.0.3",
 		"zod": "^4.3.5"
 	},
 	"devDependencies": {
@@ -48,6 +48,6 @@
 		"vite-plugin-svgr": "4"
 	},
 	"engines": {
-		"node": ">=22"
+		"node": ">=22.12.0"
 	}
 }

@@ -13,9 +13,6 @@ import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-	experimental: {
-		svgo: true,
-	},
 	site: PUBLIC_URL_WEBSITE ?? 'http://localhost:4321',
 	integrations: [
 		react({
