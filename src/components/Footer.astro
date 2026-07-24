@@ -5,6 +5,13 @@ import IconMail from '@svgs/mail.svg';
 import IconLinkedin from '@svgs/linkedin.svg';
 import IconStar from '@svgs/star.svg';
 import { Image } from 'astro:assets';
+import type { Locale } from '../i18n/config';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale: _locale } = Astro.props;
 ---
 
 <footer class="lg:mt-96">

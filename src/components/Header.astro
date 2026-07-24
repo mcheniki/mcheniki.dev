@@ -2,6 +2,17 @@
 import Cta from './Cta.astro';
 import Container from './Container.astro';
 import { Image } from 'astro:assets';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { locales, localeMetadata, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
 ---
 
 <header class="fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-base-800 py-24">
@@ -9,7 +20,7 @@ import { Image } from 'astro:assets';
 		<div class="flex items-center gap-12">
 			<Image
 				src="/images/avatar-face.webp"
-				alt="Tête de l'avatar de Mehdi Cheniki"
+				alt={t('header.avatarAlt')}
 				width={40}
 				height={40}
 			/>
@@ -23,17 +34,46 @@ import { Image } from 'astro:assets';
 			<ul
 				class="flex flex-col gap-32 px-24 py-32 max-md:items-start md:flex-row md:items-center md:px-0 md:py-0"
 			>
+				<li class="flex items-center gap-12" aria-label={t('header.languagePicker')}>
+					{
+						locales.map((language) => (
+							<a
+								href={getRelativeLocaleUrl(language)}
+								lang={localeMetadata[language].html}
+								hreflang={localeMetadata[language].hreflang}
+								aria-current={language === locale ? 'page' : undefined}
+								aria-label={
+									language === 'fr'
+										? t('header.showFrench')
+										: t('header.showEnglish')
+								}
+								class:list={[
+									'rounded-6 px-6 py-3 font-jetbrains text-12 font-bold transition-colors hover:text-primary-400 focus-visible:outline-2 focus-visible:outline-offset-2',
+									language === locale
+										? 'bg-primary-500 text-base-900 underline decoration-2 underline-offset-4'
+										: 'text-base-50',
+								]}
+							>
+								{language.toUpperCase()}
+							</a>
+						))
+					}
+				</li>
 				<li>
-					<Cta url="/#contact">Me contacter</Cta>
+					<Cta url={contactUrl}>{t('header.contact')}</Cta>
 				</li>
 			</ul>
 		</nav>
 		<button
 			class="relative z-20 ml-auto h-[20px] w-32 md:hidden"
 			id="menuButton"
-			aria-label="Menu principal"
+			aria-label={t('header.openMenu')}
+			aria-controls="mainNav"
+			aria-expanded="false"
+			data-open-menu={t('header.openMenu')}
+			data-close-menu={t('header.closeMenu')}
 		>
-			<div class="sr-only">Ouvrir le menu</div>
+			<div class="sr-only">{t('header.openMenu')}</div>
 			<div
 				aria-hidden="true"
 				class="absolute top-0 h-[2px] w-full rounded-6 bg-base-0 transition duration-300 ease-out"
@@ -74,14 +114,18 @@ import { Image } from 'astro:assets';
 			line1?.classList.add('translate-y-[10px]', 'rotate-45');
 			line2?.classList.add('opacity-0');
 			line3?.classList.add('-translate-y-[8px]', '-rotate-45');
-			menuButton.querySelector('.sr-only')!.textContent = 'Fermer le menu';
+			menuButton.setAttribute('aria-expanded', 'true');
+			menuButton.setAttribute('aria-label', menuButton.dataset.closeMenu!);
+			menuButton.querySelector('.sr-only')!.textContent = menuButton.dataset.closeMenu!;
 		} else {
 			nav?.classList.remove('translate-x-1/4');
 			nav?.classList.add('translate-x-full');
 			line1?.classList.remove('translate-y-[10px]', 'rotate-45');
 			line2?.classList.remove('opacity-0');
 			line3?.classList.remove('-translate-y-[8px]', '-rotate-45');
-			menuButton.querySelector('.sr-only')!.textContent = 'Ouvrir le menu';
+			menuButton.setAttribute('aria-expanded', 'false');
+			menuButton.setAttribute('aria-label', menuButton.dataset.openMenu!);
+			menuButton.querySelector('.sr-only')!.textContent = menuButton.dataset.openMenu!;
 		}
 	});
 </script>
