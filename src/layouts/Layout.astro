@@ -2,9 +2,12 @@
 import '../styles/fonts.css';
 import '../styles/global.css';
 
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
-import type { Locale } from '../i18n/config';
+import { localeMetadata, locales, type Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
 
 type Props = {
 	locale: Locale;
@@ -14,8 +17,17 @@ type Props = {
 };
 
 const { locale, title, description, image = '/images/og.webp' } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const routePath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
+const getLocaleURL = (targetLocale: Locale) => {
+	const path = routePath === '/' ? undefined : routePath;
+
+	return new URL(getRelativeLocaleUrl(targetLocale, path), Astro.site);
+};
+const canonicalURL = getLocaleURL(locale);
 const ogImageURL = new URL(image, Astro.site);
+const sitemapURL = new URL('/sitemap-index.xml', Astro.site);
+const t = useTranslations(locale);
+const alternateLocale = locales.find((targetLocale) => targetLocale !== locale);
 ---
 
 <!doctype html>
@@ -27,7 +39,16 @@ const ogImageURL = new URL(image, Astro.site);
 		<link rel="icon" type="image/ico" href="/favicon.ico" />
 		<title>{title}</title>
 		<link rel="canonical" href={canonicalURL} />
-		<link rel="sitemap" href="/sitemap-index.xml" />
+		{
+			locales.map((targetLocale) => (
+				<link
+					rel="alternate"
+					hreflang={localeMetadata[targetLocale].hreflang}
+					href={getLocaleURL(targetLocale)}
+				/>
+			))
+		}
+		<link rel="sitemap" href={sitemapURL} />
 
 		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
@@ -35,7 +56,15 @@ const ogImageURL = new URL(image, Astro.site);
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImageURL} />
-		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:locale" content={localeMetadata[locale].openGraph} />
+		{
+			alternateLocale && (
+				<meta
+					property="og:locale:alternate"
+					content={localeMetadata[alternateLocale].openGraph}
+				/>
+			)
+		}
 
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
@@ -51,8 +80,8 @@ const ogImageURL = new URL(image, Astro.site);
 				'@context': 'https://schema.org',
 				'@type': 'Person',
 				name: 'Mehdi Cheniki',
-				url: Astro.site,
-				jobTitle: 'Développeur web freelance',
+				url: canonicalURL,
+				jobTitle: t('meta.jobTitle'),
 				knowsAbout: ['WordPress', 'React', 'TypeScript', 'PHP', 'JavaScript'],
 				email: 'hello@mcheniki.dev',
 				sameAs: ['https://github.com/mcheniki'],

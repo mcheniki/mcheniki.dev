@@ -28,7 +28,15 @@ export default defineConfig({
 				plugins: [['babel-plugin-react-compiler']],
 			},
 		}),
-		sitemap(),
+		sitemap({
+			i18n: {
+				defaultLocale: 'fr',
+				locales: {
+					fr: 'fr',
+					en: 'en',
+				},
+			},
+		}),
 	],
 	adapter: node({
 		mode: 'standalone',
