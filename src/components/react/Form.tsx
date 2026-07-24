@@ -2,7 +2,7 @@ import { actions } from 'astro:actions';
 
 import { useState, type FormEvent } from 'react';
 
-import Turnstile from 'react-turnstile';
+import TurnstileModule from 'react-turnstile';
 
 import { CtaReact } from './CtaReact';
 import { FormGroup } from './FormGroup';
@@ -13,6 +13,11 @@ import IconRocket from '@svgs/rocket.svg?react';
 import { formSchema, type FormattedErrors } from './validation';
 
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY!;
+
+const Turnstile =
+	typeof TurnstileModule === 'function'
+		? TurnstileModule
+		: (TurnstileModule as unknown as { default: typeof TurnstileModule }).default;
 
 export function Form({ ...rest }) {
 	const [sending, setSending] = useState(false);
