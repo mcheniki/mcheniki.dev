@@ -14,6 +14,13 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
 	site: PUBLIC_URL_WEBSITE ?? 'http://localhost:4321',
+	i18n: {
+		locales: ['fr', 'en'],
+		defaultLocale: 'fr',
+		routing: {
+			prefixDefaultLocale: false,
+		},
+	},
 	integrations: [
 		react({
 			include: ['**/react/*'],
