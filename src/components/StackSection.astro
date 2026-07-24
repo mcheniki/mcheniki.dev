@@ -57,22 +57,22 @@ const techs2: TechType[] = [
 ---
 
 <Container>
-	<div class="flex max-lg:flex-col gap-24 lg:gap-[10%] lg:items-center">
+	<div class="flex gap-24 max-lg:flex-col lg:items-center lg:gap-[10%]">
 		<div class="flex-1">
 			<header class="mb-32">
 				<h2
-					class="text-14 text-primary-600 uppercase tracking-[0.15em] font-medium flex items-center gap-6"
+					class="flex items-center gap-6 text-14 font-medium tracking-[0.15em] text-primary-600 uppercase"
 				>
 					<ShapeH2 fill="currentColor" width="14" height="14" />
 					Technique
 				</h2>
 				<h3
-					class="mb-24 text-48 md:text-64 leading-[1.3em] tracking-tighter text-base-50 font-extralight -tracking-tighter]"
+					class="-tracking-tighter] mb-24 text-48 leading-[1.3em] font-extralight tracking-tighter text-base-50 md:text-64"
 				>
 					Deux expertises, un objectif : du sur mesure
 				</h3>
 			</header>
-			<p class="text-base text-base-0 lead">
+			<p class="lead text-base text-base-0">
 				WordPress pour les sites qui ont besoin d'un back-office solide. Thèmes custom,
 				plugins, blocs Gutenberg développés avec React pour une expérience d'édition
 				moderne.<br />React pour les applications interactives qui vont au-delà d'un site
@@ -81,16 +81,16 @@ const techs2: TechType[] = [
 		</div>
 		<!-- Height ratio 772/1440 matches design mockup proportions -->
 		<div
-			class="flex-1 flex gap-24 h-[calc(100vw*772/1440)] max-h-[674px] 2xl:max-h-[772px] overflow-hidden relative stack-container max-lg:py-[18px] lg:pt-[18px]"
+			class="stack-container relative flex h-[calc(100vw*772/1440)] max-h-[674px] flex-1 gap-24 overflow-hidden max-lg:py-[18px] 2xl:max-h-[772px] lg:pt-[18px]"
 		>
 			<!-- Negative translate positions cards to show bottom portion, creating infinite scroll illusion -->
 			<div
-				class="flex lg:flex-col gap-24 flex-1 lg:-translate-y-[79%] 2xl:-translate-y-[74%]"
+				class="flex flex-1 gap-24 2xl:-translate-y-[74%] lg:-translate-y-[79%] lg:flex-col"
 			>
 				{
 					Array.from({ length: 2 }).map((_, i) => (
 						<ul
-							class="flex lg:flex-col gap-24 max-lg:animate-marquee max-lg:items-center max-lg:text-nowrap"
+							class="flex gap-24 max-lg:animate-marquee max-lg:items-center max-lg:text-nowrap lg:flex-col"
 							aria-hidden={i > 0}
 						>
 							{techs.map((tech) => (
@@ -102,7 +102,7 @@ const techs2: TechType[] = [
 					))
 				}
 			</div>
-			<div class="flex lg:flex-col gap-24 flex-1 max-lg:hidden">
+			<div class="flex flex-1 gap-24 max-lg:hidden lg:flex-col">
 				{
 					Array.from({ length: 2 }).map(() => (
 						<StackList techList={techs2.reverse()} ariaHidden={true} />

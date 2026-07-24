@@ -1,0 +1,11 @@
+_bmad/
+_bmad-output/
+.claude/
+.codex/
+.kombai/
+.opencode/
+.bun-cache/
+.tmp/
+dist/
+.astro/
+node_modules/

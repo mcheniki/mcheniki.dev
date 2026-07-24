@@ -4,7 +4,7 @@ import Container from './Container.astro';
 import { Image } from 'astro:assets';
 ---
 
-<header class="fixed left-0 top-0 flex w-full items-center justify-between py-24 bg-base-800 z-10">
+<header class="fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-base-800 py-24">
 	<Container customClass="flex items-center justify-between">
 		<div class="flex items-center gap-12">
 			<Image
@@ -17,7 +17,7 @@ import { Image } from 'astro:assets';
 		</div>
 
 		<nav
-			class="fixed left-0 top-0 z-10 h-screen w-full bg-base-800 transition-transform duration-300 ease-out md:h-auto translate-x-full md:relative md:w-auto md:translate-x-0"
+			class="fixed top-0 left-0 z-10 h-screen w-full translate-x-full bg-base-800 transition-transform duration-300 ease-out md:relative md:h-auto md:w-auto md:translate-x-0"
 			id="mainNav"
 		>
 			<ul

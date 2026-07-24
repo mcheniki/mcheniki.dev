@@ -42,7 +42,7 @@ régression visuelle ou comportementale de l'avatar.
 - [ ] Le Bloom reste visuellement conforme à la référence.
 - [ ] Le fallback d'erreur de la scène fonctionne.
 - [ ] La nouvelle taille du chunk 3D est consignée et n'a pas régressé sans
-  explication.
+      explication.
 
 ## Verification
 

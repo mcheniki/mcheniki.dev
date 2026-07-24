@@ -59,7 +59,7 @@ export function Portal() {
 				}}
 			>
 				<span className="portal-element-orange-stroke"></span>
-				<div className="absolute top-0 left-0 overflow-hidden w-full h-full rounded-32">
+				<div className="absolute top-0 left-0 h-full w-full overflow-hidden rounded-32">
 					<div className="absolute bottom-0 left-0 h-1/2 w-full">
 						<CirclePlanet
 							color="primary"
@@ -68,7 +68,7 @@ export function Portal() {
 							active={active}
 						/>
 					</div>
-					<div className="absolute right-0 top-0 h-1/2 w-1/2">
+					<div className="absolute top-0 right-0 h-1/2 w-1/2">
 						<CirclePlanet
 							color="secondary"
 							animated={true}

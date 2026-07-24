@@ -10,7 +10,7 @@ export function FormGroup({ name, withLabel = true, className, children }: FormG
 		<div className={`group relative ${className}`}>
 			{withLabel && (
 				<label
-					className="top-0 absolute left-12 -translate-y-1/2 bg-base-800 px-3 text-12 capitalize text-primary-400 group-has-[:required]:after:content-['*']"
+					className="absolute top-0 left-12 -translate-y-1/2 bg-base-800 px-3 text-12 text-primary-400 capitalize group-has-[:required]:after:content-['*']"
 					htmlFor={name}
 				>
 					{name}

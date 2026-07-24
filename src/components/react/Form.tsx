@@ -102,11 +102,11 @@ export function Form({ ...rest }) {
 				</p>
 			) : (
 				<form {...rest} method="post" onSubmit={handleSubmit} noValidate autoComplete="off">
-					<div className="flex items-center gap-24 md:gap-12 max-md:flex-col">
+					<div className="flex items-center gap-24 max-md:flex-col md:gap-12">
 						<FormGroup name="nom" className="w-full flex-1">
 							<Input type="text" id="name" name="name" required="required" />
 							{fieldErrors && (
-								<span className="absolute left-0 top-full text-12 font-bold text-error-500">
+								<span className="absolute top-full left-0 text-12 font-bold text-error-500">
 									{fieldErrors.name?.[0]}
 								</span>
 							)}
@@ -114,7 +114,7 @@ export function Form({ ...rest }) {
 						<FormGroup name="e-mail" className="w-full flex-1">
 							<Input type="email" id="email" name="email" required="required" />
 							{fieldErrors && (
-								<span className="absolute left-0 top-full text-12 font-bold text-error-500">
+								<span className="absolute top-full left-0 text-12 font-bold text-error-500">
 									{fieldErrors.email?.[0]}
 								</span>
 							)}
@@ -123,7 +123,7 @@ export function Form({ ...rest }) {
 					<FormGroup name="message" className="mt-24">
 						<Textarea id="message" required="required" />
 						{fieldErrors && (
-							<span className="absolute left-0 top-full text-12 font-bold text-error-500">
+							<span className="absolute top-full left-0 text-12 font-bold text-error-500">
 								{fieldErrors.message?.[0]}
 							</span>
 						)}

@@ -15,7 +15,7 @@ const { id, title, imageUrl, stack } = Astro.props;
 <div
 	data-project-id={id}
 	data-project-title={title}
-	class="project-card bg-base-0 group relative h-full w-full aspect-square overflow-hidden rounded-24 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-base-900"
+	class="project-card group relative aspect-square h-full w-full overflow-hidden rounded-24 bg-base-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-base-900"
 	aria-label={`Voir les détails du projet ${title}`}
 >
 	<img
@@ -30,7 +30,7 @@ const { id, title, imageUrl, stack } = Astro.props;
 
 	<div class="absolute inset-0 flex flex-col justify-between p-12">
 		<h3
-			class="font-jetbrains text-25 font-medium text-base-0 absolute left-1/2 top-1/2 -translate-1/2 w-fit text-center"
+			class="absolute top-1/2 left-1/2 w-fit -translate-1/2 text-center font-jetbrains text-25 font-medium text-base-0"
 		>
 			{title}
 		</h3>
@@ -40,7 +40,7 @@ const { id, title, imageUrl, stack } = Astro.props;
 				stack.map((tech) => {
 					const icon = getIcon(tech);
 
-					return <li class="w-5 h-5 [&>svg]:fill-white" set:html={icon!.svg} />;
+					return <li class="h-5 w-5 [&>svg]:fill-white" set:html={icon!.svg} />;
 				})
 			}
 		</ul>

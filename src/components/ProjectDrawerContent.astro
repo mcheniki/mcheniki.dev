@@ -12,18 +12,18 @@ const { stack, mission, url } = Astro.props;
 ---
 
 <div class="flex flex-col gap-32">
-	{mission && <h4 class="text-primary-500 uppercase text-16">{mission}</h4>}
+	{mission && <h4 class="text-16 text-primary-500 uppercase">{mission}</h4>}
 	{
 		stack.length > 0 && (
 			<section>
-				<h3 class="mb-4 text-14 font-medium uppercase tracking-wider text-base-0">Stack</h3>
+				<h3 class="mb-4 text-14 font-medium tracking-wider text-base-0 uppercase">Stack</h3>
 				<ul class="flex flex-wrap gap-12">
 					{stack.map((tech) => {
 						const icon = getIcon(tech);
 						return (
 							<li class="flex items-center gap-4 rounded-full bg-base-700 px-12 py-6">
 								{icon && (
-									<span class="w-5 h-5 [&>svg]:fill-white" set:html={icon.svg} />
+									<span class="h-5 w-5 [&>svg]:fill-white" set:html={icon.svg} />
 								)}
 								<span class="text-14 text-base-100">{getIconTitle(tech)}</span>
 							</li>
@@ -35,7 +35,7 @@ const { stack, mission, url } = Astro.props;
 	}
 
 	<section>
-		<h3 class="mb-4 text-14 font-medium uppercase tracking-wider text-base-0">Description</h3>
+		<h3 class="mb-4 text-14 font-medium tracking-wider text-base-0 uppercase">Description</h3>
 		<div class="prose-project text-16 leading-relaxed text-base-100">
 			<slot />
 		</div>

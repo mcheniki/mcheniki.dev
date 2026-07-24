@@ -225,9 +225,9 @@ const TechConstellation: React.FC = () => {
 
 	return (
 		<div className="constellation-container relative h-full w-full">
-			<div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
-				<div className="left-[10%] top-1/2 z-10 flex h-full max-h-[556px] flex-1 justify-center py-32">
-					<div className="relative aspect-[447/556] h-full bg-stack-frame bg-cover bg-no-repeat p-12">
+			<div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
+				<div className="top-1/2 left-[10%] z-10 flex h-full max-h-[556px] flex-1 justify-center py-32">
+					<div className="bg-stack-frame relative aspect-[447/556] h-full bg-cover bg-no-repeat p-12">
 						<div className="relative flex h-full items-center justify-center">
 							{hoveredTech ? (
 								<InfoCard tech={hoveredTech} />

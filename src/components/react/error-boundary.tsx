@@ -24,11 +24,11 @@ export class ErrorBoundary extends Component<Props, State> {
 		if (this.state.hasError) {
 			return (
 				this.props.fallback || (
-					<div className="text-center p-16 bg-base-900 rounded-8 border border-base-700">
+					<div className="rounded-8 border border-base-700 bg-base-900 p-16 text-center">
 						<p className="text-base-300">
 							Le formulaire est temporairement indisponible.
 						</p>
-						<p className="text-14 text-base-500 mt-8">
+						<p className="mt-8 text-14 text-base-500">
 							Veuillez réessayer plus tard ou me contacter par email.
 						</p>
 					</div>

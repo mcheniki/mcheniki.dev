@@ -39,12 +39,12 @@ Les deux warnings de build connus sont :
 
 ## Taille des chunks client
 
-| Chunk | Minifié | Gzip |
-| --- | ---: | ---: |
+| Chunk                          |   Minifié |      Gzip |
+| ------------------------------ | --------: | --------: |
 | `Scene.Bu1gviIi.js` (scène 3D) | 972,33 kB | 262,97 kB |
-| `client.DjFEfbVa.js` | 182,63 kB | 57,15 kB |
-| `Form.BMvCRWcL.js` | 75,15 kB | 22,97 kB |
-| `Portal.DAmC-MW1.js` | 16,47 kB | 6,76 kB |
+| `client.DjFEfbVa.js`           | 182,63 kB |  57,15 kB |
+| `Form.BMvCRWcL.js`             |  75,15 kB |  22,97 kB |
+| `Portal.DAmC-MW1.js`           |  16,47 kB |   6,76 kB |
 
 ## Routes et ressources à revalider
 
@@ -62,7 +62,7 @@ Les deux warnings de build connus sont :
 - [ ] Hero : typographie, image et appels à l'action.
 - [ ] Constellation : affichage, animation et absence de régression de performance.
 - [ ] Scène 3D : chargement de l'avatar, éclairage, interaction et repli en cas
-  d'échec.
+      d'échec.
 - [ ] Projets : liste, images, badges et liens vers les détails.
 - [ ] Formulaire : disposition, messages et accessibilité.
 - [ ] Footer : contenus, liens et image.

@@ -16,7 +16,7 @@ const { tech } = Astro.props;
 	class={`${tech.color === 'primary' ? 'text-primary-500 border-primary-500' : 'text-secondary-500 border-secondary-500'} border  rounded-32 p-32 flex flex-col items-center justify-center gap-12 aspect-square max-lg:w-50`}
 >
 	<tech.icon width="50%" height="50%" fill="currentColor" />
-	<p class="text-current text-clamp-stack text-center">
+	<p class="text-center text-clamp-stack text-current">
 		{tech.name}
 	</p>
 </div>

@@ -26,7 +26,7 @@ export function CirclePlanet({
 			{styles[color].child.map((styleBG, index) => (
 				<span
 					key={index}
-					className={`absolute bottom-0 left-0 h-full w-full  ${styleBG}`}
+					className={`absolute bottom-0 left-0 h-full w-full ${styleBG}`}
 				></span>
 			))}
 		</div>
