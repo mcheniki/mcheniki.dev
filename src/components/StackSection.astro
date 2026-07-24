@@ -8,6 +8,15 @@ import IconPHP from '@svgs/php.svg';
 import IconReact from '@svgs/react.svg';
 import ShapeH2 from '@svgs/shape-h2.svg';
 import IconWP from '@svgs/wp.svg';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 
 const techs: TechType[] = [
 	{
@@ -64,19 +73,16 @@ const techs2: TechType[] = [
 					class="flex items-center gap-6 text-14 font-medium tracking-[0.15em] text-primary-600 uppercase"
 				>
 					<ShapeH2 fill="currentColor" width="14" height="14" />
-					Technique
+					{t('stack.eyebrow')}
 				</h2>
 				<h3
 					class="-tracking-tighter] mb-24 text-48 leading-[1.3em] font-extralight tracking-tighter text-base-50 md:text-64"
 				>
-					Deux expertises, un objectif : du sur mesure
+					{t('stack.title')}
 				</h3>
 			</header>
 			<p class="lead text-base text-base-0">
-				WordPress pour les sites qui ont besoin d'un back-office solide. Thèmes custom,
-				plugins, blocs Gutenberg développés avec React pour une expérience d'édition
-				moderne.<br />React pour les applications interactives qui vont au-delà d'un site
-				classique.
+				{t('stack.description')}
 			</p>
 		</div>
 		<!-- Height ratio 772/1440 matches design mockup proportions -->

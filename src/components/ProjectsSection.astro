@@ -5,6 +5,15 @@ import ProjectCard from '@components/ProjectCard.astro';
 import ProjectDrawer from '@components/ProjectDrawer.astro';
 import ProjectDrawerContent from '@components/ProjectDrawerContent.astro';
 import ShapeH2 from '@svgs/shape-h2.svg';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 
 const projects = await getCollection('projects');
 
@@ -29,10 +38,10 @@ const renderedProjects = await Promise.all(
 			class="mb-12 flex items-center justify-center gap-6 text-14 font-medium tracking-[0.15em] text-primary-600 uppercase"
 		>
 			<ShapeH2 fill="currentColor" width="14" height="14" />
-			Réalisations
+			{t('projects.eyebrow')}
 		</h2>
 		<h3 class="text-64 leading-[1.3em] font-extralight tracking-tighter text-base-50">
-			Projets
+			{t('projects.title')}
 		</h3>
 	</header>
 
@@ -45,6 +54,7 @@ const renderedProjects = await Promise.all(
 					imageUrl={project.data.image.src}
 					stack={project.data.stack}
 					role={project.data.role}
+					locale={locale}
 				/>
 			))
 		}
@@ -58,6 +68,7 @@ const renderedProjects = await Promise.all(
 					stack={project.data.stack}
 					mission={project.data.mission}
 					url={project.data.url}
+					locale={locale}
 				>
 					<Content />
 				</ProjectDrawerContent>
@@ -65,5 +76,5 @@ const renderedProjects = await Promise.all(
 		))
 	}
 
-	<ProjectDrawer />
+	<ProjectDrawer locale={locale} />
 </Container>

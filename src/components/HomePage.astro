@@ -19,19 +19,19 @@ const t = useTranslations(locale);
 <Layout locale={locale} title={t('meta.title')} description={t('meta.description')}>
 	<main class="min-h-screen pt-128 lg:pt-48">
 		<section class="mb-96 flex min-h-screen items-center">
-			<Hero />
+			<Hero locale={locale} />
 		</section>
 		<section class="mb-96 flex items-center">
-			<About />
+			<About locale={locale} />
 		</section>
 		<section class="mb-96">
-			<StackSection />
+			<StackSection locale={locale} />
 		</section>
 		<section class="mb-96">
-			<ProjectsSection />
+			<ProjectsSection locale={locale} />
 		</section>
 		<section class="mt-96 overflow-hidden" id="contact">
-			<Contact />
+			<Contact locale={locale} />
 		</section>
 	</main>
 </Layout>

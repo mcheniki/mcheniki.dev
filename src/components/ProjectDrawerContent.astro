@@ -1,14 +1,18 @@
 ---
 import { getIcon, getIconTitle } from '@utils/icons';
 import Cta from './Cta.astro';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
 
 type Props = {
 	stack: string[];
 	mission?: string;
 	url?: string;
+	locale: Locale;
 };
 
-const { stack, mission, url } = Astro.props;
+const { stack, mission, url, locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <div class="flex flex-col gap-32">
@@ -16,7 +20,9 @@ const { stack, mission, url } = Astro.props;
 	{
 		stack.length > 0 && (
 			<section>
-				<h3 class="mb-4 text-14 font-medium tracking-wider text-base-0 uppercase">Stack</h3>
+				<h3 class="mb-4 text-14 font-medium tracking-wider text-base-0 uppercase">
+					{t('projects.stack')}
+				</h3>
 				<ul class="flex flex-wrap gap-12">
 					{stack.map((tech) => {
 						const icon = getIcon(tech);
@@ -35,7 +41,9 @@ const { stack, mission, url } = Astro.props;
 	}
 
 	<section>
-		<h3 class="mb-4 text-14 font-medium tracking-wider text-base-0 uppercase">Description</h3>
+		<h3 class="mb-4 text-14 font-medium tracking-wider text-base-0 uppercase">
+			{t('projects.description')}
+		</h3>
 		<div class="prose-project text-16 leading-relaxed text-base-100">
 			<slot />
 		</div>
@@ -44,7 +52,7 @@ const { stack, mission, url } = Astro.props;
 	{
 		url && (
 			<Cta url={url} target="_blank" rel="noopener noreferrer">
-				Voir le projet
+				{t('projects.viewProject')}
 				<svg viewBox="0 0 24 24" class="h-4 w-4 -rotate-45" fill="currentColor">
 					<path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z" />
 				</svg>

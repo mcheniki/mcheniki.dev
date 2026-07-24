@@ -4,6 +4,15 @@ import Container from '@components/Container.astro';
 import { Scene } from '@components/react/ThreeScene/Scene';
 
 import ShapeH2 from '@svgs/shape-h2.svg';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <Container
@@ -14,26 +23,24 @@ import ShapeH2 from '@svgs/shape-h2.svg';
 			class="mb-12 flex items-center gap-6 text-14 font-medium tracking-[0.15em] text-primary-600 uppercase"
 		>
 			<ShapeH2 fill="currentColor" width="14" height="14" />
-			À propos
+			{t('about.eyebrow')}
 		</h2>
 		<h3
 			class="mb-24 text-48 leading-[1.3em] font-extralight tracking-tighter text-base-50 md:text-64"
 		>
-			<span class="mr-[10px] inline-block bg-primary-500 px-[10px]"> 10 ans </span>
-			d'expertise web
+			<span class="mr-[10px] inline-block bg-primary-500 px-[10px]">
+				{t('about.years')}
+			</span>
+			{t('about.title')}
 		</h3>
 		<p class="mb-12 font-medium">
-			J'ai commencé par travailler en agence, pour ensuite encadrer une équipe de devs en tant
-			que tech lead, et aujourd'hui je suis freelance.<br />
-			Je fais du WordPress full-stack (thèmes custom, plugins, blocs Gutenberg). Ma pratique de
-			React, c'est aussi ce qui me rend à l'aise dans Gutenberg.
+			{t('about.paragraph1')}
 		</p>
 		<p class="mb-12 font-medium">
-			Ma nature curieuse m'aide à rester à jour dans ce monde qui évolue chaque jour.
+			{t('about.paragraph2')}
 		</p>
 		<p class="font-medium">
-			Mon parcours m'a amené à travailler dans des contextes variés : grands groupes, agences,
-			et structures plus petites.
+			{t('about.paragraph3')}
 		</p>
 	</div>
 	<div class="max-lg:w-full max-lg:max-w-[464px] lg:flex-1">

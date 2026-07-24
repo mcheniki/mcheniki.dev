@@ -1,5 +1,7 @@
 ---
 import { getIcon } from '@utils/icons';
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
 
 type Props = {
 	id: string;
@@ -7,20 +9,22 @@ type Props = {
 	imageUrl: string;
 	stack: string[];
 	role?: string;
+	locale: Locale;
 };
 
-const { id, title, imageUrl, stack } = Astro.props;
+const { id, title, imageUrl, stack, locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <div
 	data-project-id={id}
 	data-project-title={title}
 	class="project-card group relative aspect-square h-full w-full overflow-hidden rounded-24 bg-base-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-base-900"
-	aria-label={`Voir les détails du projet ${title}`}
+	aria-label={t('projects.viewDetails', { title })}
 >
 	<img
 		src={imageUrl}
-		alt={`Capture du projet ${title}`}
+		alt={t('projects.screenshot', { title })}
 		width="600"
 		height="600"
 		loading="lazy"

@@ -6,12 +6,14 @@ import IconLinkedin from '@svgs/linkedin.svg';
 import IconStar from '@svgs/star.svg';
 import { Image } from 'astro:assets';
 import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
 
 type Props = {
 	locale: Locale;
 };
 
-const { locale: _locale } = Astro.props;
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <footer class="lg:mt-96">
@@ -19,7 +21,7 @@ const { locale: _locale } = Astro.props;
 		<!-- Avatar positioned to overlap footer edge: 190px aligns with container padding, 69% creates peek effect -->
 		<Image
 			src="/images/footer-avatar.webp"
-			alt="Avatar de Mehdi Cheniki"
+			alt={t('footer.avatarAlt')}
 			width="166"
 			height="230"
 			class="absolute top-0 left-0 translate-x-[190px] -translate-y-[69%] max-lg:hidden"
@@ -31,7 +33,7 @@ const { locale: _locale } = Astro.props;
 				<li>
 					<a href="mailto:hello@mcheniki.dev" class="text-base-50">
 						<IconMail width="20" height="20" fill="currentColor" />
-						<span class="sr-only"> Envoyer un e-mail </span>
+						<span class="sr-only">{t('footer.email')}</span>
 					</a>
 				</li>
 				<li>
@@ -42,7 +44,7 @@ const { locale: _locale } = Astro.props;
 						rel="noreferrer noopener"
 					>
 						<IconLinkedin width="20" height="20" fill="currentColor" />
-						<span class="sr-only">Aller sur Linkedin</span>
+						<span class="sr-only">{t('footer.linkedin')}</span>
 					</a>
 				</li>
 				<li>
@@ -53,24 +55,24 @@ const { locale: _locale } = Astro.props;
 						rel="noreferrer noopener"
 					>
 						<IconGithub width="20" height="20" fill="currentColor" />
-						<span class="sr-only"> Aller sur Github </span>
+						<span class="sr-only">{t('footer.github')}</span>
 					</a>
 				</li>
 			</ul>
 			<p class="text-center text-primary-500">
 				Mehdi Cheniki
 				<br />
-				<span class="text-12 text-base-200">Copyright © 2026 - Tous droits réservés</span>
+				<span class="text-12 text-base-200">{t('footer.copyright')}</span>
 			</p>
 			<div class="max-md:hidden"></div>
 		</div>
 		<p
 			class="flex items-center justify-center gap-6 py-24 text-12 text-base-100 max-md:flex-col"
 		>
-			Développé par
+			{t('footer.developedBy')}
 			<span>Mehdi Cheniki</span>
 			<IconStar width="12" height="12" fill="currentColor" />
-			Designé par
+			{t('footer.designedBy')}
 			<a
 				href="https://elkhantour.com"
 				target="_blank"

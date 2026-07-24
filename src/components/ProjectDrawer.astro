@@ -4,6 +4,15 @@
  * Expects project <template data-project-id="..."> elements and
  * card <button data-project-id="..."> triggers to be present on the page.
  */
+import type { Locale } from '../i18n/config';
+import { useTranslations } from '../i18n/ui';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <dialog id="project-drawer" aria-labelledby="drawer-title" class="project-drawer">
@@ -15,7 +24,7 @@
 			<button
 				type="button"
 				class="close-btn flex h-32 w-32 cursor-pointer items-center justify-center rounded-full text-base-300 transition-colors hover:bg-base-700 hover:text-base-0"
-				aria-label="Fermer"
+				aria-label={t('projects.close')}
 			>
 				<svg
 					viewBox="0 0 24 24"
