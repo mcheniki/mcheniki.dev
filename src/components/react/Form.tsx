@@ -1,8 +1,9 @@
 import { actions } from 'astro:actions';
 
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 
-import TurnstileModule from 'react-turnstile';
+import TurnstileModule, { type BoundTurnstileObject } from 'react-turnstile';
+import { z } from 'zod';
 
 import { CtaReact } from './CtaReact';
 import { FormGroup } from './FormGroup';
@@ -10,7 +11,7 @@ import { Input } from './Input';
 import { Textarea } from './Textarea';
 
 import IconRocket from '@svgs/rocket.svg?react';
-import { formSchema, type FormattedErrors } from './validation';
+import { formSchema, type FormErrors } from './validation';
 
 const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY!;
 
@@ -21,12 +22,16 @@ const Turnstile =
 
 export function Form({ ...rest }) {
 	const [sending, setSending] = useState(false);
-	const [errorEmail, setErrorEmail] = useState<FormattedErrors>();
+	const [fieldErrors, setFieldErrors] = useState<FormErrors>();
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+	const turnstileRef = useRef<BoundTurnstileObject | null>(null);
 
-	const onVerify = (token: string) => setTurnstileToken(token);
+	const onVerify = (token: string, boundTurnstile: BoundTurnstileObject) => {
+		turnstileRef.current = boundTurnstile;
+		setTurnstileToken(token);
+	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -37,12 +42,13 @@ export function Form({ ...rest }) {
 		}
 
 		const target = event.currentTarget;
-		send(target);
+		await send(target);
 	};
 
 	const send = async (target: HTMLFormElement) => {
 		setSending(true);
 		setError(null);
+		setFieldErrors(undefined);
 
 		const formData = new FormData(target);
 		formData.append('turnstileToken', turnstileToken!);
@@ -58,27 +64,25 @@ export function Form({ ...rest }) {
 			try {
 				const sendResponse = await actions.sendForm(formData);
 
-				if (!sendResponse.error) {
-					const sendData = await sendResponse.data;
-
-					try {
-						const response = JSON.parse(sendData);
-						setSuccess(response.success);
-					} catch {
-						setError('Une erreur est survenue, veuillez réessayer.');
-					}
-				} else {
+				if (sendResponse.error || !sendResponse.data) {
 					setError('Une erreur est survenue, veuillez réessayer.');
+				} else if (sendResponse.data.status === 'success') {
+					setSuccess(true);
+				} else if (sendResponse.data.status === 'turnstile-error') {
+					setError('La vérification anti-robot a échoué, veuillez réessayer.');
+				} else {
+					setError("L'envoi du message a échoué, veuillez réessayer.");
 				}
 			} catch {
 				setError('Une erreur est survenue, veuillez réessayer.');
 			}
 		} else {
-			setErrorEmail(validate.error.format());
+			setFieldErrors(z.flattenError(validate.error).fieldErrors);
 		}
 
 		setSending(false);
 		setTurnstileToken(null);
+		turnstileRef.current?.reset();
 	};
 
 	return (
@@ -101,26 +105,26 @@ export function Form({ ...rest }) {
 					<div className="flex items-center gap-24 md:gap-12 max-md:flex-col">
 						<FormGroup name="nom" className="w-full flex-1">
 							<Input type="text" id="name" name="name" required="required" />
-							{errorEmail && (
+							{fieldErrors && (
 								<span className="absolute left-0 top-full text-12 font-bold text-error-500">
-									{errorEmail?.name?._errors[0]}
+									{fieldErrors.name?.[0]}
 								</span>
 							)}
 						</FormGroup>
 						<FormGroup name="e-mail" className="w-full flex-1">
 							<Input type="email" id="email" name="email" required="required" />
-							{errorEmail && (
+							{fieldErrors && (
 								<span className="absolute left-0 top-full text-12 font-bold text-error-500">
-									{errorEmail?.email?._errors[0]}
+									{fieldErrors.email?.[0]}
 								</span>
 							)}
 						</FormGroup>
 					</div>
 					<FormGroup name="message" className="mt-24">
 						<Textarea id="message" required="required" />
-						{errorEmail && (
+						{fieldErrors && (
 							<span className="absolute left-0 top-full text-12 font-bold text-error-500">
-								{errorEmail?.message?._errors[0]}
+								{fieldErrors.message?.[0]}
 							</span>
 						)}
 					</FormGroup>

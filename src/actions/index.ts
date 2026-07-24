@@ -14,7 +14,7 @@ export const server = {
 		accept: 'form',
 		input: z.object({
 			name: z.string().min(1),
-			email: z.string().email(),
+			email: z.email(),
 			message: z.string().min(10).max(1000),
 			turnstileToken: z.string(),
 		}),
@@ -34,32 +34,30 @@ export const server = {
 					},
 				);
 
-				const dataVerify = await response.json();
+				const dataVerify: { success?: boolean } = await response.json();
 
 				if (!dataVerify.success) {
-					return JSON.stringify({ error: dataVerify, success: false });
+					return { status: 'turnstile-error' as const };
 				}
 
 				const container = await experimental_AstroContainer.create();
 				const templateEmailString = await container.renderToString(EmailTemplate, {
 					props: { name, email, message },
 				});
-				const data = await resend.emails.send({
+				const { error } = await resend.emails.send({
 					from: 'Portfolio <noreply@mcheniki.dev>',
 					to: ['contact@mcheniki.dev'],
 					subject: 'Contact Form Portfolio',
 					html: templateEmailString,
 				});
 
-				return JSON.stringify({
-					success: true,
-					name: name,
-					email: email,
-					message: message,
-					data,
-				});
-			} catch (error) {
-				return JSON.stringify({ error, success: false });
+				if (error) {
+					return { status: 'send-error' as const };
+				}
+
+				return { status: 'success' as const };
+			} catch {
+				return { status: 'send-error' as const };
 			}
 		},
 	}),
