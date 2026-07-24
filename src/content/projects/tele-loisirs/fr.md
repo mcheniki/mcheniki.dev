@@ -1,4 +1,6 @@
 ---
+translationKey: 'tele-loisirs'
+locale: 'fr'
 title: 'Télé-Loisirs'
 stack: ['javascript', 'jest', 'sass', 'react']
 image: './tele-loisirs.webp'

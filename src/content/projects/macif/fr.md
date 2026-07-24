@@ -1,4 +1,6 @@
 ---
+translationKey: 'macif'
+locale: 'fr'
 title: 'MACIF'
 stack: ['wordpress', 'php', 'react', 'sass']
 image: './macif.webp'

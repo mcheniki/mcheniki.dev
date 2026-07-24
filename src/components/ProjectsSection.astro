@@ -5,6 +5,7 @@ import ProjectCard from '@components/ProjectCard.astro';
 import ProjectDrawer from '@components/ProjectDrawer.astro';
 import ProjectDrawerContent from '@components/ProjectDrawerContent.astro';
 import ShapeH2 from '@svgs/shape-h2.svg';
+import { validateProjectTranslations } from '../content/projects';
 import type { Locale } from '../i18n/config';
 import { useTranslations } from '../i18n/ui';
 
@@ -16,13 +17,16 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const projects = await getCollection('projects');
+validateProjectTranslations(projects);
 
-const sortedProjects = projects.sort((a, b) => {
-	const orderA = a.data.order ?? Infinity;
-	const orderB = b.data.order ?? Infinity;
-	if (orderA !== orderB) return orderA - orderB;
-	return a.data.title.localeCompare(b.data.title);
-});
+const sortedProjects = projects
+	.filter((project) => project.data.locale === locale)
+	.sort((a, b) => {
+		const orderA = a.data.order ?? Infinity;
+		const orderB = b.data.order ?? Infinity;
+		if (orderA !== orderB) return orderA - orderB;
+		return a.data.title.localeCompare(b.data.title);
+	});
 
 const renderedProjects = await Promise.all(
 	sortedProjects.map(async (project) => {
@@ -49,7 +53,7 @@ const renderedProjects = await Promise.all(
 		{
 			sortedProjects.map((project) => (
 				<ProjectCard
-					id={project.id}
+					id={project.data.translationKey}
 					title={project.data.title}
 					imageUrl={project.data.image.src}
 					stack={project.data.stack}
@@ -63,7 +67,7 @@ const renderedProjects = await Promise.all(
 	{/* Pre-rendered templates for each project's drawer content */}
 	{
 		renderedProjects.map(({ project, Content }) => (
-			<template data-project-id={project.id}>
+			<template data-project-id={project.data.translationKey}>
 				<ProjectDrawerContent
 					stack={project.data.stack}
 					mission={project.data.mission}

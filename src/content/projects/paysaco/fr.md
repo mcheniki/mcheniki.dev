@@ -1,4 +1,6 @@
 ---
+translationKey: 'paysaco'
+locale: 'fr'
 title: 'Paysaco'
 stack: ['wordpress', 'php']
 image: './paysaco.webp'

@@ -1,4 +1,6 @@
 ---
+translationKey: 'montefiore'
+locale: 'fr'
 title: 'Montefiore Apartments'
 stack: ['wordpress', 'ovh', 'cpanel']
 image: './montefiore.webp'
