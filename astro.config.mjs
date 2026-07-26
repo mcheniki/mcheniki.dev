@@ -14,6 +14,14 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
 	site: PUBLIC_URL_WEBSITE ?? 'http://localhost:4321',
+	security: {
+		allowedDomains: [
+			{
+				protocol: 'https',
+				hostname: 'mcheniki.dev',
+			},
+		],
+	},
 	i18n: {
 		locales: ['fr', 'en'],
 		defaultLocale: 'fr',
