@@ -12,7 +12,7 @@ type AvatarProps = {
 };
 
 export function Avatar({ mode = 'DESKTOP', state = 'DEFAULT' }: AvatarProps) {
-	const { scene, animations } = useLoader(GLTFLoader, './avatar/mehdinaut.gltf');
+	const { scene, animations } = useLoader(GLTFLoader, '/avatar/mehdinaut.gltf');
 
 	const mixerRef = useRef<THREE.AnimationMixer | null>(null);
 	const tweenGroupRef = useRef(new TweenGroup());
