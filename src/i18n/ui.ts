@@ -1,10 +1,10 @@
 import type { Locale } from './config';
 
 const fr = {
-	'meta.title': 'Mehdi Cheniki | Développeur web freelance | WordPress & React',
+	'meta.title': 'Mehdi Cheniki | Développeur web senior | Front-End & WordPress',
 	'meta.description':
-		"Mehdi Cheniki — développeur web freelance, 10 ans d'expérience. Sites WordPress sur mesure (thèmes, plugins, Gutenberg) et applications React.",
-	'meta.jobTitle': 'Développeur web freelance',
+		"Mehdi Cheniki — développeur web senior avec près de 10 ans d'expérience. Front-end React et JavaScript, expertise WordPress full-stack.",
+	'meta.jobTitle': 'Développeur web senior / Front-End',
 	'header.avatarAlt': "Tête de l'avatar de Mehdi Cheniki",
 	'header.contact': 'Me contacter',
 	'header.languagePicker': 'Choix de la langue',
@@ -13,33 +13,33 @@ const fr = {
 	'header.closeMenu': 'Fermer le menu',
 	'header.showFrench': 'Afficher le site en français',
 	'header.showEnglish': 'Afficher le site en anglais',
-	'hero.job': 'Développeur web',
-	'hero.jobPrimary': 'Développeur',
-	'hero.jobEmphasis': 'web',
-	'hero.specialties': 'WordPress full-stack • React • TypeScript',
-	'hero.description': 'Thèmes custom, blocs Gutenberg, plugins, applications React.',
+	'hero.job': 'Développeur web senior',
+	'hero.jobPrimary': 'Développeur web',
+	'hero.jobEmphasis': 'senior',
+	'hero.specialties': 'Front-End • React • WordPress Full-Stack',
+	'hero.description': 'Interfaces modernes, applications web et solutions WordPress sur mesure.',
 	'about.eyebrow': 'À propos',
 	'about.years': '10 ans',
 	'about.title': "d'expertise web",
 	'about.paragraph1':
-		"J'ai commencé par travailler en agence, pour ensuite encadrer une équipe de devs en tant que tech lead, et aujourd'hui je suis freelance. Je fais du WordPress full-stack (thèmes custom, plugins, blocs Gutenberg). Ma pratique de React, c'est aussi ce qui me rend à l'aise dans Gutenberg.",
+		"Développeur web depuis près de 10 ans, j'ai construit une solide expérience front-end. J'utilise React et JavaScript pour concevoir des interfaces interactives, maintenables et performantes, dans WordPress comme dans des applications web indépendantes.",
 	'about.paragraph2':
-		"Ma nature curieuse m'aide à rester à jour dans ce monde qui évolue chaque jour.",
+		"Après plusieurs années en agence, j'ai encadré une équipe de développeurs en tant que Tech Lead. Ce parcours m'a appris à faire des choix techniques, structurer les projets, accompagner une équipe et avancer en autonomie.",
 	'about.paragraph3':
-		'Mon parcours m’a amené à travailler dans des contextes variés : grands groupes, agences, et structures plus petites.',
+		"WordPress reste une expertise forte de mon profil : thèmes et plugins sur mesure, blocs Gutenberg, intégrations API et logique métier en PHP. J'interviens ainsi sur le front-end comme sur l'ensemble d'un projet WordPress.",
 	'stack.eyebrow': 'Technique',
-	'stack.title': 'Deux expertises, un objectif : du sur mesure',
+	'stack.title': 'Front-end moderne et WordPress sur mesure',
 	'stack.description':
-		"WordPress pour les sites qui ont besoin d'un back-office solide. Thèmes custom, plugins, blocs Gutenberg développés avec React pour une expérience d'édition moderne. React pour les applications interactives qui vont au-delà d'un site classique.",
+		'React et JavaScript pour construire des interfaces interactives, maintenables et performantes. WordPress pour des projets full-stack sur mesure : thèmes, plugins, Gutenberg, intégrations API et logique métier en PHP.',
 	'stack.hoverPrompt': 'Survole une des icônes',
 	'stack.reactDescription':
 		"Le framework JavaScript que j'ai choisi pour réaliser des interfaces utilisateur de qualité et performantes.",
 	'stack.javascriptDescription':
 		"Le langage que j'utilise pour améliorer l'expérience utilisateur au travers d'interactions et d'animations.",
 	'stack.wordpressDescription':
-		"Avec 10 ans d'expérience sur WordPress, c'est le CMS que je propose à mes clients pour la gestion de leur contenu.",
+		'Une expertise full-stack construite au fil de près de 10 ans : thèmes, plugins, Gutenberg et intégrations sur mesure.',
 	'stack.phpDescription':
-		'Je développe des fonctionnalités WordPress sur mesure en PHP pour créer des expériences uniques et personnalisées.',
+		"Le langage back-end que j'utilise dans WordPress pour développer des plugins, des intégrations API et de la logique métier.",
 	'projects.eyebrow': 'Réalisations',
 	'projects.title': 'Projets',
 	'projects.viewDetails': 'Voir les détails du projet {title}',
@@ -85,10 +85,10 @@ const fr = {
 type TranslationCatalog = { [Key in keyof typeof fr]: string };
 
 const en = {
-	'meta.title': 'Mehdi Cheniki | Freelance Web Developer | WordPress & React',
+	'meta.title': 'Mehdi Cheniki | Senior Web Developer | Front-End & WordPress',
 	'meta.description':
-		'Mehdi Cheniki — freelance web developer with 10 years of experience. Custom WordPress websites (themes, plugins, Gutenberg) and React applications.',
-	'meta.jobTitle': 'Freelance web developer',
+		'Mehdi Cheniki — senior web developer with nearly 10 years of experience. React and JavaScript front-end development, with full-stack WordPress expertise.',
+	'meta.jobTitle': 'Senior Web / Front-End Developer',
 	'header.avatarAlt': "Mehdi Cheniki's avatar head",
 	'header.contact': 'Get in touch',
 	'header.languagePicker': 'Language selector',
@@ -97,33 +97,33 @@ const en = {
 	'header.closeMenu': 'Close menu',
 	'header.showFrench': 'View the website in French',
 	'header.showEnglish': 'View the website in English',
-	'hero.job': 'Web developer',
-	'hero.jobPrimary': 'Web',
-	'hero.jobEmphasis': 'developer',
-	'hero.specialties': 'Full-stack WordPress • React • TypeScript',
-	'hero.description': 'Custom themes, Gutenberg blocks, plugins, React applications.',
+	'hero.job': 'Senior web developer',
+	'hero.jobPrimary': 'Web developer',
+	'hero.jobEmphasis': 'senior',
+	'hero.specialties': 'Front-End • React • Full-Stack WordPress',
+	'hero.description': 'Modern interfaces, web applications and custom WordPress solutions.',
 	'about.eyebrow': 'About',
 	'about.years': '10 years',
 	'about.title': 'of web expertise',
 	'about.paragraph1':
-		'I started out in an agency, then led a team of developers as a tech lead, and I am now a freelancer. I build full-stack WordPress solutions (custom themes, plugins, Gutenberg blocks). My React practice also makes me comfortable working with Gutenberg.',
+		'With nearly 10 years in web development, I have built strong front-end expertise. I use React and JavaScript to create interactive, maintainable and high-performance interfaces, both within WordPress and in standalone web applications.',
 	'about.paragraph2':
-		'My curious nature helps me stay current in a world that evolves every day.',
+		'After several years working in agencies, I led a development team as Tech Lead. That experience taught me to make sound technical decisions, structure projects, support a team and work autonomously.',
 	'about.paragraph3':
-		'My career has led me to work in varied settings: large companies, agencies, and smaller organisations.',
+		'WordPress remains a core area of expertise: custom themes and plugins, Gutenberg blocks, API integrations and business logic in PHP. I can contribute to the front end as well as across an entire WordPress project.',
 	'stack.eyebrow': 'Technical expertise',
-	'stack.title': 'Two areas of expertise, one goal: tailor-made solutions',
+	'stack.title': 'Modern front-end and custom WordPress',
 	'stack.description':
-		'WordPress for websites that need a solid back office. Custom themes, plugins, and Gutenberg blocks built with React for a modern editing experience. React for interactive applications that go beyond a conventional website.',
+		'React and JavaScript for interactive, maintainable and high-performance interfaces. WordPress for custom full-stack projects: themes, plugins, Gutenberg, API integrations and business logic in PHP.',
 	'stack.hoverPrompt': 'Hover over an icon',
 	'stack.reactDescription':
 		'The JavaScript framework I chose to build polished, high-performance user interfaces.',
 	'stack.javascriptDescription':
 		'The language I use to enhance the user experience through interactions and animations.',
 	'stack.wordpressDescription':
-		'With 10 years of WordPress experience, it is the CMS I recommend to my clients to manage their content.',
+		'Full-stack expertise built over nearly 10 years: custom themes, plugins, Gutenberg and integrations.',
 	'stack.phpDescription':
-		'I build custom WordPress features in PHP to create unique, tailored experiences.',
+		'The back-end language I use within WordPress for plugins, API integrations and business logic.',
 	'projects.eyebrow': 'Selected work',
 	'projects.title': 'Projects',
 	'projects.viewDetails': 'View details for {title}',

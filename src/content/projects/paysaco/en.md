@@ -5,8 +5,8 @@ title: 'Paysaco'
 stack: ['wordpress', 'php']
 image: './paysaco.webp'
 url: 'https://paysaco.com'
-order: 2
-mission: 'WordPress / Full-stack Developer'
+order: 4
+mission: 'Full-Stack WordPress Developer'
 ---
 
 Paysaco provides hedge-maintenance services. The client needed to synchronize order data between her WooCommerce store and an external CRM to centralize customer follow-up.

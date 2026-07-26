@@ -5,13 +5,12 @@ title: 'MACIF'
 stack: ['wordpress', 'php', 'react', 'sass']
 image: './macif.webp'
 url: 'https://guide-depart-retraite.macif.fr/'
-order: 1
-mission: 'Développeur WordPress / Full Stack'
+order: 3
+mission: 'Développeur WordPress Full-Stack'
 ---
 
-La MACIF (assurance) avait besoin de renfort pour le développement de plusieurs mini-sites, dont un guide pour la retraite.
-Un design system et une base de thèmes WordPress existaient déjà, avec ACF comme socle pour les blocs. L'enjeu était de créer de nouveaux blocs réutilisables tout en offrant une expérience d'édition agréable côté back-office.
+La MACIF avait besoin de renforcer une architecture multi-sites WordPress destinée à plusieurs mini-sites, dont un guide pour préparer la retraite. Un design system et une base de thèmes existaient déjà ; l'enjeu était d'étendre ce socle avec des blocs réutilisables et une expérience d'édition fluide.
 
-Au sein d'une équipe de 3 développeurs, j'ai principalement travaillé sur la partie transverse : le thème parent regroupant les blocs destinés à être utilisés par l'ensemble des thèmes enfants.
-J'ai conçu et intégré ces blocs en PHP/ACF côté rendu et en React côté éditeur, en respectant le design system et en ajoutant une couche React pour compenser les limites d'ACF et offrir une expérience back-office plus Gutenberg-friendly.
-Dû à leur nouvelle utilisation de WordPress, en tant qu'expert, j'ai aussi participé à identifier et résoudre des problèmes de performance et de déploiement liés à la mise en place de cette nouvelle stack.
+Au sein d'une équipe de trois développeurs, j'ai travaillé sur le thème parent partagé par l'ensemble des thèmes enfants. J'ai conçu les blocs en PHP et ACF côté rendu, puis développé leur interface d'édition en React pour dépasser les limites d'ACF et proposer une expérience plus proche de Gutenberg.
+
+Mon rôle couvrait aussi les sujets transverses : respect du design system, architecture modulaire, diagnostic de problèmes de performance et fiabilisation du déploiement de cette nouvelle stack WordPress.

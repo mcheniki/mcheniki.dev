@@ -5,7 +5,7 @@ title: 'Montefiore Apartments'
 stack: ['wordpress', 'ovh', 'cpanel']
 image: './montefiore.webp'
 url: 'https://montefiore-apartments.com'
-order: 4
+order: 5
 mission: 'Infrastructure migration'
 ---
 

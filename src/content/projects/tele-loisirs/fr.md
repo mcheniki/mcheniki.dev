@@ -2,16 +2,15 @@
 translationKey: 'tele-loisirs'
 locale: 'fr'
 title: 'Télé-Loisirs'
-stack: ['javascript', 'jest', 'sass', 'react']
+stack: ['javascript', 'jest', 'sass']
 image: './tele-loisirs.webp'
 url: 'https://www.programme-tv.net'
-order: 3
+order: 2
 mission: 'Développeur Front-end'
 ---
 
-Mission en régie chez Prisma Media. Mission de 3 ans au sein de l'équipe de développement, intervenant sur Télé-Loisirs et d'autres sites du groupe.
+Pendant trois ans en régie chez Prisma Media, j'ai contribué à Télé-Loisirs et à plusieurs autres sites à forte audience du groupe. L'enjeu était de faire évoluer des fronts responsives tout en maintenant leur qualité, leurs performances et leur compatibilité sur de nombreux appareils.
 
-Développeur frontend au sein d'une équipe mixte front/back, en environnement Agile. J'ai travaillé sur le développement et la maintenance de sites responsives pour plusieurs marques du groupe. J'ai participé à une refonte front-end basée sur une architecture modulaire inspirée de React (stack Twig / vanilla JS).
-J'ai développé des A/B tests pour optimiser l'expérience utilisateur et les taux de conversion. J'ai mis en place les tests unitaires from scratch avec Jest, et participé aux revues de code pour améliorer la qualité et la maintenabilité.
+Développeur front-end au sein d'une équipe Agile mixte front/back, j'ai participé à une refonte fondée sur une architecture modulaire inspirée de React, avec Twig et JavaScript natif. J'ai développé de nouvelles fonctionnalités, mené des A/B tests et refactoré le code pour améliorer sa lisibilité et ses performances.
 
-Refonte complète des sites, architecture front plus modulaire et maintenable, couverture de tests unitaires créée de zéro, et contribution à l'optimisation des conversions via les A/B tests.
+J'ai également créé la couverture de tests unitaires avec Jest et participé aux revues de code. Cette mission illustre mon expérience front-end hors de l'écosystème WordPress, sur des produits web à fort trafic.

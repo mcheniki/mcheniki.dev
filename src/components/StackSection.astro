@@ -18,51 +18,34 @@ type Props = {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const techs: TechType[] = [
-	{
-		name: 'WordPress',
-		icon: IconWP,
-		color: 'secondary',
-	},
-	{
-		name: 'PHP',
-		icon: IconPHP,
-		color: 'primary',
-	},
+const technologies = [
 	{
 		name: 'React',
 		icon: IconReact,
-		color: 'secondary',
 	},
 	{
 		name: 'JavaScript',
 		icon: IconJS,
-		color: 'primary',
+	},
+	{
+		name: 'WordPress',
+		icon: IconWP,
+	},
+	{
+		name: 'PHP',
+		icon: IconPHP,
 	},
 ];
 
-const techs2: TechType[] = [
-	{
-		name: 'WordPress',
-		icon: IconWP,
-		color: 'primary',
-	},
-	{
-		name: 'PHP',
-		icon: IconPHP,
-		color: 'secondary',
-	},
-	{
-		name: 'React',
-		icon: IconReact,
-		color: 'primary',
-	},
-	{
-		name: 'JavaScript',
-		icon: IconJS,
-		color: 'secondary',
-	},
-];
+const techs: TechType[] = technologies.map((technology, index) => ({
+	...technology,
+	color: index % 2 === 0 ? 'secondary' : 'primary',
+}));
+
+const techs2: TechType[] = technologies.map((technology, index) => ({
+	...technology,
+	color: index % 2 === 0 ? 'primary' : 'secondary',
+}));
 ---
 
 <Container>
@@ -111,7 +94,7 @@ const techs2: TechType[] = [
 			<div class="flex flex-1 gap-24 max-lg:hidden lg:flex-col">
 				{
 					Array.from({ length: 2 }).map(() => (
-						<StackList techList={techs2.reverse()} ariaHidden={true} />
+						<StackList techList={techs2} ariaHidden={true} />
 					))
 				}
 			</div>
