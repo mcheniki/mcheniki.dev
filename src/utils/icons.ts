@@ -15,7 +15,9 @@ import {
 	siVite,
 	siOvh,
 	siCpanel,
+	siCraftcms,
 	siJest,
+	siThreedotjs,
 } from 'simple-icons';
 import type { SimpleIcon } from 'simple-icons';
 
@@ -37,6 +39,8 @@ const ICON_MAP = {
 	vite: siVite,
 	ovh: siOvh,
 	cpanel: siCpanel,
+	craftcms: siCraftcms,
+	threedotjs: siThreedotjs,
 } as const satisfies Record<string, SimpleIcon>;
 
 export type IconName = keyof typeof ICON_MAP;
