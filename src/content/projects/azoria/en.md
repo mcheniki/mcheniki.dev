@@ -9,14 +9,14 @@ order: 0
 mission: 'Full-Stack Developer'
 ---
 
-Azoria wanted to extend its existing Craft CMS website with a journey allowing visitors to
-explore, customize and select a swimming pool in 3D, then submit a complete sales enquiry.
+Azoria wanted to enhance its Craft CMS website with an experience that lets visitors explore,
+customize and choose their swimming pool in 3D before submitting a complete sales enquiry.
 
-Working freelance through an agency and as the sole developer assigned to this scope, I
-handled Craft content modelling, Twig templates, the responsive interface and the Three.js
-engine. I designed a reusable architecture to share 3D scenes and state across the
-configurator, product pages and a multi-step form.
+Brought in as a freelancer through an agency, I was the sole developer dedicated to this part
+of the project. I structured the content in Craft and built the Twig templates, responsive
+interface and Three.js engine. I also designed a reusable architecture to share 3D scenes and
+their state across the configurator, product pages and multi-step form.
 
-The journey connects CMS-managed variants, address autocomplete and a capture of the
-configured model to Zoho CRM. I also developed lead upserts, deduplication and automatic
-generation of a summary PDF.
+The resulting journey brings together CMS-managed variants, address autocomplete and a
+snapshot of the configured model, then sends everything to Zoho CRM. I also implemented lead
+creation and updates, deduplication and automatic generation of a summary PDF.
