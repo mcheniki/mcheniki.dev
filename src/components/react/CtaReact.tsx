@@ -45,7 +45,7 @@ const styles = cva(
 		},
 	},
 );
-export type CTAVariantProps = VariantProps<typeof styles>;
+type CTAVariantProps = VariantProps<typeof styles>;
 
 type CtaProps = {
 	url?: string;

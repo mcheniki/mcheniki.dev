@@ -47,7 +47,7 @@ const ICON_MAP = {
 	postgresql: siPostgresql,
 } as const satisfies Record<string, SimpleIcon>;
 
-export type IconName = keyof typeof ICON_MAP;
+type IconName = keyof typeof ICON_MAP;
 
 export function getIcon(slug: string): SimpleIcon | undefined {
 	return ICON_MAP[slug.toLowerCase() as IconName];

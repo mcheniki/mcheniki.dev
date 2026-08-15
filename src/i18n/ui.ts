@@ -181,7 +181,7 @@ const en = {
 	'errors.sceneUnavailable': 'The 3D scene is not available on this device.',
 } satisfies TranslationCatalog;
 
-export const ui = { fr, en } satisfies Record<Locale, TranslationCatalog>;
+const ui = { fr, en } satisfies Record<Locale, TranslationCatalog>;
 
 /** Returns the keys that are missing from one of the translation catalogues. */
 export function getTranslationParityErrors() {
@@ -280,32 +280,7 @@ export const sceneMessages = {
 	en: { unavailable: en['errors.sceneUnavailable'] },
 } as const satisfies Record<Locale, SceneMessages>;
 
-export type StackDescriptions = {
-	hoverPrompt: string;
-	react: string;
-	javascript: string;
-	wordpress: string;
-	php: string;
-};
-
-export const stackDescriptions = {
-	fr: {
-		hoverPrompt: fr['stack.hoverPrompt'],
-		react: fr['stack.reactDescription'],
-		javascript: fr['stack.javascriptDescription'],
-		wordpress: fr['stack.wordpressDescription'],
-		php: fr['stack.phpDescription'],
-	},
-	en: {
-		hoverPrompt: en['stack.hoverPrompt'],
-		react: en['stack.reactDescription'],
-		javascript: en['stack.javascriptDescription'],
-		wordpress: en['stack.wordpressDescription'],
-		php: en['stack.phpDescription'],
-	},
-} as const satisfies Record<Locale, StackDescriptions>;
-
-export type TranslationKey = keyof typeof fr;
+type TranslationKey = keyof typeof fr;
 
 type TranslationValues = {
 	'projects.viewDetails': { title: string };

@@ -1,7 +1,3 @@
-export const clamp = (min, max) => {
-	return (value) => Math.max(min, Math.min(max, value));
-};
-
 export const normalize = ({ value, from, to }) => {
 	const minValue = from[0];
 	const maxValue = from[1];
