@@ -32,8 +32,8 @@ const fr = {
 	'stack.description':
 		'React et JavaScript pour construire des interfaces interactives, maintenables et performantes. WordPress pour des projets full-stack sur mesure : thèmes, plugins, Gutenberg, intégrations API et logique métier en PHP.',
 	'projects.eyebrow': 'Réalisations',
-	'projects.title': 'Projets',
-	'projects.professionalTitle': 'Réalisations professionnelles',
+	'projects.title': 'Travaux et projets',
+	'projects.professionalTitle': 'Travaux professionnels',
 	'projects.professionalDescription':
 		'Des produits et expériences conçus avec des équipes, pour des organisations et leurs utilisateurs.',
 	'projects.personalTitle': 'Projets personnels',
@@ -115,11 +115,11 @@ const en = {
 	'stack.description':
 		'React and JavaScript for interactive, maintainable and high-performance interfaces. WordPress for custom full-stack projects: themes, plugins, Gutenberg, API integrations and business logic in PHP.',
 	'projects.eyebrow': 'Selected work',
-	'projects.title': 'Projects',
+	'projects.title': 'Work & Projects',
 	'projects.professionalTitle': 'Professional work',
 	'projects.professionalDescription':
 		'Products and experiences created with teams, for organisations and their users.',
-	'projects.personalTitle': 'Independent projects',
+	'projects.personalTitle': 'Personal project',
 	'projects.personalDescription':
 		'Products I imagine, design, build and evolve through to production.',
 	'projects.viewDetails': 'View details for {title}',
