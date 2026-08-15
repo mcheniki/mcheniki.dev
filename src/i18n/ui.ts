@@ -1,10 +1,11 @@
 import type { Locale } from './config';
 
 const fr = {
-	'meta.title': 'Mehdi Cheniki | Développeur web senior | Front-End & WordPress',
+	'meta.title': 'Mehdi Cheniki | Développeur Web Senior',
 	'meta.description':
-		"Mehdi Cheniki — développeur web senior avec près de 10 ans d'expérience. Front-end React et JavaScript, expertise WordPress full-stack.",
-	'meta.jobTitle': 'Développeur web senior / Front-End',
+		'Développeur web senior avec 10 ans d’expérience en JavaScript, PHP et WordPress, et une pratique récente de React, TypeScript et Laravel.',
+	'meta.jobTitle': 'Développeur Web Senior',
+	'meta.ogImageAlt': 'Portfolio de Mehdi Cheniki avec son avatar astronaute',
 	'header.avatarAlt': "Tête de l'avatar de Mehdi Cheniki",
 	'header.contact': 'Me contacter',
 	'header.languagePicker': 'Choix de la langue',
@@ -16,21 +17,22 @@ const fr = {
 	'hero.job': 'Développeur web senior',
 	'hero.jobPrimary': 'Développeur web',
 	'hero.jobEmphasis': 'senior',
-	'hero.specialties': 'Front-End • React • WordPress Full-Stack',
-	'hero.description': 'Interfaces modernes, applications web et solutions WordPress sur mesure.',
+	'hero.specialties': 'JavaScript • PHP • React • WordPress',
+	'hero.description':
+		'Interfaces, applications web et solutions sur mesure, de la conception à la mise en production.',
 	'about.eyebrow': 'À propos',
 	'about.years': '10 ans',
 	'about.title': "d'expertise web",
 	'about.paragraph1':
-		"Développeur web depuis près de 10 ans, j'ai construit une solide expérience front-end. J'utilise React et JavaScript pour concevoir des interfaces interactives, maintenables et performantes, dans WordPress comme dans des applications web indépendantes.",
+		'Développeur web depuis 10 ans, j’ai travaillé en agence, dans les médias et en entreprise sur des interfaces front-end, des projets PHP / WordPress et des produits web à fort trafic. J’utilise JavaScript et React côté interface, PHP côté serveur, avec une attention particulière portée à l’architecture, la performance et la maintenabilité.',
 	'about.paragraph2':
-		"Après plusieurs années en agence, j'ai encadré une équipe de développeurs en tant que Tech Lead. Ce parcours m'a appris à faire des choix techniques, structurer les projets, accompagner une équipe et avancer en autonomie.",
+		'J’ai également évolué vers un rôle de Tech Lead tout en restant hands-on : choix techniques, structuration des projets, code review, accompagnement d’un autre développeur, déploiements et problèmes de production.',
 	'about.paragraph3':
-		"WordPress reste une expertise forte de mon profil : thèmes et plugins sur mesure, blocs Gutenberg, intégrations API et logique métier en PHP. J'interviens ainsi sur le front-end comme sur l'ensemble d'un projet WordPress.",
+		'WordPress reste mon expertise professionnelle la plus forte, mais ce n’est pas mon seul terrain de développement. Je construis aussi des applications web hors CMS ; EcoKwa, par exemple, utilise Laravel, React, TypeScript et PostgreSQL.',
 	'stack.eyebrow': 'Technique',
-	'stack.title': 'Front-end moderne et WordPress sur mesure',
+	'stack.title': 'Du front-end à la production',
 	'stack.description':
-		'React et JavaScript pour construire des interfaces interactives, maintenables et performantes. WordPress pour des projets full-stack sur mesure : thèmes, plugins, Gutenberg, intégrations API et logique métier en PHP.',
+		'JavaScript, React et TypeScript pour les interfaces, PHP pour la logique serveur, puis APIs, bases de données, Docker et CI/CD pour livrer et maintenir des applications web. WordPress reste une expertise forte, tandis que Laravel fait partie de mes projets applicatifs récents.',
 	'projects.eyebrow': 'Réalisations',
 	'projects.title': 'Travaux et projets',
 	'projects.professionalTitle': 'Travaux professionnels',
@@ -84,10 +86,11 @@ const fr = {
 type TranslationCatalog = { [Key in keyof typeof fr]: string };
 
 const en = {
-	'meta.title': 'Mehdi Cheniki | Senior Web Developer | Front-End & WordPress',
+	'meta.title': 'Mehdi Cheniki | Senior Web Developer',
 	'meta.description':
-		'Mehdi Cheniki — senior web developer with nearly 10 years of experience. React and JavaScript front-end development, with full-stack WordPress expertise.',
-	'meta.jobTitle': 'Senior Web / Front-End Developer',
+		'Senior web developer with 10 years of experience in JavaScript, PHP and WordPress, with recent hands-on work using React, TypeScript and Laravel.',
+	'meta.jobTitle': 'Senior Web Developer',
+	'meta.ogImageAlt': "Mehdi Cheniki's portfolio with his astronaut avatar",
 	'header.avatarAlt': "Mehdi Cheniki's avatar head",
 	'header.contact': 'Get in touch',
 	'header.languagePicker': 'Language selector',
@@ -96,24 +99,25 @@ const en = {
 	'header.closeMenu': 'Close menu',
 	'header.showFrench': 'View the website in French',
 	'header.showEnglish': 'View the website in English',
-	'hero.job': 'Senior web developer',
-	'hero.jobPrimary': 'Web developer',
-	'hero.jobEmphasis': 'senior',
-	'hero.specialties': 'Front-End • React • Full-Stack WordPress',
-	'hero.description': 'Modern interfaces, web applications and custom WordPress solutions.',
+	'hero.job': 'Senior Web Developer',
+	'hero.jobPrimary': 'Senior',
+	'hero.jobEmphasis': 'Web Developer',
+	'hero.specialties': 'JavaScript • PHP • React • WordPress',
+	'hero.description':
+		'Interfaces, web applications and custom solutions, from implementation through production.',
 	'about.eyebrow': 'About',
 	'about.years': '10 years',
 	'about.title': 'of web expertise',
 	'about.paragraph1':
-		'With nearly 10 years in web development, I have built strong front-end expertise. I use React and JavaScript to create interactive, maintainable and high-performance interfaces, both within WordPress and in standalone web applications.',
+		'With 10 years in web development, I’ve worked across agency, media and enterprise environments on front-end interfaces, PHP / WordPress projects and high-traffic digital products. I work with JavaScript and React on the front end and PHP on the server side, with a strong focus on architecture, performance and maintainability.',
 	'about.paragraph2':
-		'After several years working in agencies, I led a development team as Tech Lead. That experience taught me to make sound technical decisions, structure projects, support a team and work autonomously.',
+		'I also moved into a Tech Lead role while staying hands-on, covering technical decisions, project structure, code reviews, support for another developer, deployments and production issues.',
 	'about.paragraph3':
-		'WordPress remains a core area of expertise: custom themes and plugins, Gutenberg blocks, API integrations and business logic in PHP. I can contribute to the front end as well as across an entire WordPress project.',
+		'WordPress remains my strongest professional specialization, but it is not my only area of development. I also build web applications outside CMS platforms; EcoKwa, for example, uses Laravel, React, TypeScript and PostgreSQL.',
 	'stack.eyebrow': 'Technical expertise',
-	'stack.title': 'Modern front-end and custom WordPress',
+	'stack.title': 'From front end to production',
 	'stack.description':
-		'React and JavaScript for interactive, maintainable and high-performance interfaces. WordPress for custom full-stack projects: themes, plugins, Gutenberg, API integrations and business logic in PHP.',
+		'JavaScript, React and TypeScript for interfaces, PHP for server-side development, plus APIs, databases, Docker and CI/CD to ship and maintain web applications. WordPress remains a strong area of expertise, while Laravel is part of my recent application work.',
 	'projects.eyebrow': 'Selected work',
 	'projects.title': 'Work & Projects',
 	'projects.professionalTitle': 'Professional work',
