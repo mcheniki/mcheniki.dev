@@ -34,6 +34,14 @@ const renderedProjects = await Promise.all(
 		return { project, Content };
 	}),
 );
+
+const professionalProjects = sortedProjects.filter(
+	(project) => project.data.projectType === 'professional',
+);
+const personalProjects = sortedProjects.filter(
+	(project) => project.data.projectType === 'personal',
+);
+const ecokwaCaseStudyUrl = locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/';
 ---
 
 <Container>
@@ -49,18 +57,60 @@ const renderedProjects = await Promise.all(
 		</h3>
 	</header>
 
-	<div class="grid gap-24 md:grid-cols-2 lg:grid-cols-3">
+	<div class="flex flex-col gap-64">
+		<section aria-labelledby="professional-projects-title">
+			<header class="mb-24 max-w-3xl">
+				<h4 id="professional-projects-title" class="mb-6 text-36 font-light text-base-0">
+					{t('projects.professionalTitle')}
+				</h4>
+				<p class="text-16 leading-relaxed text-base-300">
+					{t('projects.professionalDescription')}
+				</p>
+			</header>
+			<div class="grid gap-24 md:grid-cols-2 lg:grid-cols-3">
+				{
+					professionalProjects.map((project) => (
+						<ProjectCard
+							id={project.data.translationKey}
+							title={project.data.title}
+							imageUrl={project.data.image.src}
+							stack={project.data.stack}
+							role={project.data.role}
+							locale={locale}
+						/>
+					))
+				}
+			</div>
+		</section>
+
 		{
-			sortedProjects.map((project) => (
-				<ProjectCard
-					id={project.data.translationKey}
-					title={project.data.title}
-					imageUrl={project.data.image.src}
-					stack={project.data.stack}
-					role={project.data.role}
-					locale={locale}
-				/>
-			))
+			personalProjects.length > 0 && (
+				<section aria-labelledby="personal-projects-title" data-project-group="personal">
+					<header class="mb-24 max-w-3xl">
+						<h4
+							id="personal-projects-title"
+							class="mb-6 text-36 font-light text-base-0"
+						>
+							{t('projects.personalTitle')}
+						</h4>
+						<p class="text-16 leading-relaxed text-base-300">
+							{t('projects.personalDescription')}
+						</p>
+					</header>
+					<div class="grid gap-24 md:grid-cols-2 lg:grid-cols-3">
+						{personalProjects.map((project) => (
+							<ProjectCard
+								id={project.data.translationKey}
+								title={project.data.title}
+								imageUrl={project.data.image.src}
+								stack={project.data.stack}
+								role={project.data.role}
+								locale={locale}
+							/>
+						))}
+					</div>
+				</section>
+			)
 		}
 	</div>
 
@@ -72,6 +122,9 @@ const renderedProjects = await Promise.all(
 					stack={project.data.stack}
 					mission={project.data.mission}
 					url={project.data.url}
+					caseStudyUrl={
+						project.data.translationKey === 'ecokwa' ? ecokwaCaseStudyUrl : undefined
+					}
 					locale={locale}
 				>
 					<Content />

@@ -14,6 +14,7 @@ const projects = defineCollection({
 			image: image(),
 			url: z.url().optional(),
 			order: z.number().optional(),
+			projectType: z.enum(['professional', 'personal']).default('professional'),
 			role: z.string().optional(),
 			mission: z.string().optional(),
 		}),

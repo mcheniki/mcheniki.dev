@@ -7,10 +7,8 @@ const clientDirectory = path.resolve('dist/client');
 const projectDirectory = path.resolve('src/content/projects');
 const locales = ['fr', 'en'] as const;
 type Locale = (typeof locales)[number];
-type ProjectMetadata = Record<
-	'translationKey' | 'locale' | 'image' | 'url' | 'order' | 'stack',
-	string
->;
+type ProjectMetadata = Record<'translationKey' | 'locale' | 'image' | 'order' | 'stack', string> &
+	Partial<Record<'url' | 'projectType', string>>;
 
 function assert(condition: unknown, message: string): asserts condition {
 	if (!condition) throw new Error(message);
@@ -38,6 +36,11 @@ function readFrontmatterValue(frontmatter: string, field: keyof ProjectMetadata)
 	return match[1].trim().replace(/^['"]|['"]$/g, '');
 }
 
+function readOptionalFrontmatterValue(frontmatter: string, field: keyof ProjectMetadata) {
+	const match = frontmatter.match(new RegExp(`^${field}:\\s*(.+)$`, 'm'));
+	return match?.[1].trim().replace(/^['"]|['"]$/g, '');
+}
+
 async function validateProjectParity() {
 	const projectsByKey = new Map<string, Map<Locale, ProjectMetadata>>();
 	const projectFiles = await getProjectFiles(projectDirectory);
@@ -47,11 +50,17 @@ async function validateProjectParity() {
 		const frontmatter = source.match(/^---\n([\s\S]*?)\n---/);
 		assert(frontmatter, `Missing frontmatter in ${projectFile}.`);
 
-		const project = Object.fromEntries(
-			(['translationKey', 'locale', 'image', 'url', 'order', 'stack'] as const).map(
-				(field) => [field, readFrontmatterValue(frontmatter[1], field)],
+		const project = {
+			...Object.fromEntries(
+				(['translationKey', 'locale', 'image', 'order', 'stack'] as const).map((field) => [
+					field,
+					readFrontmatterValue(frontmatter[1], field),
+				]),
 			),
-		) as ProjectMetadata;
+			url: readOptionalFrontmatterValue(frontmatter[1], 'url'),
+			projectType:
+				readOptionalFrontmatterValue(frontmatter[1], 'projectType') ?? 'professional',
+		} as ProjectMetadata;
 		assert(locales.includes(project.locale as Locale), `Invalid locale in ${projectFile}.`);
 
 		const translations =
@@ -65,8 +74,8 @@ async function validateProjectParity() {
 	}
 
 	assert(
-		projectsByKey.size === 4,
-		`Expected four project translation groups, found ${projectsByKey.size}.`,
+		projectsByKey.size === 7,
+		`Expected seven project translation groups, found ${projectsByKey.size}.`,
 	);
 
 	for (const [translationKey, translations] of projectsByKey) {
@@ -78,7 +87,7 @@ async function validateProjectParity() {
 		}
 
 		const [french, english] = [translations.get('fr')!, translations.get('en')!];
-		for (const field of ['image', 'url', 'order', 'stack'] as const) {
+		for (const field of ['image', 'url', 'order', 'stack', 'projectType'] as const) {
 			assert(
 				french[field] === english[field],
 				`Project translations for ${translationKey} diverge on ${field}.`,
@@ -135,24 +144,77 @@ function validateProductionPage(html: string, locale: Locale, expectedPath: stri
 
 	const projectCards = html.match(/class="[^"]*\bproject-card\b[^"]*"/g) ?? [];
 	assert(
-		projectCards.length === 4,
-		`Expected four project cards for ${expectedPath}, found ${projectCards.length}.`,
+		projectCards.length === 7,
+		`Expected seven project cards for ${expectedPath}, found ${projectCards.length}.`,
+	);
+	const personalGroupStart = html.indexOf('data-project-group="personal"');
+	const personalGroupEnd = html.indexOf('</section>', personalGroupStart);
+	const personalGroup = html.slice(personalGroupStart, personalGroupEnd);
+	assert(
+		personalGroupStart >= 0 && personalGroup.includes('data-project-id="ecokwa"'),
+		`The EcoKwa card is missing from the personal project group for ${expectedPath}.`,
+	);
+	const ecokwaTemplateStart = html.indexOf('<template data-project-id="ecokwa">');
+	const ecokwaTemplateEnd = html.indexOf('</template>', ecokwaTemplateStart);
+	const ecokwaTemplate = html.slice(ecokwaTemplateStart, ecokwaTemplateEnd);
+	assert(
+		ecokwaTemplate.includes('href="https://ecokwa.mcheniki.dev"') &&
+			ecokwaTemplate.includes(
+				`href="${locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/'}"`,
+			),
+		`The EcoKwa drawer CTAs are incomplete for ${expectedPath}.`,
+	);
+	const expectedCaseStudyLabel = locale === 'fr' ? 'Voir la fiche complète' : 'View case study';
+	const expectedApplicationLabel = locale === 'fr' ? 'Ouvrir l’application' : 'Open application';
+	assert(
+		ecokwaTemplate.includes(expectedCaseStudyLabel) &&
+			ecokwaTemplate.includes(expectedApplicationLabel),
+		`The EcoKwa drawer CTA labels are ambiguous for ${expectedPath}.`,
+	);
+}
+
+function validateCaseStudy(html: string, locale: Locale, expectedPath: string) {
+	assert(
+		getAttribute(html.match(/<html\b[^>]*>/)?.[0] ?? '', 'lang') === locale,
+		`Incorrect case study lang for ${expectedPath}.`,
+	);
+
+	const canonicalTag = html.match(/<link\b[^>]*\brel="canonical"[^>]*>/)?.[0];
+	const canonical = getAttribute(canonicalTag ?? '', 'href');
+	assert(
+		canonical && new URL(canonical).pathname === expectedPath,
+		`Incorrect case study canonical for ${expectedPath}.`,
+	);
+	assert(
+		html.includes('href="https://ecokwa.mcheniki.dev"') &&
+			html.includes('ecokwa-indicator') &&
+			html.includes('ecokwa-comparison'),
+		`The EcoKwa case study is missing its application CTA or supporting captures for ${expectedPath}.`,
 	);
 }
 
 async function main() {
-	const [frenchPage, englishPage, sitemap] = await Promise.all([
-		readFile(path.join(clientDirectory, 'index.html'), 'utf8'),
-		readFile(path.join(clientDirectory, 'en/index.html'), 'utf8'),
-		readFile(path.join(clientDirectory, 'sitemap-0.xml'), 'utf8'),
-	]);
+	const [frenchPage, englishPage, frenchCaseStudy, englishCaseStudy, sitemap] = await Promise.all(
+		[
+			readFile(path.join(clientDirectory, 'index.html'), 'utf8'),
+			readFile(path.join(clientDirectory, 'en/index.html'), 'utf8'),
+			readFile(path.join(clientDirectory, 'projects/ecokwa/index.html'), 'utf8'),
+			readFile(path.join(clientDirectory, 'en/projects/ecokwa/index.html'), 'utf8'),
+			readFile(path.join(clientDirectory, 'sitemap-0.xml'), 'utf8'),
+		],
+	);
 
 	validateProductionPage(frenchPage, 'fr', '/');
 	validateProductionPage(englishPage, 'en', '/en/');
+	validateCaseStudy(frenchCaseStudy, 'fr', '/projects/ecokwa/');
+	validateCaseStudy(englishCaseStudy, 'en', '/en/projects/ecokwa/');
 	assert(!sitemap.includes('/fr/'), 'The sitemap must not contain /fr/.');
 	assert(
-		sitemap.includes('https://mcheniki.dev/') && sitemap.includes('https://mcheniki.dev/en/'),
-		'The sitemap is missing a localized home URL.',
+		sitemap.includes('https://mcheniki.dev/') &&
+			sitemap.includes('https://mcheniki.dev/en/') &&
+			sitemap.includes('https://mcheniki.dev/projects/ecokwa/') &&
+			sitemap.includes('https://mcheniki.dev/en/projects/ecokwa/'),
+		'The sitemap is missing a localized home or EcoKwa URL.',
 	);
 
 	const translationErrors = getTranslationParityErrors();

@@ -42,7 +42,15 @@ const fr = {
 		"Le langage back-end que j'utilise dans WordPress pour développer des plugins, des intégrations API et de la logique métier.",
 	'projects.eyebrow': 'Réalisations',
 	'projects.title': 'Projets',
+	'projects.professionalTitle': 'Réalisations professionnelles',
+	'projects.professionalDescription':
+		'Des produits et expériences conçus avec des équipes, pour des organisations et leurs utilisateurs.',
+	'projects.personalTitle': 'Projets personnels',
+	'projects.personalDescription':
+		"Des produits que j'imagine, conçois et fais évoluer jusqu'à leur mise en production.",
 	'projects.viewDetails': 'Voir les détails du projet {title}',
+	'projects.caseStudy': 'Voir la fiche complète',
+	'projects.openApplication': 'Ouvrir l’application',
 	'projects.screenshot': 'Capture du projet {title}',
 	'projects.close': 'Fermer',
 	'projects.stack': 'Stack',
@@ -126,7 +134,15 @@ const en = {
 		'The back-end language I use within WordPress for plugins, API integrations and business logic.',
 	'projects.eyebrow': 'Selected work',
 	'projects.title': 'Projects',
+	'projects.professionalTitle': 'Professional work',
+	'projects.professionalDescription':
+		'Products and experiences created with teams, for organisations and their users.',
+	'projects.personalTitle': 'Independent projects',
+	'projects.personalDescription':
+		'Products I imagine, design, build and evolve through to production.',
 	'projects.viewDetails': 'View details for {title}',
+	'projects.caseStudy': 'View case study',
+	'projects.openApplication': 'Open application',
 	'projects.screenshot': 'Screenshot of {title}',
 	'projects.close': 'Close',
 	'projects.stack': 'Stack',

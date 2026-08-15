@@ -18,6 +18,8 @@ import {
 	siCraftcms,
 	siJest,
 	siThreedotjs,
+	siLaravel,
+	siPostgresql,
 } from 'simple-icons';
 import type { SimpleIcon } from 'simple-icons';
 
@@ -41,6 +43,8 @@ const ICON_MAP = {
 	cpanel: siCpanel,
 	craftcms: siCraftcms,
 	threedotjs: siThreedotjs,
+	laravel: siLaravel,
+	postgresql: siPostgresql,
 } as const satisfies Record<string, SimpleIcon>;
 
 export type IconName = keyof typeof ICON_MAP;

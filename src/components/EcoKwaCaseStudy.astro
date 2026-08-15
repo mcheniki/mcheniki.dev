@@ -1,0 +1,361 @@
+---
+import { Image } from 'astro:assets';
+import Container from '@components/Container.astro';
+import Cta from '@components/Cta.astro';
+import Layout from '../layouts/Layout.astro';
+import type { Locale } from '../i18n/config';
+import { getIcon, getIconTitle } from '../utils/icons';
+import heroImage from '../content/projects/ecokwa/ecokwa.webp';
+import indicatorImage from '../content/projects/ecokwa/ecokwa-indicator.webp';
+import comparisonImage from '../content/projects/ecokwa/ecokwa-comparison.webp';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const applicationUrl = 'https://ecokwa.mcheniki.dev';
+const stack = ['laravel', 'react', 'typescript', 'postgresql', 'docker'];
+
+const content = {
+	fr: {
+		metaTitle: 'EcoKwa | Projet full-stack de Mehdi Cheniki',
+		metaDescription:
+			'Conception et développement d’une application Laravel et React pour rechercher, visualiser et comparer des données publiques françaises.',
+		back: 'Retour aux projets',
+		label: 'Projet personnel',
+		role: 'Développement full-stack',
+		year: '2026',
+		title: 'EcoKwa',
+		intro: 'Une application pour rechercher, visualiser et comparer simplement des données publiques françaises provenant de plusieurs organismes officiels.',
+		open: "Ouvrir l'application",
+		heroAlt: "Page d'accueil d'EcoKwa avec recherche et indicateur d'inflation",
+		problemEyebrow: 'Le point de départ',
+		problemTitle: 'Rendre les données publiques plus faciles à consulter',
+		problem:
+			'Les données publiques françaises sont nombreuses et fiables, mais dispersées entre différents organismes, formats et vocabulaires. EcoKwa propose un point d’entrée plus simple pour retrouver un indicateur, comprendre ce qu’il représente et suivre son évolution.',
+		builtTitle: "Ce que j'ai construit",
+		built: [
+			'Recherche et navigation parmi 16 indicateurs répartis dans 6 thèmes.',
+			'Fiches avec dernière valeur, historique, graphique, tableau et méthodologie.',
+			'Comparaison de séries sur une période commune.',
+			'Imports automatisés depuis l’Insee, la DREES et le Conseil d’orientation des retraites.',
+		],
+		roleTitle: 'Mon rôle',
+		roleText:
+			"J'ai conçu et développé EcoKwa de façon autonome, de la modélisation des données et des imports jusqu'au front-end, aux tests, au déploiement et à l'exploitation de l'application.",
+		challengesEyebrow: 'Décisions techniques',
+		challengesTitle: 'Trois défis au cœur du projet',
+		challenges: [
+			{
+				title: 'Importer des sources hétérogènes',
+				text: 'Les données arrivent par API JSON paginée et par fichiers Excel. Des importeurs spécialisés valident les réponses, normalisent les périodes et enregistrent les observations sans créer de doublons lorsqu’un traitement est relancé.',
+			},
+			{
+				title: 'Fiabiliser les mises à jour',
+				text: 'Les imports s’exécutent en arrière-plan avec limitation des appels, verrous contre les exécutions concurrentes et reprises progressives pour les erreurs temporaires. Chaque exécution conserve un historique consultable.',
+			},
+			{
+				title: 'Conserver le sens des données',
+				text: 'Une valeur absente n’est jamais remplacée par zéro. Les statuts provisoire, révisée ou partielle restent visibles, et chaque graphique possède une alternative tabulaire accessible.',
+			},
+		],
+		indicatorAlt: "Graphique de l'évolution de l'inflation dans une fiche EcoKwa",
+		indicatorCaption:
+			'Une fiche rassemble valeur actuelle, évolution, provenance et accès à la source officielle.',
+		comparisonAlt:
+			"Comparaison de l'inflation générale, alimentaire et énergétique dans EcoKwa",
+		comparisonCaption:
+			'Les séries compatibles sont alignées sur une période commune sans combler artificiellement les données absentes.',
+		stackEyebrow: 'Technique',
+		stackTitle: 'Une stack full-stack récente, au service du produit',
+		stackDetails:
+			'Inertia.js · Tailwind CSS · Laravel Queues & Scheduler · Pest · Vitest · Inertia SSR · GitLab CI/CD · Coolify',
+		finalTitle: 'Explorer les données dans EcoKwa',
+		finalText:
+			"L'application est en ligne : recherchez un indicateur, consultez sa méthodologie ou comparez plusieurs séries.",
+	},
+	en: {
+		metaTitle: 'EcoKwa | Full-stack project by Mehdi Cheniki',
+		metaDescription:
+			'A Laravel and React application for searching, visualising and comparing French public data.',
+		back: 'Back to projects',
+		label: 'Independent project',
+		role: 'Full-stack development',
+		year: '2026',
+		title: 'EcoKwa',
+		intro: 'An application for easily searching, visualising and comparing French public data from several official organisations.',
+		open: 'Open the application',
+		heroAlt: 'EcoKwa home page with search and an inflation indicator',
+		problemEyebrow: 'Starting point',
+		problemTitle: 'Making public data easier to consult',
+		problem:
+			'French public data is plentiful and reliable, but spread across different organisations, formats and specialist terminology. EcoKwa provides a simpler entry point for finding an indicator, understanding what it represents and following its evolution.',
+		builtTitle: 'What I built',
+		built: [
+			'Search and navigation across 16 indicators organised into 6 topics.',
+			'Pages combining the latest value, history, chart, table and methodology.',
+			'Comparison of compatible series over a shared period.',
+			'Automated imports from Insee, DREES and the French Pensions Advisory Council.',
+		],
+		roleTitle: 'My role',
+		roleText:
+			'I designed and developed EcoKwa independently, from data modelling and imports through to the front end, tests, deployment and operation of the application.',
+		challengesEyebrow: 'Technical decisions',
+		challengesTitle: 'Three challenges at the heart of the project',
+		challenges: [
+			{
+				title: 'Importing heterogeneous sources',
+				text: 'Data arrives through paginated JSON APIs and Excel files. Dedicated importers validate responses, normalise periods and store observations without creating duplicates when a job is replayed.',
+			},
+			{
+				title: 'Making updates dependable',
+				text: 'Imports run in the background with request limits, locks against concurrent runs and progressive retries for temporary failures. Every run keeps a history that can be inspected.',
+			},
+			{
+				title: 'Preserving the meaning of the data',
+				text: 'A missing value is never replaced with zero. Provisional, revised and partial statuses remain visible, and every chart has an accessible tabular alternative.',
+			},
+		],
+		indicatorAlt: 'Inflation evolution chart on an EcoKwa indicator page',
+		indicatorCaption:
+			'An indicator page brings together its latest value, evolution, origin and official source.',
+		comparisonAlt: 'Comparison of headline, food and energy inflation in EcoKwa',
+		comparisonCaption:
+			'Compatible series are aligned over a shared period without artificially filling missing observations.',
+		stackEyebrow: 'Technical stack',
+		stackTitle: 'A modern full-stack foundation serving the product',
+		stackDetails:
+			'Inertia.js · Tailwind CSS · Laravel Queues & Scheduler · Pest · Vitest · Inertia SSR · GitLab CI/CD · Coolify',
+		finalTitle: 'Explore the data in EcoKwa',
+		finalText:
+			'The application is live: search for an indicator, read its methodology or compare several series.',
+	},
+} as const;
+
+const copy = content[locale];
+const homeUrl = locale === 'fr' ? '/#projects' : '/en/#projects';
+const caseStudyUrl = new URL(
+	locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/',
+	Astro.site,
+);
+const heroImageUrl = new URL(heroImage.src, Astro.site);
+const personUrl = new URL('/', Astro.site);
+personUrl.hash = 'person';
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'WebPage',
+			'@id': `${caseStudyUrl}#webpage`,
+			url: caseStudyUrl,
+			name: copy.metaTitle,
+			description: copy.metaDescription,
+			inLanguage: locale,
+			primaryImageOfPage: heroImageUrl,
+			mainEntity: { '@id': `${applicationUrl}/#software` },
+		},
+		{
+			'@type': 'SoftwareApplication',
+			'@id': `${applicationUrl}/#software`,
+			name: copy.title,
+			url: applicationUrl,
+			description: copy.intro,
+			applicationCategory: 'Data visualisation',
+			operatingSystem: 'Web',
+			isAccessibleForFree: true,
+			author: { '@id': personUrl },
+			image: heroImageUrl,
+		},
+	],
+};
+---
+
+<Layout
+	locale={locale}
+	title={copy.metaTitle}
+	description={copy.metaDescription}
+	image={heroImage.src}
+	structuredData={structuredData}
+>
+	<main class="pt-160 pb-96">
+		<Container>
+			<a
+				href={homeUrl}
+				class="mb-32 inline-flex items-center gap-6 font-jetbrains text-14 text-base-200 transition-colors hover:text-primary-400"
+			>
+				<span aria-hidden="true">←</span>
+				{copy.back}
+			</a>
+
+			<header class="mb-64">
+				<div class="mb-24 flex flex-wrap gap-6">
+					{
+						[copy.label, copy.role, copy.year].map((item) => (
+							<span class="rounded-full border border-base-500 px-12 py-6 text-14 text-base-100">
+								{item}
+							</span>
+						))
+					}
+				</div>
+				<div class="grid items-end gap-32 lg:grid-cols-[1fr_auto]">
+					<div>
+						<h1
+							class="mb-12 text-64 leading-none font-medium tracking-tighter text-base-0 md:text-96"
+						>
+							{copy.title}
+						</h1>
+						<p class="max-w-3xl text-20 leading-relaxed text-base-100">{copy.intro}</p>
+						<ul class="mt-24 flex flex-wrap gap-6" aria-label={copy.stackEyebrow}>
+							{
+								stack
+									.slice(0, 4)
+									.map((tech) => (
+										<li class="rounded-full bg-base-700 px-12 py-6 text-14 text-base-100">
+											{getIconTitle(tech)}
+										</li>
+									))
+							}
+						</ul>
+					</div>
+					<Cta url={applicationUrl} target="_blank" rel="noopener noreferrer">
+						{copy.open}
+						<span aria-hidden="true">↗</span>
+					</Cta>
+				</div>
+			</header>
+
+			<Image
+				src={heroImage}
+				alt={copy.heroAlt}
+				width={1280}
+				height={720}
+				class="mb-96 w-full rounded-24 border border-base-600"
+			/>
+
+			<section class="mb-96 grid gap-48 lg:grid-cols-2">
+				<div>
+					<p class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+						{copy.problemEyebrow}
+					</p>
+					<h2 class="mb-12 font-jetbrains text-36 leading-tight text-base-0">
+						{copy.problemTitle}
+					</h2>
+					<p class="text-16 leading-relaxed text-base-100">{copy.problem}</p>
+				</div>
+				<div class="grid gap-24 sm:grid-cols-2">
+					<div class="rounded-24 bg-base-700 p-24">
+						<h2 class="mb-12 font-jetbrains text-20 text-base-0">{copy.builtTitle}</h2>
+						<ul
+							class="text-16 list-disc space-y-6 pl-24 leading-relaxed text-base-100 marker:text-primary-500"
+						>
+							{copy.built.map((item) => <li>{item}</li>)}
+						</ul>
+					</div>
+					<div class="rounded-24 border border-base-600 p-24">
+						<h2 class="mb-12 font-jetbrains text-20 text-base-0">{copy.roleTitle}</h2>
+						<p class="text-16 leading-relaxed text-base-100">{copy.roleText}</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="mb-96">
+				<header class="mb-32 max-w-3xl">
+					<p class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+						{copy.challengesEyebrow}
+					</p>
+					<h2 class="font-jetbrains text-36 leading-tight text-base-0">
+						{copy.challengesTitle}
+					</h2>
+				</header>
+				<div class="grid gap-24 lg:grid-cols-3">
+					{
+						copy.challenges.map((challenge, index) => (
+							<article class="rounded-24 border border-base-600 p-24">
+								<p class="mb-24 font-jetbrains text-14 text-primary-500">
+									0{index + 1}
+								</p>
+								<h3 class="mb-12 font-jetbrains text-20 text-base-0">
+									{challenge.title}
+								</h3>
+								<p class="text-16 leading-relaxed text-base-100">
+									{challenge.text}
+								</p>
+							</article>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="mb-96 grid gap-48">
+				<figure>
+					<Image
+						src={indicatorImage}
+						alt={copy.indicatorAlt}
+						width={1280}
+						height={720}
+						loading="lazy"
+						class="w-full rounded-24 border border-base-600"
+					/>
+					<figcaption class="mt-12 max-w-4xl text-14 leading-relaxed text-base-300">
+						{copy.indicatorCaption}
+					</figcaption>
+				</figure>
+				<figure>
+					<Image
+						src={comparisonImage}
+						alt={copy.comparisonAlt}
+						width={1280}
+						height={720}
+						loading="lazy"
+						class="w-full rounded-24 border border-base-600"
+					/>
+					<figcaption class="mt-12 max-w-4xl text-14 leading-relaxed text-base-300">
+						{copy.comparisonCaption}
+					</figcaption>
+				</figure>
+			</section>
+
+			<section class="mb-96 rounded-24 bg-base-700 p-24 md:p-48">
+				<p class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+					{copy.stackEyebrow}
+				</p>
+				<h2 class="mb-24 max-w-4xl font-jetbrains text-36 leading-tight text-base-0">
+					{copy.stackTitle}
+				</h2>
+				<ul class="mb-24 flex flex-wrap gap-12">
+					{
+						stack.map((tech) => {
+							const icon = getIcon(tech);
+							return (
+								<li class="flex items-center gap-6 rounded-full bg-base-800 px-12 py-6">
+									{icon && (
+										<span
+											class="h-5 w-5 [&>svg]:fill-white"
+											set:html={icon.svg}
+										/>
+									)}
+									<span class="text-14 text-base-100">{getIconTitle(tech)}</span>
+								</li>
+							);
+						})
+					}
+				</ul>
+				<p class="text-14 leading-relaxed text-base-300">{copy.stackDetails}</p>
+			</section>
+
+			<section class="rounded-24 border border-primary-500/50 p-24 text-center md:p-64">
+				<h2 class="mb-12 font-jetbrains text-36 text-base-0">{copy.finalTitle}</h2>
+				<p class="text-16 mx-auto mb-24 max-w-2xl leading-relaxed text-base-100">
+					{copy.finalText}
+				</p>
+				<div class="flex justify-center">
+					<Cta url={applicationUrl} target="_blank" rel="noopener noreferrer">
+						{copy.open}
+						<span aria-hidden="true">↗</span>
+					</Cta>
+				</div>
+			</section>
+		</Container>
+	</main>
+</Layout>

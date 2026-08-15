@@ -8,9 +8,10 @@ import { useTranslations } from '../i18n/ui';
 
 type Props = {
 	locale: Locale;
+	alternateUrl?: string;
 };
 
-const { locale } = Astro.props;
+const { locale, alternateUrl } = Astro.props;
 const t = useTranslations(locale);
 const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
 const alternateLocale = locales.find((language) => language !== locale);
@@ -39,7 +40,7 @@ const alternateLocale = locales.find((language) => language !== locale);
 					{
 						alternateLocale && (
 							<a
-								href={getRelativeLocaleUrl(alternateLocale)}
+								href={alternateUrl ?? getRelativeLocaleUrl(alternateLocale)}
 								lang={localeMetadata[alternateLocale].html}
 								hreflang={localeMetadata[alternateLocale].hreflang}
 								aria-label={

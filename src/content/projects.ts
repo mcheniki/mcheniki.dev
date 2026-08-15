@@ -50,6 +50,7 @@ export function validateProjectTranslations(projects: readonly ProjectEntry[]) {
 		const divergentFields = [
 			...(french.order !== english.order ? ['order'] : []),
 			...(french.url !== english.url ? ['url'] : []),
+			...(french.projectType !== english.projectType ? ['projectType'] : []),
 			...(french.image.src !== english.image.src ? ['image'] : []),
 			...(!haveSameStack(french.stack, english.stack) ? ['stack'] : []),
 		];
