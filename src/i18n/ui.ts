@@ -31,15 +31,6 @@ const fr = {
 	'stack.title': 'Front-end moderne et WordPress sur mesure',
 	'stack.description':
 		'React et JavaScript pour construire des interfaces interactives, maintenables et performantes. WordPress pour des projets full-stack sur mesure : thèmes, plugins, Gutenberg, intégrations API et logique métier en PHP.',
-	'stack.hoverPrompt': 'Survole une des icônes',
-	'stack.reactDescription':
-		"Le framework JavaScript que j'ai choisi pour réaliser des interfaces utilisateur de qualité et performantes.",
-	'stack.javascriptDescription':
-		"Le langage que j'utilise pour améliorer l'expérience utilisateur au travers d'interactions et d'animations.",
-	'stack.wordpressDescription':
-		'Une expertise full-stack construite au fil de près de 10 ans : thèmes, plugins, Gutenberg et intégrations sur mesure.',
-	'stack.phpDescription':
-		"Le langage back-end que j'utilise dans WordPress pour développer des plugins, des intégrations API et de la logique métier.",
 	'projects.eyebrow': 'Réalisations',
 	'projects.title': 'Projets',
 	'projects.professionalTitle': 'Réalisations professionnelles',
@@ -123,15 +114,6 @@ const en = {
 	'stack.title': 'Modern front-end and custom WordPress',
 	'stack.description':
 		'React and JavaScript for interactive, maintainable and high-performance interfaces. WordPress for custom full-stack projects: themes, plugins, Gutenberg, API integrations and business logic in PHP.',
-	'stack.hoverPrompt': 'Hover over an icon',
-	'stack.reactDescription':
-		'The JavaScript framework I chose to build polished, high-performance user interfaces.',
-	'stack.javascriptDescription':
-		'The language I use to enhance the user experience through interactions and animations.',
-	'stack.wordpressDescription':
-		'Full-stack expertise built over nearly 10 years: custom themes, plugins, Gutenberg and integrations.',
-	'stack.phpDescription':
-		'The back-end language I use within WordPress for plugins, API integrations and business logic.',
 	'projects.eyebrow': 'Selected work',
 	'projects.title': 'Projects',
 	'projects.professionalTitle': 'Professional work',
