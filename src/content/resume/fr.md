@@ -88,8 +88,8 @@ projectProof:
     cta: 'Voir l’étude de cas'
     stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
     url: '/projects/ecokwa/'
-educationEyebrow: 'Formation & langues'
-educationTitle: 'Formation et langues'
+educationEyebrow: 'Formation'
+educationTitle: 'Études & langues'
 education:
     school: 'SUPINFO'
     period: 'Nov. 2014 — sept. 2017'

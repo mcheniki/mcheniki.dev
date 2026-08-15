@@ -3,6 +3,7 @@ import '../styles/fonts.css';
 import '../styles/global.css';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getEntry } from 'astro:content';
 
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
@@ -29,6 +30,12 @@ const {
 	isProfilePage = false,
 	structuredData,
 } = Astro.props;
+const home = await getEntry('home', locale);
+
+if (!home) {
+	throw new Error(`Missing home content for locale "${locale}".`);
+}
+
 const routePath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
 const getLocaleURL = (targetLocale: Locale) => {
 	const path = routePath === '/' ? undefined : routePath;
@@ -51,7 +58,7 @@ const personData = {
 	name: 'Mehdi Cheniki',
 	url: siteURL,
 	jobTitle: t('meta.jobTitle'),
-	description: t('meta.description'),
+	description: home.data.meta.description,
 	image: new URL('/images/avatar-face.webp', Astro.site),
 	knowsAbout: [
 		'JavaScript',

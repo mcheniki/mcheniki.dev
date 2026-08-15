@@ -1,9 +1,6 @@
 import type { Locale } from './config';
 
 const fr = {
-	'meta.title': 'Mehdi Cheniki | Développeur Web Senior',
-	'meta.description':
-		'Développeur web senior avec 10 ans d’expérience en JavaScript, PHP et WordPress, et une pratique récente de React, TypeScript et Laravel.',
 	'meta.jobTitle': 'Développeur Web Senior',
 	'meta.ogImageAlt': 'Portfolio de Mehdi Cheniki avec son avatar astronaute',
 	'header.avatarAlt': "Tête de l'avatar de Mehdi Cheniki",
@@ -15,33 +12,6 @@ const fr = {
 	'header.closeMenu': 'Fermer le menu',
 	'header.showFrench': 'Afficher le site en français',
 	'header.showEnglish': 'Afficher le site en anglais',
-	'hero.job': 'Développeur web senior',
-	'hero.jobPrimary': 'Développeur web',
-	'hero.jobEmphasis': 'senior',
-	'hero.specialties': 'JavaScript • PHP • React • WordPress',
-	'hero.description':
-		'Interfaces, applications web et solutions sur mesure, de la conception à la mise en production.',
-	'about.eyebrow': 'À propos',
-	'about.years': '10 ans',
-	'about.title': "d'expertise web",
-	'about.paragraph1':
-		'Développeur web depuis 10 ans, j’ai travaillé en agence, dans les médias et en entreprise sur des interfaces front-end, des projets PHP / WordPress et des produits web à fort trafic. J’utilise JavaScript et React côté interface, PHP côté serveur, avec une attention particulière portée à l’architecture, la performance et la maintenabilité.',
-	'about.paragraph2':
-		'J’ai également évolué vers un rôle de Tech Lead tout en restant hands-on : choix techniques, structuration des projets, code review, accompagnement d’un autre développeur, déploiements et problèmes de production.',
-	'about.paragraph3':
-		'WordPress reste mon expertise professionnelle la plus forte, mais ce n’est pas mon seul terrain de développement. Je construis aussi des applications web hors CMS ; EcoKwa, par exemple, utilise Laravel, React, TypeScript et PostgreSQL.',
-	'stack.eyebrow': 'Technique',
-	'stack.title': 'Du front-end à la production',
-	'stack.description':
-		'JavaScript, React et TypeScript pour les interfaces, PHP pour la logique serveur, puis APIs, bases de données, Docker et CI/CD pour livrer et maintenir des applications web. WordPress reste une expertise forte, tandis que Laravel fait partie de mes projets applicatifs récents.',
-	'projects.eyebrow': 'Réalisations',
-	'projects.title': 'Travaux et projets',
-	'projects.professionalTitle': 'Travaux professionnels',
-	'projects.professionalDescription':
-		'Des produits et expériences conçus avec des équipes, pour des organisations et leurs utilisateurs.',
-	'projects.personalTitle': 'Projets personnels',
-	'projects.personalDescription':
-		"Des produits que j'imagine, conçois et fais évoluer jusqu'à leur mise en production.",
 	'projects.viewDetails': 'Voir les détails du projet {title}',
 	'projects.caseStudy': 'Voir la fiche complète',
 	'projects.openApplication': 'Ouvrir l’application',
@@ -50,11 +20,6 @@ const fr = {
 	'projects.stack': 'Stack',
 	'projects.description': 'Description',
 	'projects.viewProject': 'Voir le projet',
-	'contact.eyebrow': 'Contact',
-	'contact.title': 'On discute ?',
-	'contact.description':
-		'Un projet, une question, ou juste un bonjour, le formulaire est là pour ça.',
-	'contact.details': 'Informations de contact',
 	'form.name': 'Nom',
 	'form.email': 'E-mail',
 	'form.message': 'Message',
@@ -87,9 +52,6 @@ const fr = {
 type TranslationCatalog = { [Key in keyof typeof fr]: string };
 
 const en = {
-	'meta.title': 'Mehdi Cheniki | Senior Web Developer',
-	'meta.description':
-		'Senior web developer with 10 years of experience in JavaScript, PHP and WordPress, with recent hands-on work using React, TypeScript and Laravel.',
 	'meta.jobTitle': 'Senior Web Developer',
 	'meta.ogImageAlt': "Mehdi Cheniki's portfolio with his astronaut avatar",
 	'header.avatarAlt': "Mehdi Cheniki's avatar head",
@@ -101,33 +63,6 @@ const en = {
 	'header.closeMenu': 'Close menu',
 	'header.showFrench': 'View the website in French',
 	'header.showEnglish': 'View the website in English',
-	'hero.job': 'Senior Web Developer',
-	'hero.jobPrimary': 'Senior',
-	'hero.jobEmphasis': 'Web Developer',
-	'hero.specialties': 'JavaScript • PHP • React • WordPress',
-	'hero.description':
-		'Interfaces, web applications and custom solutions, from implementation through production.',
-	'about.eyebrow': 'About',
-	'about.years': '10 years',
-	'about.title': 'of web expertise',
-	'about.paragraph1':
-		'With 10 years in web development, I’ve worked across agency, media and enterprise environments on front-end interfaces, PHP / WordPress projects and high-traffic digital products. I work with JavaScript and React on the front end and PHP on the server side, with a strong focus on architecture, performance and maintainability.',
-	'about.paragraph2':
-		'I also moved into a Tech Lead role while staying hands-on, covering technical decisions, project structure, code reviews, support for another developer, deployments and production issues.',
-	'about.paragraph3':
-		'WordPress remains my strongest professional specialization, but it is not my only area of development. I also build web applications outside CMS platforms; EcoKwa, for example, uses Laravel, React, TypeScript and PostgreSQL.',
-	'stack.eyebrow': 'Technical expertise',
-	'stack.title': 'From front end to production',
-	'stack.description':
-		'JavaScript, React and TypeScript for interfaces, PHP for server-side development, plus APIs, databases, Docker and CI/CD to ship and maintain web applications. WordPress remains a strong area of expertise, while Laravel is part of my recent application work.',
-	'projects.eyebrow': 'Selected work',
-	'projects.title': 'Work & Projects',
-	'projects.professionalTitle': 'Professional work',
-	'projects.professionalDescription':
-		'Products and experiences created with teams, for organisations and their users.',
-	'projects.personalTitle': 'Personal project',
-	'projects.personalDescription':
-		'Products I imagine, design, build and evolve through to production.',
 	'projects.viewDetails': 'View details for {title}',
 	'projects.caseStudy': 'View case study',
 	'projects.openApplication': 'Open application',
@@ -136,10 +71,6 @@ const en = {
 	'projects.stack': 'Stack',
 	'projects.description': 'Description',
 	'projects.viewProject': 'View project',
-	'contact.eyebrow': 'Contact',
-	'contact.title': 'Shall we talk?',
-	'contact.description': 'A project, a question, or just a hello: the form is here for that.',
-	'contact.details': 'Contact details',
 	'form.name': 'Name',
 	'form.email': 'Email',
 	'form.message': 'Message',

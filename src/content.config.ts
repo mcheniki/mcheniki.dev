@@ -20,6 +20,41 @@ const projects = defineCollection({
 		}),
 });
 
+const home = defineCollection({
+	loader: glob({ pattern: '*.md', base: './src/content/home/' }),
+	schema: z.object({
+		locale: z.enum(locales),
+		meta: z.object({ title: z.string(), description: z.string() }),
+		hero: z.object({
+			jobPrimary: z.string(),
+			jobEmphasis: z.string(),
+			specialties: z.string(),
+			description: z.string(),
+		}),
+		about: z.object({
+			eyebrow: z.string(),
+			years: z.string(),
+			title: z.string(),
+			paragraphs: z.array(z.string()).length(3),
+		}),
+		stack: z.object({ eyebrow: z.string(), title: z.string(), description: z.string() }),
+		projects: z.object({
+			eyebrow: z.string(),
+			title: z.string(),
+			professionalTitle: z.string(),
+			professionalDescription: z.string(),
+			personalTitle: z.string(),
+			personalDescription: z.string(),
+		}),
+		contact: z.object({
+			eyebrow: z.string(),
+			title: z.string(),
+			description: z.string(),
+			details: z.string(),
+		}),
+	}),
+});
+
 const experienceSchema = z.object({
 	period: z.string(),
 	role: z.string(),
@@ -78,4 +113,4 @@ const resume = defineCollection({
 	}),
 });
 
-export const collections = { projects, resume };
+export const collections = { home, projects, resume };

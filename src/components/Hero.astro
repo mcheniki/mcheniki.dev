@@ -1,15 +1,13 @@
 ---
 import Container from './Container.astro';
 import { Portal } from './react/Portal/Portal';
-import type { Locale } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
+import type { HeroContent } from '../content/home';
 
 type Props = {
-	locale: Locale;
+	content: HeroContent;
 };
 
-const { locale } = Astro.props;
-const t = useTranslations(locale);
+const { content } = Astro.props;
 ---
 
 <Container customClass="flex flex-col items-center justify-between gap-32 lg:flex-row">
@@ -17,13 +15,13 @@ const t = useTranslations(locale);
 		<h1
 			class="mb-12 text-64 leading-[0.9] font-bold tracking-[-0.12em] uppercase italic md:text-clamp-h1"
 		>
-			<span class="block text-primary-500">{t('hero.jobPrimary')}</span>
+			<span class="block text-primary-500">{content.jobPrimary}</span>
 			{' '}
-			<span class="text-stroke-primary text-transparent">{t('hero.jobEmphasis')}</span>
+			<span class="text-stroke-primary text-transparent">{content.jobEmphasis}</span>
 		</h1>
 		<p class="mb-24 text-25 leading-9 font-semibold">
-			{t('hero.specialties')}
-			<span class="block text-20 font-normal text-base-100">{t('hero.description')}</span>
+			{content.specialties}
+			<span class="block text-20 font-normal text-base-100">{content.description}</span>
 		</p>
 	</div>
 	<div class="w-full max-w-[570px] flex-1 grow-0 lg:w-auto lg:basis-[570px]">
