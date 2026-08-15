@@ -8,15 +8,13 @@ import IconPHP from '@svgs/php.svg';
 import IconReact from '@svgs/react.svg';
 import ShapeH2 from '@svgs/shape-h2.svg';
 import IconWP from '@svgs/wp.svg';
-import type { Locale } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
+import type { StackContent } from '../content/home';
 
 type Props = {
-	locale: Locale;
+	content: StackContent;
 };
 
-const { locale } = Astro.props;
-const t = useTranslations(locale);
+const { content } = Astro.props;
 
 const technologies = [
 	{
@@ -56,16 +54,16 @@ const techs2: TechType[] = technologies.map((technology, index) => ({
 					class="flex items-center gap-6 text-14 font-medium tracking-[0.15em] text-primary-600 uppercase"
 				>
 					<ShapeH2 fill="currentColor" width="14" height="14" />
-					{t('stack.eyebrow')}
+					{content.eyebrow}
 				</h2>
 				<h3
 					class="-tracking-tighter] mb-24 text-48 leading-[1.3em] font-extralight tracking-tighter text-base-50 md:text-64"
 				>
-					{t('stack.title')}
+					{content.title}
 				</h3>
 			</header>
 			<p class="lead text-base text-base-0">
-				{t('stack.description')}
+				{content.description}
 			</p>
 		</div>
 		<!-- Height ratio 772/1440 matches design mockup proportions -->

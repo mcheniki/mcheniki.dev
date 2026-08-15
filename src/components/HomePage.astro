@@ -1,6 +1,6 @@
 ---
 import type { Locale } from '../i18n/config';
-import { useTranslations } from '../i18n/ui';
+import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from './Hero.astro';
 import About from './About.astro';
@@ -13,25 +13,36 @@ type Props = {
 };
 
 const { locale } = Astro.props;
-const t = useTranslations(locale);
+const home = await getEntry('home', locale);
+
+if (!home) {
+	throw new Error(`Missing home content for locale "${locale}".`);
+}
+
+const content = home.data;
 ---
 
-<Layout locale={locale} title={t('meta.title')} description={t('meta.description')} isProfilePage>
+<Layout
+	locale={locale}
+	title={content.meta.title}
+	description={content.meta.description}
+	isProfilePage
+>
 	<main class="min-h-screen pt-128 lg:pt-48">
 		<section class="mb-96 flex min-h-screen items-center">
-			<Hero locale={locale} />
+			<Hero content={content.hero} />
 		</section>
 		<section class="mb-96 flex items-center">
-			<About locale={locale} />
+			<About locale={locale} content={content.about} />
 		</section>
 		<section class="mb-96">
-			<StackSection locale={locale} />
+			<StackSection content={content.stack} />
 		</section>
 		<section class="mb-96 scroll-mt-128" id="projects">
-			<ProjectsSection locale={locale} />
+			<ProjectsSection locale={locale} content={content.projects} />
 		</section>
 		<section class="mt-96 overflow-hidden" id="contact">
-			<Contact locale={locale} />
+			<Contact locale={locale} content={content.contact} />
 		</section>
 	</main>
 </Layout>
