@@ -5,6 +5,7 @@ const fr = {
 	'meta.description':
 		'Développeur web senior avec 10 ans d’expérience en JavaScript, PHP et WordPress, et une pratique récente de React, TypeScript et Laravel.',
 	'meta.jobTitle': 'Développeur Web Senior',
+	'meta.ogImageAlt': 'Portfolio de Mehdi Cheniki avec son avatar astronaute',
 	'header.avatarAlt': "Tête de l'avatar de Mehdi Cheniki",
 	'header.contact': 'Me contacter',
 	'header.languagePicker': 'Choix de la langue',
@@ -89,6 +90,7 @@ const en = {
 	'meta.description':
 		'Senior web developer with 10 years of experience in JavaScript, PHP and WordPress, with recent hands-on work using React, TypeScript and Laravel.',
 	'meta.jobTitle': 'Senior Web Developer',
+	'meta.ogImageAlt': "Mehdi Cheniki's portfolio with his astronaut avatar",
 	'header.avatarAlt': "Mehdi Cheniki's avatar head",
 	'header.contact': 'Get in touch',
 	'header.languagePicker': 'Language selector',

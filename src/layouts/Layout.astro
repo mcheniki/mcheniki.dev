@@ -14,6 +14,7 @@ type Props = {
 	title: string;
 	description: string;
 	image?: string;
+	imageAlt?: string;
 	isProfilePage?: boolean;
 	// fallow-ignore-next-line unused-component-prop -- Read below when rendering JSON-LD.
 	structuredData?: Record<string, unknown>;
@@ -24,6 +25,7 @@ const {
 	title,
 	description,
 	image = '/images/og.webp',
+	imageAlt,
 	isProfilePage = false,
 	structuredData,
 } = Astro.props;
@@ -36,17 +38,21 @@ const getLocaleURL = (targetLocale: Locale) => {
 const canonicalURL = getLocaleURL(locale);
 const ogImageURL = new URL(image, Astro.site);
 const sitemapURL = new URL('/sitemap-index.xml', Astro.site);
+const siteURL = new URL('/', Astro.site);
 const personURL = new URL('/', Astro.site);
 personURL.hash = 'person';
 const t = useTranslations(locale);
+const resolvedImageAlt = imageAlt ?? t('meta.ogImageAlt');
 const alternateLocale = locales.find((targetLocale) => targetLocale !== locale);
 const alternateURL = alternateLocale ? getLocaleURL(alternateLocale) : undefined;
 const personData = {
 	'@type': 'Person',
 	'@id': personURL,
 	name: 'Mehdi Cheniki',
-	url: new URL('/', Astro.site),
+	url: siteURL,
 	jobTitle: t('meta.jobTitle'),
+	description: t('meta.description'),
+	image: new URL('/images/avatar-face.webp', Astro.site),
 	knowsAbout: [
 		'JavaScript',
 		'PHP',
@@ -60,13 +66,23 @@ const personData = {
 	email: 'hello@mcheniki.dev',
 	sameAs: ['https://www.linkedin.com/in/mehdi-cheniki/', 'https://github.com/mcheniki'],
 };
+const profilePageData = {
+	'@type': 'ProfilePage',
+	'@id': canonicalURL,
+	url: canonicalURL,
+	mainEntity: personData,
+};
+const websiteData = {
+	'@type': 'WebSite',
+	'@id': `${siteURL}#website`,
+	name: 'Mehdi Cheniki',
+	alternateName: 'mcheniki.dev',
+	url: siteURL,
+};
 const profileData = isProfilePage
 	? {
 			'@context': 'https://schema.org',
-			'@type': 'ProfilePage',
-			'@id': canonicalURL,
-			url: canonicalURL,
-			mainEntity: personData,
+			'@graph': [...(locale === 'fr' ? [websiteData] : []), profilePageData],
 		}
 	: {
 			'@context': 'https://schema.org',
@@ -97,10 +113,12 @@ const profileData = isProfilePage
 
 		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Mehdi Cheniki" />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:alt" content={resolvedImageAlt} />
 		<meta property="og:locale" content={localeMetadata[locale].openGraph} />
 		{
 			alternateLocale && (
@@ -116,6 +134,7 @@ const profileData = isProfilePage
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageURL} />
+		<meta name="twitter:image:alt" content={resolvedImageAlt} />
 
 		<!-- JSON-LD -->
 		<script is:inline type="application/ld+json" set:html={JSON.stringify(profileData)} />
