@@ -16,7 +16,7 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Layout locale={locale} title={t('meta.title')} description={t('meta.description')}>
+<Layout locale={locale} title={t('meta.title')} description={t('meta.description')} isProfilePage>
 	<main class="min-h-screen pt-128 lg:pt-48">
 		<section class="mb-96 flex min-h-screen items-center">
 			<Hero locale={locale} />
