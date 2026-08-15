@@ -14,9 +14,11 @@ type Props = {
 	title: string;
 	description: string;
 	image?: string;
+	// fallow-ignore-next-line unused-component-prop -- Read below when rendering JSON-LD.
+	structuredData?: Record<string, unknown>;
 };
 
-const { locale, title, description, image = '/images/og.webp' } = Astro.props;
+const { locale, title, description, image = '/images/og.webp', structuredData } = Astro.props;
 const routePath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
 const getLocaleURL = (targetLocale: Locale) => {
 	const path = routePath === '/' ? undefined : routePath;
@@ -26,8 +28,11 @@ const getLocaleURL = (targetLocale: Locale) => {
 const canonicalURL = getLocaleURL(locale);
 const ogImageURL = new URL(image, Astro.site);
 const sitemapURL = new URL('/sitemap-index.xml', Astro.site);
+const personURL = new URL('/', Astro.site);
+personURL.hash = 'person';
 const t = useTranslations(locale);
 const alternateLocale = locales.find((targetLocale) => targetLocale !== locale);
+const alternateURL = alternateLocale ? getLocaleURL(alternateLocale) : undefined;
 ---
 
 <!doctype html>
@@ -79,14 +84,24 @@ const alternateLocale = locales.find((targetLocale) => targetLocale !== locale);
 			set:html={JSON.stringify({
 				'@context': 'https://schema.org',
 				'@type': 'Person',
+				'@id': personURL,
 				name: 'Mehdi Cheniki',
-				url: canonicalURL,
+				url: new URL('/', Astro.site),
 				jobTitle: t('meta.jobTitle'),
 				knowsAbout: ['WordPress', 'React', 'TypeScript', 'PHP', 'JavaScript'],
 				email: 'hello@mcheniki.dev',
 				sameAs: ['https://github.com/mcheniki'],
 			})}
 		/>
+		{
+			structuredData && (
+				<script
+					is:inline
+					type="application/ld+json"
+					set:html={JSON.stringify(structuredData)}
+				/>
+			)
+		}
 
 		<link rel="preconnect" href="https://analytics.mcheniki.dev" />
 		<script
@@ -96,9 +111,8 @@ const alternateLocale = locales.find((targetLocale) => targetLocale !== locale);
 			data-website-id="2a60ab3c-52f7-40a1-b146-3fd9f55f9d90"></script>
 	</head>
 	<body class="bg-base-800 font-roundo text-base-50">
-	<Header locale={locale} />
-	<slot />
-	<Footer locale={locale} />
-</body>
+		<Header locale={locale} alternateUrl={alternateURL?.pathname} />
+		<slot />
+		<Footer locale={locale} />
+	</body>
 </html>
-

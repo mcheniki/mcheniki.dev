@@ -8,10 +8,11 @@ type Props = {
 	stack: string[];
 	mission?: string;
 	url?: string;
+	caseStudyUrl?: string;
 	locale: Locale;
 };
 
-const { stack, mission, url, locale } = Astro.props;
+const { stack, mission, url, caseStudyUrl, locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
@@ -50,9 +51,20 @@ const t = useTranslations(locale);
 	</section>
 
 	{
+		caseStudyUrl && (
+			<Cta url={caseStudyUrl} indent="secondary">
+				{t('projects.caseStudy')}
+				<svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor">
+					<path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z" />
+				</svg>
+			</Cta>
+		)
+	}
+
+	{
 		url && (
 			<Cta url={url} target="_blank" rel="noopener noreferrer">
-				{t('projects.viewProject')}
+				{caseStudyUrl ? t('projects.openApplication') : t('projects.viewProject')}
 				<svg viewBox="0 0 24 24" class="h-4 w-4 -rotate-45" fill="currentColor">
 					<path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z" />
 				</svg>

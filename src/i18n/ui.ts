@@ -31,18 +31,17 @@ const fr = {
 	'stack.title': 'Front-end moderne et WordPress sur mesure',
 	'stack.description':
 		'React et JavaScript pour construire des interfaces interactives, maintenables et performantes. WordPress pour des projets full-stack sur mesure : thèmes, plugins, Gutenberg, intégrations API et logique métier en PHP.',
-	'stack.hoverPrompt': 'Survole une des icônes',
-	'stack.reactDescription':
-		"Le framework JavaScript que j'ai choisi pour réaliser des interfaces utilisateur de qualité et performantes.",
-	'stack.javascriptDescription':
-		"Le langage que j'utilise pour améliorer l'expérience utilisateur au travers d'interactions et d'animations.",
-	'stack.wordpressDescription':
-		'Une expertise full-stack construite au fil de près de 10 ans : thèmes, plugins, Gutenberg et intégrations sur mesure.',
-	'stack.phpDescription':
-		"Le langage back-end que j'utilise dans WordPress pour développer des plugins, des intégrations API et de la logique métier.",
 	'projects.eyebrow': 'Réalisations',
 	'projects.title': 'Projets',
+	'projects.professionalTitle': 'Réalisations professionnelles',
+	'projects.professionalDescription':
+		'Des produits et expériences conçus avec des équipes, pour des organisations et leurs utilisateurs.',
+	'projects.personalTitle': 'Projets personnels',
+	'projects.personalDescription':
+		"Des produits que j'imagine, conçois et fais évoluer jusqu'à leur mise en production.",
 	'projects.viewDetails': 'Voir les détails du projet {title}',
+	'projects.caseStudy': 'Voir la fiche complète',
+	'projects.openApplication': 'Ouvrir l’application',
 	'projects.screenshot': 'Capture du projet {title}',
 	'projects.close': 'Fermer',
 	'projects.stack': 'Stack',
@@ -115,18 +114,17 @@ const en = {
 	'stack.title': 'Modern front-end and custom WordPress',
 	'stack.description':
 		'React and JavaScript for interactive, maintainable and high-performance interfaces. WordPress for custom full-stack projects: themes, plugins, Gutenberg, API integrations and business logic in PHP.',
-	'stack.hoverPrompt': 'Hover over an icon',
-	'stack.reactDescription':
-		'The JavaScript framework I chose to build polished, high-performance user interfaces.',
-	'stack.javascriptDescription':
-		'The language I use to enhance the user experience through interactions and animations.',
-	'stack.wordpressDescription':
-		'Full-stack expertise built over nearly 10 years: custom themes, plugins, Gutenberg and integrations.',
-	'stack.phpDescription':
-		'The back-end language I use within WordPress for plugins, API integrations and business logic.',
 	'projects.eyebrow': 'Selected work',
 	'projects.title': 'Projects',
+	'projects.professionalTitle': 'Professional work',
+	'projects.professionalDescription':
+		'Products and experiences created with teams, for organisations and their users.',
+	'projects.personalTitle': 'Independent projects',
+	'projects.personalDescription':
+		'Products I imagine, design, build and evolve through to production.',
 	'projects.viewDetails': 'View details for {title}',
+	'projects.caseStudy': 'View case study',
+	'projects.openApplication': 'Open application',
 	'projects.screenshot': 'Screenshot of {title}',
 	'projects.close': 'Close',
 	'projects.stack': 'Stack',
@@ -165,7 +163,7 @@ const en = {
 	'errors.sceneUnavailable': 'The 3D scene is not available on this device.',
 } satisfies TranslationCatalog;
 
-export const ui = { fr, en } satisfies Record<Locale, TranslationCatalog>;
+const ui = { fr, en } satisfies Record<Locale, TranslationCatalog>;
 
 /** Returns the keys that are missing from one of the translation catalogues. */
 export function getTranslationParityErrors() {
@@ -264,32 +262,7 @@ export const sceneMessages = {
 	en: { unavailable: en['errors.sceneUnavailable'] },
 } as const satisfies Record<Locale, SceneMessages>;
 
-export type StackDescriptions = {
-	hoverPrompt: string;
-	react: string;
-	javascript: string;
-	wordpress: string;
-	php: string;
-};
-
-export const stackDescriptions = {
-	fr: {
-		hoverPrompt: fr['stack.hoverPrompt'],
-		react: fr['stack.reactDescription'],
-		javascript: fr['stack.javascriptDescription'],
-		wordpress: fr['stack.wordpressDescription'],
-		php: fr['stack.phpDescription'],
-	},
-	en: {
-		hoverPrompt: en['stack.hoverPrompt'],
-		react: en['stack.reactDescription'],
-		javascript: en['stack.javascriptDescription'],
-		wordpress: en['stack.wordpressDescription'],
-		php: en['stack.phpDescription'],
-	},
-} as const satisfies Record<Locale, StackDescriptions>;
-
-export type TranslationKey = keyof typeof fr;
+type TranslationKey = keyof typeof fr;
 
 type TranslationValues = {
 	'projects.viewDetails': { title: string };

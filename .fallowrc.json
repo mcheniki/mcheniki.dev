@@ -1,0 +1,12 @@
+{
+	"ignoreDependencies": [
+		"@astrojs/node",
+		"@astrojs/react",
+		"@astrojs/sitemap",
+		"@svgr/plugin-jsx",
+		"@svgr/plugin-svgo",
+		"@tailwindcss/vite",
+		"babel-plugin-react-compiler",
+		"tailwindcss"
+	]
+}
