@@ -14,12 +14,17 @@ type Props = {
 const { locale, alternateUrl } = Astro.props;
 const t = useTranslations(locale);
 const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
+const homeUrl = getRelativeLocaleUrl(locale);
+const resumeUrl = getRelativeLocaleUrl(locale, 'resume');
 const alternateLocale = locales.find((language) => language !== locale);
 ---
 
 <header class="fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-base-800 py-24">
 	<Container customClass="flex items-center justify-between">
-		<div class="flex items-center gap-12">
+		<a
+			href={homeUrl}
+			class="flex items-center gap-12 rounded-6 focus-visible:outline-2 focus-visible:outline-offset-4"
+		>
 			<Image
 				src="/images/avatar-face.webp"
 				alt={t('header.avatarAlt')}
@@ -27,7 +32,7 @@ const alternateLocale = locales.find((language) => language !== locale);
 				height={40}
 			/>
 			<p class="font-medium text-primary-500">Mehdi Cheniki</p>
-		</div>
+		</a>
 
 		<nav
 			class="fixed top-0 left-0 z-10 h-screen w-full translate-x-full bg-base-800 transition-transform duration-300 ease-out md:relative md:h-auto md:w-auto md:translate-x-0"
@@ -36,6 +41,14 @@ const alternateLocale = locales.find((language) => language !== locale);
 			<ul
 				class="flex flex-col gap-32 px-24 py-32 max-md:items-start md:flex-row md:items-center md:px-0 md:py-0"
 			>
+				<li>
+					<a
+						href={resumeUrl}
+						class="font-jetbrains text-14 font-bold text-base-50 transition-colors hover:text-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4"
+					>
+						{t('header.resume')}
+					</a>
+				</li>
 				<li aria-label={t('header.languagePicker')}>
 					{
 						alternateLocale && (

@@ -1,0 +1,508 @@
+---
+import Container from './Container.astro';
+import Layout from '../layouts/Layout.astro';
+import ShapeH2 from '@svgs/shape-h2.svg';
+import ArrowRight from '@svgs/arrow-right.svg';
+import type { Locale } from '../i18n/config';
+import { getEntry } from 'astro:content';
+
+type Props = {
+	locale: Locale;
+};
+
+const { locale } = Astro.props;
+const resume = await getEntry('resume', locale);
+
+if (!resume) {
+	throw new Error(`Missing resume content for locale "${locale}".`);
+}
+
+const content = resume.data;
+const contactUrl = `${locale === 'en' ? '/en/' : '/'}#contact`;
+const homeUrl = locale === 'en' ? '/en/' : '/';
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'ProfilePage',
+	mainEntity: {
+		'@type': 'Person',
+		name: content.identity.name,
+		jobTitle: content.identity.jobTitle,
+		url: new URL(homeUrl, Astro.site),
+		knowsLanguage: ['fr', 'en'],
+		knowsAbout: content.skills.flatMap((group) => group.items),
+	},
+};
+---
+
+<Layout
+	locale={locale}
+	title={content.meta.title}
+	description={content.meta.description}
+	structuredData={structuredData}
+>
+	<div
+		class="resume-progress fixed top-[88px] left-0 z-20 h-3 w-0 bg-primary-500 print:hidden"
+		role="progressbar"
+		aria-label={content.progressLabel}
+		aria-valuemin="0"
+		aria-valuemax="100"
+		aria-valuenow="0"
+	>
+	</div>
+
+	<main class="resume-page overflow-hidden pt-160" data-resume-page>
+		<section class="relative pb-64">
+			<Container customClass="relative">
+				<p
+					class="mb-24 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-primary-500 uppercase"
+				>
+					<ShapeH2 fill="currentColor" width="14" height="14" />
+					{content.eyebrow}
+				</p>
+				<h1
+					class="max-w-[1050px] text-48 leading-[0.98] font-bold tracking-[-0.09em] uppercase italic sm:text-64 lg:text-96"
+				>
+					{content.title}
+				</h1>
+				<div class="mt-48 flex flex-wrap gap-12 print:hidden">
+					<a
+						href={content.identity.downloadUrl}
+						download
+						class="flex min-w-160 items-center justify-center gap-6 rounded-full bg-primary-500 px-24 py-12 font-jetbrains font-bold text-base-0 transition-colors duration-300 hover:bg-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4"
+					>
+						{content.download}
+						<ArrowRight width="16" height="16" fill="currentColor" />
+					</a>
+					<a
+						href={contactUrl}
+						class="flex min-w-160 items-center justify-center rounded-full border border-primary-500 px-24 py-12 font-jetbrains font-bold text-base-0 transition-colors duration-300 hover:border-primary-400 hover:text-primary-300 focus-visible:outline-2 focus-visible:outline-offset-4"
+					>
+						{content.contact}
+					</a>
+				</div>
+			</Container>
+		</section>
+
+		<nav
+			class="sticky top-[88px] z-[9] border-y border-base-600/70 bg-base-800/90 backdrop-blur-md print:hidden"
+			aria-label={content.navigationLabel}
+		>
+			<Container customClass="overflow-x-auto [scrollbar-width:none]">
+				<ul
+					class="flex min-w-max items-center gap-32 py-12 font-jetbrains text-12 font-bold md:gap-48"
+				>
+					<li>
+						<a
+							class="resume-nav-link py-12 text-base-200"
+							href="#experience"
+							data-section-link="experience"
+						>
+							01. {content.navigation.experience}
+						</a>
+					</li>
+					<li>
+						<a
+							class="resume-nav-link py-12 text-base-200"
+							href="#skills"
+							data-section-link="skills"
+						>
+							02. {content.navigation.skills}
+						</a>
+					</li>
+					<li>
+						<a
+							class="resume-nav-link py-12 text-base-200"
+							href="#education"
+							data-section-link="education"
+						>
+							03. {content.navigation.education}
+						</a>
+					</li>
+				</ul>
+			</Container>
+		</nav>
+
+		<section id="experience" class="scroll-mt-160 py-64" data-resume-section>
+			<Container>
+				<div class="mb-64 max-w-[850px]" data-reveal>
+					<p
+						class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-primary-500 uppercase"
+					>
+						<ShapeH2 fill="currentColor" width="14" height="14" />
+						{content.experienceEyebrow}
+					</p>
+					<h2
+						class="font-jetbrains text-36 leading-tight font-extralight tracking-[-0.08em] md:text-64"
+					>
+						{content.experienceTitle}
+					</h2>
+				</div>
+
+				<ol class="resume-timeline relative ml-6 border-l border-base-500 md:ml-[190px]">
+					{
+						content.experiences.map((experience, index) => (
+							<li
+								class="resume-experience relative pb-64 pl-32 last:pb-0 md:pl-64"
+								data-reveal
+							>
+								<span
+									class="timeline-dot absolute top-6 left-0 h-12 w-12 -translate-x-[6.5px] rounded-full border-[3px] border-base-800 bg-primary-500 shadow-[0_0_0_1px_var(--color-primary-500)]"
+									aria-hidden="true"
+								/>
+								<p class="mb-12 font-jetbrains text-12 font-bold text-primary-400 md:absolute md:top-6 md:right-[calc(100%+64px)] md:w-[150px] md:text-right">
+									{experience.period}
+								</p>
+								<article class="rounded-24 border border-base-600 bg-base-700/45 p-24 transition-colors duration-300 hover:border-base-400 md:p-32">
+									<div class="mb-24 flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
+										<div>
+											<p class="mb-3 font-jetbrains text-12 font-bold tracking-[0.12em] text-secondary-400 uppercase">
+												{experience.company}
+											</p>
+											<h3 class="text-25 leading-tight font-bold tracking-[-0.04em] md:text-36">
+												{experience.role}
+											</h3>
+										</div>
+										<p class="font-jetbrains text-12 text-base-200 lg:text-right">
+											{experience.location}
+										</p>
+									</div>
+									<p class="max-w-[850px] text-20 leading-8 font-medium text-base-100">
+										{experience.summary}
+									</p>
+									<ul class="mt-24 grid gap-12 text-base-100">
+										{experience.highlights.map((highlight) => (
+											<li class="flex gap-12">
+												<span
+													class="mt-[0.55em] h-3 w-3 shrink-0 rounded-full bg-primary-500"
+													aria-hidden="true"
+												/>
+												<span>{highlight}</span>
+											</li>
+										))}
+									</ul>
+									<div class="mt-24 flex flex-wrap items-center gap-6">
+										<span class="mr-6 font-jetbrains text-10 font-bold tracking-wider text-base-300 uppercase">
+											{content.stackLabel}
+										</span>
+										{experience.stack.map((item) => (
+											<span class="rounded-full bg-base-600 px-12 py-6 font-jetbrains text-10 font-bold text-base-100">
+												{item}
+											</span>
+										))}
+									</div>
+								</article>
+								<span class="sr-only">
+									{index + 1} / {content.experiences.length}
+								</span>
+							</li>
+						))
+					}
+				</ol>
+			</Container>
+		</section>
+
+		<section id="skills" class="scroll-mt-160 bg-base-900 py-64" data-resume-section>
+			<Container>
+				<div class="grid gap-48 lg:grid-cols-[0.8fr_1.2fr] lg:gap-96">
+					<div data-reveal>
+						<p
+							class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-secondary-500 uppercase"
+						>
+							<ShapeH2 fill="currentColor" width="14" height="14" />
+							{content.skillsEyebrow}
+						</p>
+						<h2
+							class="font-jetbrains text-36 leading-tight font-extralight tracking-[-0.08em] md:text-64"
+						>
+							{content.skillsTitle}
+						</h2>
+						<p class="mt-24 text-20 leading-8 font-medium text-base-100">
+							{content.skillsIntro}
+						</p>
+					</div>
+					<ul class="grid gap-12 sm:grid-cols-2">
+						{
+							content.skills.map((skill, index) => (
+								<li
+									class="group relative overflow-hidden rounded-24 border border-base-600 bg-base-800 p-24 md:p-32"
+									data-reveal
+									style={`--reveal-delay: ${index * 70}ms`}
+								>
+									<span
+										class="absolute top-[-0.2em] right-12 font-jetbrains text-75 font-bold text-base-700 transition-colors duration-300 group-hover:text-primary-900/70"
+										aria-hidden="true"
+									>
+										0{index + 1}
+									</span>
+									<h3 class="relative mb-24 text-20 font-bold text-primary-400">
+										{skill.title}
+									</h3>
+									<ul class="relative flex flex-wrap gap-6">
+										{skill.items.map((item) => (
+											<li class="rounded-full border border-base-500 px-12 py-6 font-jetbrains text-12 text-base-100">
+												{item}
+											</li>
+										))}
+									</ul>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+				<a
+					href={content.projectProof.url}
+					class="group mt-48 grid gap-24 rounded-24 border border-secondary-800 bg-secondary-900/20 p-24 transition-colors duration-300 hover:border-secondary-600 focus-visible:outline-2 focus-visible:outline-offset-4 md:grid-cols-[1fr_auto] md:items-end md:p-32"
+					data-reveal
+				>
+					<div>
+						<p
+							class="font-jetbrains text-12 font-bold tracking-[0.12em] text-secondary-400 uppercase"
+						>
+							{content.projectProof.eyebrow}
+						</p>
+						<h3 class="mt-6 text-36 font-bold">{content.projectProof.title}</h3>
+						<p class="mt-6 max-w-[680px] text-base-100">{content.projectProof.text}</p>
+						<ul class="mt-24 flex flex-wrap gap-6">
+							{
+								content.projectProof.stack.map((item) => (
+									<li class="rounded-full border border-secondary-800 px-12 py-6 font-jetbrains text-10 font-bold text-secondary-200">
+										{item}
+									</li>
+								))
+							}
+						</ul>
+					</div>
+					<span
+						class="flex items-center gap-6 font-jetbrains text-12 font-bold text-secondary-300 transition-colors group-hover:text-secondary-100"
+					>
+						{content.projectProof.cta}
+						<ArrowRight width="16" height="16" fill="currentColor" />
+					</span>
+				</a>
+			</Container>
+		</section>
+
+		<section id="education" class="scroll-mt-160 py-64" data-resume-section>
+			<Container>
+				<div class="mb-48 max-w-[850px]" data-reveal>
+					<p
+						class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-tertiary-400 uppercase"
+					>
+						<ShapeH2 fill="currentColor" width="14" height="14" />
+						{content.educationEyebrow}
+					</p>
+					<h2
+						class="font-jetbrains text-36 leading-tight font-extralight tracking-[-0.08em] md:text-64"
+					>
+						{content.educationTitle}
+					</h2>
+				</div>
+				<div class="grid gap-12 md:grid-cols-2">
+					<article
+						class="rounded-24 border border-base-600 bg-base-700/45 p-24 md:p-32"
+						data-reveal
+					>
+						<p class="font-jetbrains text-12 font-bold text-primary-400">
+							{content.education.period}
+						</p>
+						<h3 class="mt-12 text-36 font-bold">{content.education.school}</h3>
+						<p class="mt-6 text-base-100">{content.education.detail}</p>
+					</article>
+					<article
+						class="rounded-24 border border-base-600 bg-base-700/45 p-24 md:p-32"
+						data-reveal
+						style="--reveal-delay: 80ms"
+					>
+						<h3 class="text-25 font-bold text-secondary-400">
+							{content.languagesTitle}
+						</h3>
+						<ul class="mt-24 flex flex-wrap gap-12">
+							{
+								content.languages.map((language) => (
+									<li class="rounded-full border border-secondary-700 bg-secondary-900/30 px-24 py-12 font-jetbrains font-bold text-secondary-200">
+										{language}
+									</li>
+								))
+							}
+						</ul>
+					</article>
+				</div>
+			</Container>
+		</section>
+
+		<section class="pb-96 md:pb-128 print:hidden">
+			<Container>
+				<div
+					class="relative overflow-hidden rounded-32 bg-primary-500 px-24 py-64 text-center md:px-64"
+					data-reveal
+				>
+					<span
+						class="absolute top-[-0.35em] left-[-0.08em] font-jetbrains text-[14rem] leading-none font-bold text-primary-600"
+						aria-hidden="true">*</span
+					>
+					<div class="relative mx-auto max-w-[760px]">
+						<h2
+							class="font-jetbrains text-36 leading-tight font-bold tracking-[-0.08em] md:text-64"
+						>
+							{content.closingTitle}
+						</h2>
+						<p class="mx-auto mt-24 max-w-[650px] text-20 font-medium text-primary-50">
+							{content.closingText}
+						</p>
+						<a
+							href={`mailto:${content.identity.email}`}
+							class="mx-auto mt-32 flex w-fit min-w-160 items-center justify-center gap-6 rounded-full bg-base-800 px-24 py-12 font-jetbrains font-bold text-base-0 transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:transform-none"
+						>
+							{content.identity.email}
+							<ArrowRight width="16" height="16" fill="currentColor" />
+						</a>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</Layout>
+
+<script>
+	const page = document.querySelector<HTMLElement>('[data-resume-page]');
+	const progress = document.querySelector<HTMLElement>('.resume-progress');
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const supportsObservers = 'IntersectionObserver' in window;
+
+	if (page && !reduceMotion && supportsObservers) {
+		page.classList.add('resume-ready');
+		const revealObserver = new IntersectionObserver(
+			(entries, observer) => {
+				entries.forEach((entry) => {
+					if (!entry.isIntersecting) return;
+					entry.target.classList.add('is-visible');
+					observer.unobserve(entry.target);
+				});
+			},
+			{ rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
+		);
+
+		page.querySelectorAll('[data-reveal]').forEach((element) =>
+			revealObserver.observe(element),
+		);
+	}
+
+	const updateProgress = () => {
+		if (!progress) return;
+		const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+		const value =
+			scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 0;
+		progress.style.width = `${value}%`;
+		progress.setAttribute('aria-valuenow', Math.round(value).toString());
+	};
+
+	updateProgress();
+	window.addEventListener('scroll', updateProgress, { passive: true });
+
+	if (supportsObservers) {
+		const sectionObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (!entry.isIntersecting) return;
+					document.querySelectorAll('[data-section-link]').forEach((link) => {
+						const active = link.getAttribute('data-section-link') === entry.target.id;
+						link.classList.toggle('is-active', active);
+						if (active) link.setAttribute('aria-current', 'location');
+						else link.removeAttribute('aria-current');
+					});
+				});
+			},
+			{ rootMargin: '-35% 0px -55% 0px', threshold: 0 },
+		);
+
+		document
+			.querySelectorAll('[data-resume-section]')
+			.forEach((section) => sectionObserver.observe(section));
+	}
+</script>
+
+<style>
+	.resume-progress {
+		transition: width 80ms linear;
+	}
+
+	.resume-nav-link {
+		transition: color 200ms ease;
+	}
+
+	.resume-nav-link:hover,
+	.resume-nav-link.is-active {
+		color: var(--color-primary-400);
+	}
+
+	.resume-ready [data-reveal] {
+		opacity: 0;
+		transform: translateY(28px);
+		transition:
+			opacity 600ms ease var(--reveal-delay, 0ms),
+			transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+	}
+
+	.resume-ready [data-reveal].is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.resume-ready .timeline-dot {
+		transition:
+			transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 500ms ease;
+	}
+
+	.resume-ready .is-visible .timeline-dot {
+		box-shadow:
+			0 0 0 1px var(--color-primary-500),
+			0 0 0 8px color-mix(in srgb, var(--color-primary-500) 13%, transparent);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.resume-progress,
+		.resume-page *,
+		.resume-page *::before,
+		.resume-page *::after {
+			scroll-behavior: auto !important;
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+
+	@media print {
+		:global(header),
+		:global(footer),
+		.resume-progress,
+		nav {
+			display: none !important;
+		}
+
+		:global(body) {
+			background: white !important;
+			color: #12141b !important;
+		}
+
+		.resume-page {
+			overflow: visible;
+			padding-top: 0;
+		}
+
+		.resume-page section {
+			break-inside: auto;
+			padding-block: 1.5rem;
+		}
+
+		.resume-experience,
+		.resume-page article {
+			break-inside: avoid;
+		}
+
+		.resume-ready [data-reveal] {
+			opacity: 1;
+			transform: none;
+		}
+	}
+</style>

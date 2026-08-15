@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# agent-generated design documentation
+/PRODUCT.md
+/DESIGN.md
+/.impeccable/**/*.md
