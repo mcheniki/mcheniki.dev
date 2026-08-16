@@ -15,7 +15,7 @@ about:
     paragraphs:
         - 'Développeur web depuis 10 ans, j’ai travaillé en agence, dans les médias et en entreprise sur des interfaces front-end, des projets PHP / WordPress et des produits web à fort trafic. J’utilise JavaScript et React côté interface, PHP côté serveur, avec une attention particulière portée à l’architecture, la performance et la maintenabilité.'
         - 'J’ai également évolué vers un rôle de Tech Lead tout en restant hands-on : choix techniques, structuration des projets, code review, accompagnement d’un autre développeur, déploiements et problèmes de production.'
-        - 'WordPress reste mon expertise professionnelle la plus forte, mais ce n’est pas mon seul terrain de développement. Je construis aussi des applications web hors CMS ; EcoKwa, par exemple, utilise Laravel, React, TypeScript et PostgreSQL.'
+        - 'WordPress reste mon expertise professionnelle la plus forte, mais ce n’est pas mon seul terrain de développement. Je construis aussi des applications web ; EcoKwa, par exemple, utilise Laravel, React, TypeScript et PostgreSQL.'
 stack:
     eyebrow: 'Technique'
     title: 'Du front-end à la production'

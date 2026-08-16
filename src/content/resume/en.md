@@ -7,7 +7,7 @@ identity:
     downloadUrl: '/resume_CHENIKI-Mehdi.pdf'
 meta:
     title: 'Resume | Mehdi Cheniki, Senior Web Developer'
-    description: 'Explore Mehdi Cheniki’s 10 years of experience, skills and career as a senior web developer.'
+    description: 'Senior Web Developer with 10 years of experience in JavaScript, PHP and WordPress, with recent projects using React, TypeScript and Laravel.'
 eyebrow: 'My journey'
 title: '10 years of web development.'
 download: 'Download resume'
@@ -16,11 +16,14 @@ navigationLabel: 'Resume navigation'
 navigation:
     experience: 'Experience'
     skills: 'Skills'
+    project: 'Project'
     education: 'Education'
 experienceEyebrow: 'Experience'
 experienceTitle: 'Professional experience'
 experiences:
-    - period: 'Since Oct. 2024'
+    - period:
+          prefix: 'Since '
+          start: { label: 'Oct. 2024', datetime: '2024-10' }
       role: 'Senior Web Developer (Freelance)'
       company: 'Mehdi Cheniki EI'
       location: 'Remote'
@@ -30,7 +33,9 @@ experiences:
           - 'Interactive JavaScript and React interfaces, plus Salesforce and WooCommerce integrations.'
           - 'Technical migrations coordinating hosting, domains, email services and application configuration.'
       stack: ['PHP', 'WordPress', 'Gutenberg', 'React', 'REST APIs', 'MySQL']
-    - period: 'Oct. — Dec. 2025'
+    - period:
+          start: { label: 'Oct.', datetime: '2025-10' }
+          end: { label: 'Dec. 2025', datetime: '2025-12' }
       role: 'WordPress / Gutenberg Developer (Freelance)'
       company: 'MACIF'
       location: 'Paris · Remote'
@@ -40,7 +45,9 @@ experiences:
           - 'JavaScript interactions that made ACF editing feel closer to native Gutenberg.'
           - 'Investigation and root-cause analysis of a cross-team performance issue.'
       stack: ['WordPress', 'Gutenberg', 'ACF Pro', 'PHP', 'React', 'Vite']
-    - period: 'Sept. 2022 — Sept. 2024'
+    - period:
+          start: { label: 'Sept. 2022', datetime: '2022-09' }
+          end: { label: 'Sept. 2024', datetime: '2024-09' }
       role: 'Tech Lead / Senior Web Developer'
       company: 'Redbox Media'
       location: 'Montréal, Canada'
@@ -50,7 +57,9 @@ experiences:
           - 'An internal WordPress starter architecture using Vite and Tailwind CSS.'
           - 'Deployments and production incidents across three ecosystems: WordPress, Shopify and Craft CMS.'
       stack: ['PHP', 'WordPress', 'JavaScript', 'React', 'Docker', 'CI/CD', 'MySQL']
-    - period: 'Mar. 2019 — Feb. 2022'
+    - period:
+          start: { label: 'Mar. 2019', datetime: '2019-03' }
+          end: { label: 'Feb. 2022', datetime: '2022-02' }
       role: 'Front-End Developer (Freelance)'
       company: 'Prisma Media'
       location: 'Gennevilliers, France'
@@ -60,7 +69,9 @@ experiences:
           - 'Homepage, TV guide, programme pages and navigation development.'
           - 'A/B tests, code reviews and daily collaboration with back-end and design.'
       stack: ['JavaScript', 'Twig', 'SCSS', 'Jest', 'A/B Testing', 'GitLab CI']
-    - period: 'July 2018 — Jan. 2019'
+    - period:
+          start: { label: 'July 2018', datetime: '2018-07' }
+          end: { label: 'Jan. 2019', datetime: '2019-01' }
       role: 'Full-Stack Developer (Freelance)'
       company: 'Webedia'
       location: 'Levallois-Perret, France'
@@ -69,7 +80,7 @@ experiences:
           - 'WordPress plugins connected to REST APIs and responsive JavaScript interfaces.'
           - 'A custom Théâtre Marigny theme and booking-related features.'
       stack: ['WordPress', 'PHP', 'JavaScript', 'REST API', 'HTML', 'SCSS']
-skillsEyebrow: 'Toolkit'
+skillsEyebrow: 'Skills'
 skillsTitle: 'Technologies & tools'
 skillsIntro: 'Deep WordPress expertise, complemented by modern front-end practice, APIs and continuous delivery.'
 skills:
@@ -81,10 +92,11 @@ skills:
       items: ['Themes & plugins', 'Gutenberg', 'ACF Pro', 'WooCommerce']
     - title: 'Production'
       items: ['Git', 'Vite', 'Docker', 'GitLab CI', 'MySQL']
-projectProof:
-    eyebrow: 'Proof through a project'
+project:
+    eyebrow: 'Project'
+    intro: 'Design, experiment, ship.'
     title: 'EcoKwa'
-    text: 'A personal web application designed and shipped end to end, outside a CMS.'
+    text: 'An application for searching, tracking and comparing French public data.'
     cta: 'View case study'
     stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
     url: '/en/projects/ecokwa/'
@@ -92,7 +104,9 @@ educationEyebrow: 'Education'
 educationTitle: 'Studies & Languages'
 education:
     school: 'SUPINFO'
-    period: 'Nov. 2014 — Sept. 2017'
+    period:
+        start: { label: 'Nov. 2014', datetime: '2014-11' }
+        end: { label: 'Sept. 2017', datetime: '2017-09' }
     detail: 'Completed five years of coursework · Paris, France'
 languagesTitle: 'Languages'
 languages: ['English', 'French']
