@@ -15,7 +15,7 @@ about:
     paragraphs:
         - 'With 10 years in web development, I’ve worked across agency, media and enterprise environments on front-end interfaces, PHP / WordPress projects and high-traffic digital products. I work with JavaScript and React on the front end and PHP on the server side, with a strong focus on architecture, performance and maintainability.'
         - 'I also moved into a Tech Lead role while staying hands-on, covering technical decisions, project structure, code reviews, support for another developer, deployments and production issues.'
-        - 'WordPress remains my strongest professional specialization, but it is not my only area of development. I also build web applications outside CMS platforms; EcoKwa, for example, uses Laravel, React, TypeScript and PostgreSQL.'
+        - 'WordPress remains my strongest professional specialization, but it is not my only area of development. I also build web applications; EcoKwa, for example, uses Laravel, React, TypeScript and PostgreSQL.'
 stack:
     eyebrow: 'Technical expertise'
     title: 'From front end to production'

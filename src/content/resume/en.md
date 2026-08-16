@@ -82,9 +82,9 @@ skills:
     - title: 'Production'
       items: ['Git', 'Vite', 'Docker', 'GitLab CI', 'MySQL']
 projectProof:
-    eyebrow: 'Proof through a project'
+    eyebrow: 'Project'
     title: 'EcoKwa'
-    text: 'A personal web application designed and shipped end to end, outside a CMS.'
+    text: 'A personal web application designed and shipped end to end.'
     cta: 'View case study'
     stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
     url: '/en/projects/ecokwa/'
