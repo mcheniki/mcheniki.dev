@@ -163,6 +163,12 @@ const profileData = isProfilePage
 			data-website-id="2a60ab3c-52f7-40a1-b146-3fd9f55f9d90"></script>
 	</head>
 	<body class="bg-base-800 font-roundo text-base-50">
+		<a
+			href="#main-content"
+			class="fixed top-6 left-6 z-[60] -translate-y-[calc(100%+1rem)] rounded-6 bg-base-0 px-12 py-6 font-jetbrains text-14 font-bold text-base-900 transition-transform focus:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 print:hidden"
+		>
+			{t('a11y.skipToContent')}
+		</a>
 		<Header locale={locale} alternateUrl={alternateURL?.pathname} />
 		<slot />
 		<Footer locale={locale} />

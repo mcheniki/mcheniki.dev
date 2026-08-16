@@ -37,6 +37,7 @@ const alternateLocale = locales.find((language) => language !== locale);
 		<nav
 			class="fixed top-0 left-0 z-10 h-screen w-full translate-x-full bg-base-800 transition-transform duration-300 ease-out md:relative md:h-auto md:w-auto md:translate-x-0"
 			id="mainNav"
+			aria-label={t('header.menu')}
 		>
 			<ul
 				class="flex flex-col gap-32 px-24 py-32 max-md:items-start md:flex-row md:items-center md:px-0 md:py-0"

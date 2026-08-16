@@ -55,8 +55,19 @@ const home = defineCollection({
 	}),
 });
 
+const dateSchema = z.object({
+	label: z.string(),
+	datetime: z.string(),
+});
+
+const periodSchema = z.object({
+	prefix: z.string().optional(),
+	start: dateSchema,
+	end: dateSchema.optional(),
+});
+
 const experienceSchema = z.object({
-	period: z.string(),
+	period: periodSchema,
 	role: z.string(),
 	company: z.string(),
 	location: z.string(),
@@ -84,6 +95,7 @@ const resume = defineCollection({
 		navigation: z.object({
 			experience: z.string(),
 			skills: z.string(),
+			project: z.string(),
 			education: z.string(),
 		}),
 		experienceEyebrow: z.string(),
@@ -93,8 +105,9 @@ const resume = defineCollection({
 		skillsTitle: z.string(),
 		skillsIntro: z.string(),
 		skills: z.array(z.object({ title: z.string(), items: z.array(z.string()) })),
-		projectProof: z.object({
+		project: z.object({
 			eyebrow: z.string(),
+			intro: z.string(),
 			title: z.string(),
 			text: z.string(),
 			cta: z.string(),
@@ -103,7 +116,7 @@ const resume = defineCollection({
 		}),
 		educationEyebrow: z.string(),
 		educationTitle: z.string(),
-		education: z.object({ school: z.string(), period: z.string(), detail: z.string() }),
+		education: z.object({ school: z.string(), period: periodSchema, detail: z.string() }),
 		languagesTitle: z.string(),
 		languages: z.array(z.string()),
 		closingTitle: z.string(),
