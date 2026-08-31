@@ -668,6 +668,16 @@ html {
 	transform-origin: 90% 20%;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	.portal-element-orange-stroke,
+	.portal-element-mehdinaut,
+	.portal-stars path,
+	.portal-stack,
+	.stack-marquee {
+		animation: none !important;
+	}
+}
+
 @keyframes float-stack-next {
 	to {
 		transform: translate3d(180%, -200%, 10px) rotate3d(1, 1, 1, -20deg);

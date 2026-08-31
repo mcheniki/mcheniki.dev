@@ -11,9 +11,11 @@ export function Portal() {
 	const lastCall = useRef(0);
 
 	useEffect(() => {
-		if (!window.matchMedia('(hover: none), (pointer: coarse)')) {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			setActive(true);
 			return;
 		}
+
 		setTimeout(() => setActive(true), 400);
 
 		const onMouseMove = (e: MouseEvent) => {
