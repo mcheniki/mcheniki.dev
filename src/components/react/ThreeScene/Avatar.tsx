@@ -20,11 +20,13 @@ export function Avatar({ mode = 'DESKTOP', state = 'DEFAULT' }: AvatarProps) {
 
 	useEffect(() => {
 		mixerRef.current = new THREE.AnimationMixer(scene);
-		const floatingAnim = animations.find(
-			(item: THREE.AnimationClip) => item.name === 'Baked-floating',
-		);
-		if (floatingAnim) {
-			mixerRef.current.clipAction(floatingAnim).play();
+		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			const floatingAnim = animations.find(
+				(item: THREE.AnimationClip) => item.name === 'Baked-floating',
+			);
+			if (floatingAnim) {
+				mixerRef.current.clipAction(floatingAnim).play();
+			}
 		}
 
 		return () => {
@@ -42,6 +44,7 @@ export function Avatar({ mode = 'DESKTOP', state = 'DEFAULT' }: AvatarProps) {
 	});
 
 	useEffect(() => {
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		let head: THREE.Bone | undefined;
 		const onMouseMove = ({ clientX, clientY }: MouseEvent) => {
 			const { innerWidth, innerHeight } = window;
@@ -84,8 +87,15 @@ export function Avatar({ mode = 'DESKTOP', state = 'DEFAULT' }: AvatarProps) {
 			}
 		};
 
-		startAnimation();
+		if (reduceMotion) {
+			scene.scale.set(1, 1, 1);
+			scene.rotation.set(0, 0, 0);
+			return () => {
+				mixerRef.current?.stopAllAction();
+			};
+		}
 
+		startAnimation();
 		scene.scale.set(0, 0, 0);
 		scene.rotation.y = Math.PI;
 		const scaleTween = new Tween(scene.scale)

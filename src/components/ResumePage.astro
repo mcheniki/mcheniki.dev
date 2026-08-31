@@ -133,7 +133,7 @@ const structuredData = {
 
 		<section id="experience" class="scroll-mt-160 py-64" data-resume-section>
 			<Container>
-				<div class="mb-64 max-w-[850px]" data-reveal>
+				<div class="mb-64 max-w-[850px]">
 					<h2
 						class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-primary-500 uppercase"
 					>
@@ -151,8 +151,11 @@ const structuredData = {
 					{
 						content.experiences.map((experience, index) => (
 							<li
-								class="resume-experience relative pb-64 pl-32 last:pb-0 md:pl-64"
-								data-reveal
+								class:list={[
+									'resume-experience relative pb-64 pl-32 last:pb-0 md:pl-64',
+									index === 0 && 'is-visible',
+								]}
+								data-reveal={index > 0 ? true : undefined}
 							>
 								<article>
 									<span
@@ -228,7 +231,7 @@ const structuredData = {
 		<section id="skills" class="scroll-mt-160 bg-base-900 py-64" data-resume-section>
 			<Container>
 				<div class="grid gap-48 lg:grid-cols-[0.8fr_1.2fr] lg:gap-96">
-					<div data-reveal>
+					<div>
 						<h2
 							class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-secondary-500 uppercase"
 						>
@@ -247,11 +250,7 @@ const structuredData = {
 					<ul class="grid gap-12 sm:grid-cols-2">
 						{
 							content.skills.map((skill, index) => (
-								<li
-									class="group relative overflow-hidden rounded-24 border border-base-600 bg-base-800 p-24 md:p-32"
-									data-reveal
-									style={`--reveal-delay: ${index * 70}ms`}
-								>
+								<li class="group relative overflow-hidden rounded-24 border border-base-600 bg-base-800 p-24 md:p-32">
 									<span
 										class="absolute top-[-0.2em] right-12 font-jetbrains text-75 font-bold text-base-700 transition-colors duration-300 group-hover:text-primary-900/70"
 										aria-hidden="true"
@@ -282,7 +281,7 @@ const structuredData = {
 			data-resume-section
 		>
 			<Container>
-				<div class="mb-48 max-w-[950px]" data-reveal>
+				<div class="mb-48 max-w-[950px]">
 					<h2
 						class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-secondary-400 uppercase"
 					>
@@ -297,7 +296,6 @@ const structuredData = {
 				</div>
 				<article
 					class="group grid gap-32 rounded-24 border border-secondary-800 bg-base-700/45 p-24 transition-colors duration-300 hover:border-secondary-600 md:grid-cols-[1.2fr_0.8fr] md:p-32"
-					data-reveal
 				>
 					<div>
 						<h3 class="text-36 font-bold">{content.project.title}</h3>
@@ -328,7 +326,7 @@ const structuredData = {
 		</section>
 		<section id="education" class="scroll-mt-160 py-64" data-resume-section>
 			<Container>
-				<div class="mb-48 max-w-[850px]" data-reveal>
+				<div class="mb-48 max-w-[850px]">
 					<h2
 						class="mb-12 flex items-center gap-6 font-jetbrains text-14 font-medium tracking-[0.15em] text-tertiary-400 uppercase"
 					>
@@ -342,10 +340,7 @@ const structuredData = {
 					</p>
 				</div>
 				<div class="grid gap-12 md:grid-cols-2">
-					<article
-						class="rounded-24 border border-base-600 bg-base-700/45 p-24 md:p-32"
-						data-reveal
-					>
+					<article class="rounded-24 border border-base-600 bg-base-700/45 p-24 md:p-32">
 						<p class="font-jetbrains text-12 font-bold text-primary-400">
 							<time datetime={content.education.period.start.datetime}>
 								{content.education.period.start.label}
@@ -364,11 +359,7 @@ const structuredData = {
 						<h3 class="mt-12 text-36 font-bold">{content.education.school}</h3>
 						<p class="mt-6 text-base-100">{content.education.detail}</p>
 					</article>
-					<section
-						class="rounded-24 border border-base-600 bg-base-700/45 p-24 md:p-32"
-						data-reveal
-						style="--reveal-delay: 80ms"
-					>
+					<section class="rounded-24 border border-base-600 bg-base-700/45 p-24 md:p-32">
 						<h3 class="text-25 font-bold text-secondary-400">
 							{content.languagesTitle}
 						</h3>
@@ -390,7 +381,6 @@ const structuredData = {
 			<Container>
 				<div
 					class="relative overflow-hidden rounded-32 bg-primary-500 px-24 py-64 text-center md:px-64"
-					data-reveal
 				>
 					<span
 						class="absolute top-[-0.35em] left-[-0.08em] font-jetbrains text-[14rem] leading-none font-bold text-primary-600"
@@ -493,10 +483,10 @@ const structuredData = {
 
 	.resume-ready [data-reveal] {
 		opacity: 0;
-		transform: translateY(28px);
+		transform: translateY(12px);
 		transition:
-			opacity 600ms ease var(--reveal-delay, 0ms),
-			transform 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+			opacity 280ms ease,
+			transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	.resume-ready [data-reveal].is-visible {
@@ -506,8 +496,8 @@ const structuredData = {
 
 	.resume-ready .timeline-dot {
 		transition:
-			transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
-			box-shadow 500ms ease;
+			transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 280ms ease;
 	}
 
 	.resume-ready .is-visible .timeline-dot {
