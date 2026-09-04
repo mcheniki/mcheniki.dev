@@ -8,7 +8,7 @@ identity:
 meta:
     title: 'Resume | Mehdi Cheniki, Senior Web Developer'
     description: 'Senior Web Developer with 10 years of experience in JavaScript, PHP and WordPress, with recent projects using React, TypeScript and Laravel.'
-eyebrow: 'My journey'
+eyebrow: 'My resume'
 title: '10 years of web development.'
 download: 'Download resume'
 contact: 'Get in touch'
