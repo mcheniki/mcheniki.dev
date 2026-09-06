@@ -6,7 +6,7 @@ meta:
 hero:
     jobPrimary: 'Senior'
     jobEmphasis: 'Web Developer'
-    specialties: 'JavaScript · PHP · React · WordPress'
+    specialties: 'TypeScript · PHP · React · WordPress'
     description: 'I build websites and web apps, from planning through launch. With 10 years of experience, I write code, make technical decisions and support other developers.'
 about:
     eyebrow: 'About'

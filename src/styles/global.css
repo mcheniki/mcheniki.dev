@@ -621,7 +621,7 @@ html {
 }
 
 .portal-stack[data-name='wordpress'] {
-	transform: translate3d(20%, -330%, 10px);
+	transform: translate3d(calc(20% - 12px), calc(-330% - 8px), 10px);
 	animation-name: float-stack-wordpress;
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
@@ -634,12 +634,30 @@ html {
 
 @keyframes float-stack-wordpress {
 	to {
-		transform: translate3d(20%, -330%, 10px) rotate3d(1, 1, 1, -20deg);
+		transform: translate3d(calc(20% - 12px), calc(-330% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
+	}
+}
+
+.portal-stack[data-name='typescript'] {
+	transform: translate3d(calc(180% - 12px), calc(-200% - 8px), 10px);
+	animation-name: float-stack-typescript;
+	animation-duration: 3s;
+	animation-fill-mode: forwards;
+	animation-timing-function: cubic-bezier(0.63, -0.01, 0.39, 0.99);
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-delay: 1s;
+	transform-origin: 90% 20%;
+}
+
+@keyframes float-stack-typescript {
+	to {
+		transform: translate3d(calc(180% - 12px), calc(-200% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
 	}
 }
 
 .portal-stack[data-name='react'] {
-	transform: translate3d(50%, -120%, 10px);
+	transform: translate3d(calc(50% - 12px), calc(-120% - 8px), 10px);
 	animation-name: float-stack-react;
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
@@ -652,20 +670,26 @@ html {
 
 @keyframes float-stack-react {
 	to {
-		transform: translate3d(50%, -120%, 10px) rotate3d(1, 1, 1, -20deg);
+		transform: translate3d(calc(50% - 12px), calc(-120% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
 	}
 }
 
-.portal-stack[data-name='next'] {
-	transform: translate3d(180%, -200%, 10px);
-	animation-name: float-stack-next;
+.portal-stack[data-name='php'] {
+	transform: translate3d(calc(200% - 12px), calc(-120% - 8px), 10px);
+	animation-name: float-stack-php;
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
 	animation-timing-function: cubic-bezier(0.63, -0.01, 0.39, 0.99);
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
-	animation-delay: 1s;
+	animation-delay: 2s;
 	transform-origin: 90% 20%;
+}
+
+@keyframes float-stack-php {
+	to {
+		transform: translate3d(calc(200% - 12px), calc(-120% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -675,11 +699,5 @@ html {
 	.portal-stack,
 	.stack-marquee {
 		animation: none !important;
-	}
-}
-
-@keyframes float-stack-next {
-	to {
-		transform: translate3d(180%, -200%, 10px) rotate3d(1, 1, 1, -20deg);
 	}
 }

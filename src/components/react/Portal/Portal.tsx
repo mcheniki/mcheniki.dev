@@ -84,8 +84,9 @@ export function Portal() {
 				<Stars.Top />
 
 				<Stack.Wordpress />
-				<Stack.Next />
+				<Stack.TypeScript />
 				<Stack.React />
+				<Stack.PHP />
 
 				<img
 					src="/images/mehdinaut.webp"
