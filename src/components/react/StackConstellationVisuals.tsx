@@ -34,10 +34,10 @@ import {
 } from 'simple-icons';
 import type { StackCatalog } from '../../content/stack';
 
-type TechnologyId = string;
-type MasteryLevel = 'expertise' | 'comfortable' | 'focused';
+export type TechnologyId = string;
+export type MasteryLevel = 'expertise' | 'comfortable' | 'focused';
 
-type Technology = StackCatalog['technologies'][number] & {
+export type Technology = StackCatalog['technologies'][number] & {
 	icon: ReactNode;
 	position: [number, number];
 };
@@ -105,7 +105,6 @@ const technologyVisuals: Record<TechnologyId, Pick<Technology, 'icon' | 'positio
 	'wp-cli': { icon: <CapabilityIcon />, position: [22, 18] },
 	woocommerce: { icon: <SimpleIcon path={siWoocommerce.path} />, position: [13, 27] },
 	'google-analytics': { icon: <SimpleIcon path={siGoogleanalytics.path} />, position: [60, 5] },
-	'rest-apis': { icon: <CapabilityIcon />, position: [26, 36] },
 	mysql: { icon: <SimpleIcon path={siMysql.path} />, position: [12, 43] },
 	laravel: { icon: <SimpleIcon path={siLaravel.path} />, position: [8, 55] },
 	'craft-cms': { icon: <SimpleIcon path={siCraftcms.path} />, position: [5, 63] },
@@ -113,8 +112,6 @@ const technologyVisuals: Record<TechnologyId, Pick<Technology, 'icon' | 'positio
 	vite: { icon: <SimpleIcon path={siVite.path} />, position: [72, 82] },
 	webpack: { icon: <SimpleIcon path={siWebpack.path} />, position: [94, 82] },
 	jest: { icon: <SimpleIcon path={siJest.path} />, position: [93, 69] },
-	salesforce: { icon: <CapabilityIcon />, position: [50, 39] },
-	'ab-testing': { icon: <CapabilityIcon />, position: [60, 88] },
 	postgresql: { icon: <SimpleIcon path={siPostgresql.path} />, position: [5, 86] },
 	sqlite: { icon: <SimpleIcon path={siSqlite.path} />, position: [18, 90] },
 	inertia: { icon: <SimpleIcon path={siInertia.path} />, position: [32, 91] },

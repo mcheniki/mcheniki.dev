@@ -1,5 +1,5 @@
 catalog:
-  # Edit technologies, mastery and connections here. Icons and coordinates live in StackConstellationVisuals.tsx.
+    # Edit technologies, mastery and connections here. Icons and coordinates live in StackConstellationVisuals.tsx.
     # Accepted mastery values: expertise, comfortable, focused (inner to outer orbit).
     technologies:
         - id: php
@@ -60,9 +60,6 @@ catalog:
         - id: google-analytics
           label: Google Analytics
           mastery: focused
-        - id: rest-apis
-          label: REST APIs
-          mastery: comfortable
         - id: mysql
           label: MySQL
           mastery: comfortable
@@ -83,12 +80,6 @@ catalog:
           mastery: comfortable
         - id: jest
           label: Jest
-          mastery: comfortable
-        - id: salesforce
-          label: Salesforce
-          mastery: focused
-        - id: ab-testing
-          label: A/B testing
           mastery: comfortable
         - id: postgresql
           label: PostgreSQL
@@ -136,9 +127,6 @@ catalog:
         - [wordpress, woocommerce]
         - [wordpress, google-analytics]
         - [php, mysql]
-        - [woocommerce, rest-apis]
-        - [google-analytics, ab-testing]
-        - [rest-apis, salesforce]
         - [php, laravel]
         - [php, craft-cms]
         - [php, twig]

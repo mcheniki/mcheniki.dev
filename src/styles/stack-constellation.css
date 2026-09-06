@@ -369,30 +369,11 @@
 	transform: translate(-7%, 5%) scale(1.42);
 }
 
-.constellation__connections {
+.constellation__orbits {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	overflow: visible;
-}
-
-.constellation[data-selected='false'] .constellation__connections {
-	opacity: 0;
-}
-
-.constellation__connections line {
-	stroke: color-mix(in srgb, var(--color-base-100) 50%, transparent);
-	stroke-width: 1;
-	vector-effect: non-scaling-stroke;
-	transition: opacity 250ms ease;
-}
-
-.constellation__connections line[data-visible='false'] {
-	opacity: 0;
-}
-
-.constellation[data-selected='true'] .constellation__connections line {
-	opacity: 0;
 }
 
 .constellation[data-selected='true'] .constellation__node[data-visible='true'] {
@@ -431,29 +412,12 @@
 		transform 180ms ease;
 }
 
-.constellation__node[data-dimmed='true'] {
-	opacity: 0.16;
-}
 .constellation__node[data-interactive='false'] {
 	cursor: default;
 }
 .constellation__node[data-visible='false'] {
 	opacity: 0;
 	pointer-events: none;
-}
-.constellation__node[data-preview='true'][data-visible='false'] {
-	width: 0.75rem;
-	opacity: 0.48;
-}
-.constellation__node[data-preview='true'] .constellation__node-motion {
-	width: 3px;
-	height: 3px;
-	border-radius: 50%;
-	background: var(--color-base-50);
-}
-.constellation__node[data-preview='true'] .constellation__icon,
-.constellation__node[data-preview='true'] .constellation__label {
-	display: none;
 }
 .constellation__node[data-selected='true'] {
 	transform: translate(-50%, -50%);
@@ -670,7 +634,6 @@
 	.constellation__galaxy-cue,
 	.constellation__stars,
 	.constellation__node,
-	.constellation__connections line,
 	.constellation__reset {
 		transition: none;
 	}
