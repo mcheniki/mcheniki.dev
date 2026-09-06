@@ -7,7 +7,7 @@ hero:
     jobPrimary: 'Développeur web'
     jobEmphasis: 'senior'
     specialties: 'JavaScript · PHP · React · WordPress'
-    description: 'Je développe des sites et des applications web, des premières décisions techniques à la mise en ligne. Depuis 10 ans, j’interviens aussi bien dans le code que sur les questions qui font avancer un projet.'
+    description: 'Je développe des sites et des applications web, des premières décisions techniques à la mise en ligne. Depuis 10 ans, je combine développement, choix d’architecture et accompagnement technique des équipes.'
 about:
     eyebrow: 'À propos'
     years: '10 ans'

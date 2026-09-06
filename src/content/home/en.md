@@ -7,7 +7,7 @@ hero:
     jobPrimary: 'Senior'
     jobEmphasis: 'Web Developer'
     specialties: 'JavaScript · PHP · React · WordPress'
-    description: 'I build websites and web apps, from planning through launch. With 10 years of experience, I’m comfortable writing the code, working through technical decisions and helping a team move forward.'
+    description: 'I build websites and web apps, from planning through launch. With 10 years of experience, I write code, make technical decisions and support other developers.'
 about:
     eyebrow: 'About'
     years: '10 years'
