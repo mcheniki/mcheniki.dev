@@ -1,5 +1,5 @@
 import { defineCollection } from 'astro:content';
-import { file, glob } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { locales } from './i18n/config';
 
@@ -69,49 +69,6 @@ const home = defineCollection({
 			details: z.string(),
 		}),
 	}),
-});
-
-const stackTechnologySchema = z.object({
-	id: z.string().min(1),
-	label: z.string().min(1),
-	mastery: z.enum(['expertise', 'comfortable', 'focused']),
-	primary: z.boolean().optional(),
-});
-
-const stack = defineCollection({
-	loader: file('./src/content/stack/catalog.yaml'),
-	schema: z
-		.object({
-			technologies: z.array(stackTechnologySchema).min(1),
-			connections: z.array(z.tuple([z.string().min(1), z.string().min(1)])),
-		})
-		.superRefine(({ technologies, connections }, context) => {
-			const technologyIds = new Set<string>();
-			technologies.forEach((technology, index) => {
-				if (technologyIds.has(technology.id)) {
-					context.addIssue({
-						code: 'custom',
-						message: `Duplicate technology id: ${technology.id}`,
-						path: ['technologies', index, 'id'],
-					});
-				}
-				technologyIds.add(technology.id);
-			});
-			connections.forEach(([from, to], index) => {
-				for (const [endpoint, id] of [
-					['from', from],
-					['to', to],
-				] as const) {
-					if (!technologyIds.has(id)) {
-						context.addIssue({
-							code: 'custom',
-							message: `Unknown technology in connection: ${id}`,
-							path: ['connections', index, endpoint],
-						});
-					}
-				}
-			});
-		}),
 });
 
 const dateSchema = z.object({
@@ -185,4 +142,4 @@ const resume = defineCollection({
 	}),
 });
 
-export const collections = { home, projects, resume, stack };
+export const collections = { home, projects, resume };

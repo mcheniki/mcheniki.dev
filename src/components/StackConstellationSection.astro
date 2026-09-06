@@ -1,9 +1,7 @@
 ---
 import type { StackContent } from '../content/home';
-import { getEntry } from 'astro:content';
 import Container from './Container.astro';
 import StackConstellation from './react/StackConstellation';
-import { validateStackConstellationCatalog } from './react/StackConstellationVisuals';
 import ShapeH2 from '@svgs/shape-h2.svg';
 
 type Props = {
@@ -11,13 +9,6 @@ type Props = {
 };
 
 const { content } = Astro.props;
-const catalog = await getEntry('stack', 'catalog');
-
-if (!catalog) {
-	throw new Error('Missing stack constellation catalog.');
-}
-
-validateStackConstellationCatalog(catalog.data);
 ---
 
 <Container>
@@ -36,6 +27,6 @@ validateStackConstellationCatalog(catalog.data);
 			</h3>
 			<p class="lead text-base text-base-0">{content.description}</p>
 		</header>
-		<StackConstellation catalog={catalog.data} text={content.constellation} client:load />
+		<StackConstellation text={content.constellation} client:load />
 	</div>
 </Container>

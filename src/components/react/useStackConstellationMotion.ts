@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { masteryOrbit, type Technology, type TechnologyId } from './StackConstellationVisuals';
+import type { CatalogTechnology, TechnologyId } from './stackCatalog';
 
 type OrbitTrack = {
 	radiusX: number;
 	radiusY: number;
 };
 
+const masteryOrbit = { expertise: 0, comfortable: 1, focused: 2 } as const;
+
 type MotionOptions = {
-	technologies: Technology[];
+	technologies: readonly CatalogTechnology[];
 	selectedId: TechnologyId | null;
 	selectedAndNeighbors: TechnologyId[];
 	paused: boolean;

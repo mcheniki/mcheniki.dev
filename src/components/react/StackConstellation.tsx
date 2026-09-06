@@ -1,18 +1,13 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
-import type { StackCatalog, StackConstellationText } from '../../content/stack';
-import { entryGalaxies, getTechnologies, type TechnologyId } from './StackConstellationVisuals';
+import type { StackContent } from '../../content/home';
+import { connections, entryGalaxies, technologies, type TechnologyId } from './stackCatalog';
 import { useStackConstellationMotion } from './useStackConstellationMotion';
 
 import '../../styles/stack-constellation.css';
 
-export default function StackConstellation({
-	catalog,
-	text,
-}: {
-	catalog: StackCatalog;
-	text: StackConstellationText;
-}) {
-	const technologies = useMemo(() => getTechnologies(catalog), [catalog]);
+type StackConstellationText = StackContent['constellation'];
+
+export default function StackConstellation({ text }: { text: StackConstellationText }) {
 	const byId = useMemo(
 		() => new Map(technologies.map((technology) => [technology.id, technology])),
 		[technologies],
@@ -28,13 +23,13 @@ export default function StackConstellation({
 		if (!selectedId) return [];
 		return [
 			selectedId,
-			...catalog.connections.flatMap(([from, to]) => {
+			...connections.flatMap(([from, to]) => {
 				if (from === selectedId) return [to];
 				if (to === selectedId) return [from];
 				return [];
 			}),
 		];
-	}, [catalog.connections, selectedId]);
+	}, [selectedId]);
 	const { entryMotionEnabled, nodeMotionRefs, orbitTracks, viewportRef, viewportSize } =
 		useStackConstellationMotion({
 			technologies,
@@ -108,9 +103,11 @@ export default function StackConstellation({
 				<div className="constellation__world">
 					<div className="constellation__entry-galaxies">
 						{entryGalaxies.map((galaxy) => {
-							const technology = byId.get(galaxy.id)!;
+							const { galaxy: galaxyMotion } = galaxy;
 							const entryPosition =
-								viewportSize.width < 672 ? galaxy.mobilePosition : galaxy.position;
+								viewportSize.width < 672
+									? galaxyMotion.mobilePosition
+									: galaxyMotion.position;
 							return (
 								<button
 									className="constellation__galaxy"
@@ -127,10 +124,10 @@ export default function StackConstellation({
 									}}
 									style={
 										{
-											'--galaxy-x': `${galaxy.position[0]}%`,
-											'--galaxy-y': `${galaxy.position[1]}%`,
-											'--galaxy-mobile-x': `${galaxy.mobilePosition[0]}%`,
-											'--galaxy-mobile-y': `${galaxy.mobilePosition[1]}%`,
+											'--galaxy-x': `${galaxyMotion.position[0]}%`,
+											'--galaxy-y': `${galaxyMotion.position[1]}%`,
+											'--galaxy-mobile-x': `${galaxyMotion.mobilePosition[0]}%`,
+											'--galaxy-mobile-y': `${galaxyMotion.mobilePosition[1]}%`,
 											'--galaxy-center-x': `${
 												((50 - entryPosition[0]) / 100) * viewportSize.width
 											}px`,
@@ -138,15 +135,15 @@ export default function StackConstellation({
 												((50 - entryPosition[1]) / 100) *
 												viewportSize.height
 											}px`,
-											'--galaxy-rotation': `${galaxy.rotation}deg`,
-											'--galaxy-scale': galaxy.scale,
-											'--galaxy-drift-x': `${galaxy.drift[0]}px`,
-											'--galaxy-drift-y': `${galaxy.drift[1]}px`,
-											'--galaxy-drift-duration': `${galaxy.driftDuration}s`,
-											'--galaxy-drift-delay': `${galaxy.driftDelay}s`,
-											'--galaxy-cloud-sway': `${galaxy.cloudSway}deg`,
-											'--galaxy-cloud-sway-duration': `${galaxy.cloudSwayDuration}s`,
-											'--galaxy-cloud-sway-delay': `${galaxy.cloudSwayDelay}s`,
+											'--galaxy-rotation': `${galaxyMotion.rotation}deg`,
+											'--galaxy-scale': galaxyMotion.scale,
+											'--galaxy-drift-x': `${galaxyMotion.drift[0]}px`,
+											'--galaxy-drift-y': `${galaxyMotion.drift[1]}px`,
+											'--galaxy-drift-duration': `${galaxyMotion.driftDuration}s`,
+											'--galaxy-drift-delay': `${galaxyMotion.driftDelay}s`,
+											'--galaxy-cloud-sway': `${galaxyMotion.cloudSway}deg`,
+											'--galaxy-cloud-sway-duration': `${galaxyMotion.cloudSwayDuration}s`,
+											'--galaxy-cloud-sway-delay': `${galaxyMotion.cloudSwayDelay}s`,
 										} as CSSProperties
 									}
 									tabIndex={selectedId ? -1 : 0}
@@ -161,11 +158,11 @@ export default function StackConstellation({
 										</span>
 										<span className="constellation__galaxy-nucleus">
 											<span className="constellation__icon">
-												{technology.icon}
+												{galaxy.icon}
 											</span>
 										</span>
 										<span className="constellation__galaxy-label">
-											{technology.label}
+											{galaxy.label}
 										</span>
 										<span className="constellation__galaxy-cue">
 											{text.explore}
@@ -211,7 +208,7 @@ export default function StackConstellation({
 						const masteryLabel = text.mastery[technology.mastery];
 						const neighbors = [
 							...new Set(
-								catalog.connections.flatMap(([from, to]) => {
+								connections.flatMap(([from, to]) => {
 									if (from === technology.id) return [to];
 									if (to === technology.id) return [from];
 									return [];
@@ -229,7 +226,7 @@ export default function StackConstellation({
 							<Node
 								className="constellation__node"
 								data-visible={visible}
-								data-secondary={!technology.primary}
+								data-secondary={!('galaxy' in technology)}
 								data-selected={isSelected}
 								data-interactive={canExplore}
 								aria-hidden={!visible}
