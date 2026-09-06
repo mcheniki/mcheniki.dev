@@ -6,6 +6,7 @@ import IconReact from '@svgs/react.svg?react';
 import IconWordPress from '@svgs/wp.svg?react';
 import {
 	siBitbucket,
+	siAstro,
 	siClaude,
 	siCraftcms,
 	siDocker,
@@ -39,7 +40,7 @@ type TechnologyId =
 	| 'scss'
 	| 'tailwind'
 	| 'react'
-	| 'typescript'
+	| 'astro'
 	| 'javascript'
 	| 'tanstack-start'
 	| 'nextjs'
@@ -78,6 +79,14 @@ type Technology = {
 	primary?: boolean;
 };
 
+type MasteryLevel = 0 | 1 | 2;
+
+const masteryLabels: Record<MasteryLevel, string> = {
+	0: 'Expertise',
+	1: 'À l’aise',
+	2: 'Pratique ciblée',
+};
+
 function SimpleIcon({ path }: { path: string }) {
 	return (
 		<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -111,16 +120,14 @@ const technologies: Technology[] = [
 	},
 	{
 		id: 'javascript',
-		label: 'JavaScript',
-		icon: <IconJS />,
+		label: 'JavaScript / TypeScript',
+		icon: (
+			<span className="constellation__combined-icon">
+				<IconJS />
+				<SimpleIcon path={siTypescript.path} />
+			</span>
+		),
 		position: [64, 58],
-		primary: true,
-	},
-	{
-		id: 'typescript',
-		label: 'TypeScript',
-		icon: <SimpleIcon path={siTypescript.path} />,
-		position: [78, 46],
 		primary: true,
 	},
 	{
@@ -129,6 +136,12 @@ const technologies: Technology[] = [
 		icon: <IconReact />,
 		position: [60, 27],
 		primary: true,
+	},
+	{
+		id: 'astro',
+		label: 'Astro',
+		icon: <SimpleIcon path={siAstro.path} />,
+		position: [70, 36],
 	},
 	{
 		id: 'gutenberg',
@@ -259,11 +272,11 @@ const connections: [TechnologyId, TechnologyId][] = [
 	['wordpress', 'scss'],
 	['wordpress', 'tailwind'],
 	['gutenberg', 'react'],
-	['react', 'typescript'],
 	['react', 'javascript'],
 	['react', 'tanstack-start'],
 	['react', 'nextjs'],
-	['javascript', 'typescript'],
+	['react', 'astro'],
+	['javascript', 'astro'],
 	['wordpress', 'woocommerce'],
 	['wordpress', 'google-analytics'],
 	['gutenberg', 'acf-pro'],
@@ -299,11 +312,48 @@ const byId = new Map(technologies.map((technology) => [technology.id, technology
 const defaultPositions = Object.fromEntries(
 	technologies.map((technology) => [technology.id, technology.position]),
 ) as Record<TechnologyId, [number, number]>;
+const masteryLevels: Record<TechnologyId, MasteryLevel> = {
+	php: 0,
+	wordpress: 0,
+	gutenberg: 0,
+	scss: 0,
+	html: 0,
+	'acf-pro': 0,
+	javascript: 0,
+	react: 1,
+	tailwind: 1,
+	twig: 1,
+	'rest-apis': 1,
+	mysql: 1,
+	laravel: 1,
+	'craft-cms': 1,
+	shopify: 1,
+	vite: 1,
+	webpack: 1,
+	postcss: 1,
+	jest: 1,
+	docker: 1,
+	git: 1,
+	'gitlab-ci': 1,
+	woocommerce: 1,
+	'wp-cli': 1,
+	nextjs: 1,
+	inertia: 1,
+	postgresql: 1,
+	'ab-testing': 1,
+	astro: 2,
+	'tanstack-start': 0,
+	sqlite: 2,
+	'bitbucket-pipelines': 2,
+	codex: 2,
+	'claude-code': 2,
+	'google-analytics': 2,
+	salesforce: 2,
+};
 const floatProfiles: Partial<Record<TechnologyId, [number, number, number, number]>> = {
 	php: [6, 8, 13_000, 0.2],
 	wordpress: [9, 5, 16_000, 1.7],
 	javascript: [5, 10, 14_500, 2.8],
-	typescript: [8, 6, 17_500, 4.1],
 	react: [7, 9, 12_000, 5.3],
 	gutenberg: [5, 7, 15_500, 0.9],
 	scss: [10, 4, 18_000, 3.6],
@@ -330,11 +380,16 @@ function getFloatProfile(id: TechnologyId, index: number): [number, number, numb
 export default function StackConstellation() {
 	const [selectedId, setSelectedId] = useState<TechnologyId | null>(null);
 	const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+	const [reducedMotion, setReducedMotion] = useState(false);
+	const [focusWithin, setFocusWithin] = useState(false);
 	const viewportRef = useRef<HTMLDivElement>(null);
 	const viewportSizeRef = useRef(viewportSize);
 	const nodeMotionRefs = useRef(new Map<TechnologyId, HTMLSpanElement>());
 	const lineRefs = useRef(new Map<string, SVGLineElement>());
-	const floatingIdsRef = useRef(new Set<TechnologyId>());
+	const elapsedRef = useRef(0);
+	const lastFrameAtRef = useRef<number | null>(null);
+	const motionKeyRef = useRef<string | null>(null);
+	const keyboardInputRef = useRef(false);
 	const selected = selectedId ? byId.get(selectedId) : undefined;
 	const selectedAndNeighbors = useMemo(() => {
 		if (!selectedId) return [];
@@ -347,27 +402,19 @@ export default function StackConstellation() {
 			}),
 		];
 	}, [selectedId]);
-	const cameraStyle = useMemo(() => {
-		if (!selectedId) return undefined;
-		const positions = selectedAndNeighbors.map((id) => defaultPositions[id]);
-		const minX = Math.min(...positions.map(([x]) => x));
-		const maxX = Math.max(...positions.map(([x]) => x));
-		const minY = Math.min(...positions.map(([, y]) => y));
-		const maxY = Math.max(...positions.map(([, y]) => y));
-		const centerX = (minX + maxX) / 2;
-		const centerY = (minY + maxY) / 2;
-		const margin = viewportSize.width && viewportSize.width < 640 ? 22 : 13;
-		const maxZoom = viewportSize.width && viewportSize.width < 640 ? 1.3 : 1.65;
-		const scaleX = (50 - margin) / Math.max(centerX - minX, maxX - centerX, 1);
-		const scaleY = (50 - margin) / Math.max(centerY - minY, maxY - centerY, 1);
-		const scale = Math.min(maxZoom, scaleX, scaleY);
-
-		return {
-			'--camera-scale': scale,
-			'--camera-x': `${(50 - centerX) * scale}%`,
-			'--camera-y': `${(50 - centerY) * scale}%`,
-		} as CSSProperties;
-	}, [selectedAndNeighbors, selectedId, viewportSize.width]);
+	const orbitTracks = useMemo(() => {
+		if (!selectedId) return [];
+		const nodeClearance = viewportSize.width < 640 ? 52 : 64;
+		const maxRadiusX = Math.min(
+			viewportSize.width * 0.43,
+			viewportSize.width / 2 - nodeClearance,
+		);
+		const maxRadiusY = Math.min(viewportSize.height * 0.4, viewportSize.height / 2 - 72);
+		return Array.from({ length: 3 }, (_, index) => ({
+			radiusX: maxRadiusX * (0.67 + index * 0.165),
+			radiusY: maxRadiusY * (0.67 + index * 0.165),
+		}));
+	}, [selectedId, viewportSize.height, viewportSize.width]);
 
 	useEffect(() => {
 		const viewport = viewportRef.current;
@@ -383,100 +430,127 @@ export default function StackConstellation() {
 
 	useEffect(() => {
 		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const onChange = () => setReducedMotion(reducedMotion.matches);
+		onChange();
+		reducedMotion.addEventListener('change', onChange);
+		return () => reducedMotion.removeEventListener('change', onChange);
+	}, []);
+
+	useEffect(() => {
+		const viewport = viewportRef.current;
+		if (!viewport || !viewportSize.width || !viewportSize.height) return;
 		let isIntersecting = false;
 		let frameId = 0;
-		let elapsed = 0;
-		let previousFrameAt = 0;
-		let lastRenderedAt = 0;
-		let previouslyFloatingIds = new Set<TechnologyId>();
+		const paused = focusWithin;
+		const motionKey = selectedId ?? 'overview';
+		if (motionKeyRef.current !== motionKey) {
+			motionKeyRef.current = motionKey;
+			elapsedRef.current = 0;
+		}
 
-		const setNodeOffsets = (offsets: Record<TechnologyId, [number, number]>) => {
-			const viewport = viewportSizeRef.current;
-			if (!viewport.width || !viewport.height) return;
-			const floatingIds = floatingIdsRef.current;
-
-			previouslyFloatingIds.forEach((id) => {
-				if (!floatingIds.has(id)) {
-					nodeMotionRefs.current.get(id)?.style.removeProperty('transform');
-				}
-			});
-			previouslyFloatingIds = new Set(floatingIds);
-
+		const setNodeOffsets = (
+			offsets: Partial<Record<TechnologyId, [number, number]>>,
+			floatingIds: Set<TechnologyId>,
+		) => {
 			technologies.forEach((technology) => {
-				if (!floatingIds.has(technology.id)) return;
-				const [offsetX, offsetY] = offsets[technology.id];
+				if (!floatingIds.has(technology.id)) {
+					nodeMotionRefs.current.get(technology.id)?.style.removeProperty('transform');
+					return;
+				}
+				const [offsetX, offsetY] = offsets[technology.id] ?? [0, 0];
 				nodeMotionRefs.current
 					.get(technology.id)
 					?.style.setProperty('transform', `translate3d(${offsetX}px, ${offsetY}px, 0)`);
 			});
-
-			connections.forEach(([fromId, toId]) => {
-				const line = lineRefs.current.get(`${fromId}-${toId}`);
-				if (!line || line.dataset.visible !== 'true') return;
-				const [fromOffsetX, fromOffsetY] = offsets[fromId];
-				const [toOffsetX, toOffsetY] = offsets[toId];
-				const fromPosition = defaultPositions[fromId];
-				const toPosition = defaultPositions[toId];
-
-				line.setAttribute(
-					'x1',
-					`${fromPosition[0] + (fromOffsetX / viewport.width) * 100}%`,
-				);
-				line.setAttribute(
-					'y1',
-					`${fromPosition[1] + (fromOffsetY / viewport.height) * 100}%`,
-				);
-				line.setAttribute('x2', `${toPosition[0] + (toOffsetX / viewport.width) * 100}%`);
-				line.setAttribute('y2', `${toPosition[1] + (toOffsetY / viewport.height) * 100}%`);
-			});
 		};
 
-		const resetOffsets = () => {
-			const noOffset = Object.fromEntries(
-				technologies.map((technology) => [technology.id, [0, 0]]),
-			) as Record<TechnologyId, [number, number]>;
-			setNodeOffsets(noOffset);
-		};
-
-		const tick = (now: number) => {
-			elapsed += now - previousFrameAt;
-			previousFrameAt = now;
-			if (now - lastRenderedAt < 33) {
-				frameId = requestAnimationFrame(tick);
-				return;
-			}
-			lastRenderedAt = now;
-			const offsets = Object.fromEntries(
-				technologies.map((technology, index) => {
-					const [amplitudeX, amplitudeY, period, phase] = getFloatProfile(
-						technology.id,
-						index,
-					);
-					const angle = (elapsed / period) * Math.PI * 2 + phase;
-					return [
-						technology.id,
-						[Math.sin(angle) * amplitudeX, Math.cos(angle * 0.85) * amplitudeY],
+		const render = () => {
+			const size = viewportSizeRef.current;
+			const offsets: Partial<Record<TechnologyId, [number, number]>> = {};
+			const movingIds = new Set<TechnologyId>();
+			if (selectedId && orbitTracks.length) {
+				const centerX = size.width / 2;
+				const centerY = size.height / 2;
+				const selectedPosition = defaultPositions[selectedId];
+				movingIds.add(selectedId);
+				offsets[selectedId] = [
+					centerX - (selectedPosition[0] / 100) * size.width,
+					centerY - (selectedPosition[1] / 100) * size.height,
+				];
+				const neighbors = selectedAndNeighbors.slice(1);
+				neighbors.forEach((id, index) => {
+					const ring = masteryLevels[id];
+					const phase = (index / neighbors.length) * Math.PI * 2 - 0.4;
+					const angle =
+						phase + (reducedMotion ? 0 : elapsedRef.current / 180_000) * Math.PI * 2;
+					const track = orbitTracks[ring];
+					const position = defaultPositions[id];
+					movingIds.add(id);
+					offsets[id] = [
+						centerX +
+							Math.cos(angle) * track.radiusX -
+							(position[0] / 100) * size.width,
+						centerY +
+							Math.sin(angle) * track.radiusY -
+							(position[1] / 100) * size.height,
 					];
-				}),
-			) as Record<TechnologyId, [number, number]>;
-
-			setNodeOffsets(offsets);
-			frameId = requestAnimationFrame(tick);
+				});
+			} else {
+				technologies
+					.filter((technology) => technology.primary)
+					.forEach((technology, index) => {
+						const [amplitudeX, amplitudeY, period, phase] = getFloatProfile(
+							technology.id,
+							index,
+						);
+						const angle = reducedMotion
+							? phase
+							: (elapsedRef.current / period) * Math.PI * 2 + phase;
+						movingIds.add(technology.id);
+						offsets[technology.id] = [
+							Math.sin(angle) * amplitudeX,
+							Math.cos(angle * 0.85) * amplitudeY,
+						];
+					});
+			}
+			setNodeOffsets(offsets, movingIds);
+			if (!selectedId) {
+				connections.forEach(([fromId, toId]) => {
+					const line = lineRefs.current.get(`${fromId}-${toId}`);
+					if (!line || line.dataset.visible !== 'true') return;
+					const fromPosition = defaultPositions[fromId];
+					const toPosition = defaultPositions[toId];
+					const [fromX, fromY] = offsets[fromId] ?? [0, 0];
+					const [toX, toY] = offsets[toId] ?? [0, 0];
+					line.setAttribute('x1', `${fromPosition[0] + (fromX / size.width) * 100}%`);
+					line.setAttribute('y1', `${fromPosition[1] + (fromY / size.height) * 100}%`);
+					line.setAttribute('x2', `${toPosition[0] + (toX / size.width) * 100}%`);
+					line.setAttribute('y2', `${toPosition[1] + (toY / size.height) * 100}%`);
+				});
+			}
 		};
 
 		const stop = () => {
 			if (!frameId) return;
 			cancelAnimationFrame(frameId);
 			frameId = 0;
-			previousFrameAt = 0;
+			lastFrameAtRef.current = null;
 		};
 		const sync = () => {
 			const shouldAnimate =
-				isIntersecting && document.visibilityState === 'visible' && !reducedMotion.matches;
+				isIntersecting &&
+				document.visibilityState === 'visible' &&
+				!reducedMotion &&
+				!paused;
 			if (!shouldAnimate) return stop();
 			if (!frameId) {
-				previousFrameAt = performance.now();
-				lastRenderedAt = 0;
+				const tick = (now: number) => {
+					if (lastFrameAtRef.current !== null)
+						elapsedRef.current += now - lastFrameAtRef.current;
+					lastFrameAtRef.current = now;
+					render();
+					frameId = requestAnimationFrame(tick);
+				};
 				frameId = requestAnimationFrame(tick);
 			}
 		};
@@ -488,30 +562,18 @@ export default function StackConstellation() {
 			},
 			{ threshold: 0.1 },
 		);
-		const onReducedMotionChange = () => {
-			if (reducedMotion.matches) resetOffsets();
-			sync();
-		};
-
-		if (viewportRef.current) observer.observe(viewportRef.current);
+		observer.observe(viewport);
+		render();
 		document.addEventListener('visibilitychange', sync);
-		reducedMotion.addEventListener('change', onReducedMotionChange);
+		sync();
 
 		return () => {
 			stop();
 			observer.disconnect();
 			document.removeEventListener('visibilitychange', sync);
-			reducedMotion.removeEventListener('change', onReducedMotionChange);
 		};
-	}, []);
+	}, [focusWithin, orbitTracks, reducedMotion, selectedAndNeighbors, selectedId, viewportSize]);
 	const visibleIds = new Set<TechnologyId>(
-		selectedId
-			? selectedAndNeighbors
-			: technologies
-					.filter((technology) => technology.primary)
-					.map((technology) => technology.id),
-	);
-	floatingIdsRef.current = new Set(
 		selectedId
 			? selectedAndNeighbors
 			: technologies
@@ -523,7 +585,9 @@ export default function StackConstellation() {
 		<div className="constellation" data-selected={Boolean(selectedId)}>
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
-					{selected ? `Exploration : ${selected.label}` : 'Vue d’ensemble'}
+					{selected
+						? `Exploration : ${selected.label} · ${masteryLabels[masteryLevels[selected.id]]}`
+						: 'Vue d’ensemble'}
 				</p>
 				{selectedId && (
 					<button
@@ -535,9 +599,37 @@ export default function StackConstellation() {
 					</button>
 				)}
 			</div>
+			{selectedId && (
+				<p className="constellation__legend">
+					De l’orbite intérieure à l’extérieure : Expertise · À l’aise · Pratique ciblée
+				</p>
+			)}
 
-			<div className="constellation__viewport" ref={viewportRef}>
-				<div className="constellation__world" style={cameraStyle}>
+			<div
+				className="constellation__viewport"
+				ref={viewportRef}
+				onPointerDownCapture={() => {
+					keyboardInputRef.current = false;
+					setFocusWithin(false);
+				}}
+				onKeyDownCapture={() => {
+					keyboardInputRef.current = true;
+					setFocusWithin(true);
+				}}
+				onFocusCapture={(event) => {
+					if (
+						keyboardInputRef.current ||
+						(event.target instanceof HTMLElement &&
+							event.target.matches(':focus-visible'))
+					) {
+						setFocusWithin(true);
+					}
+				}}
+				onBlurCapture={(event) => {
+					if (!event.currentTarget.contains(event.relatedTarget)) setFocusWithin(false);
+				}}
+			>
+				<div className="constellation__world">
 					<div
 						aria-hidden="true"
 						className="constellation__stars constellation__stars--far"
@@ -555,6 +647,16 @@ export default function StackConstellation() {
 						aria-hidden="true"
 						preserveAspectRatio="none"
 					>
+						{orbitTracks.map((track, index) => (
+							<ellipse
+								key={`orbit-${index}`}
+								className="constellation__orbit"
+								cx="50%"
+								cy="50%"
+								rx={track.radiusX}
+								ry={track.radiusY}
+							/>
+						))}
 						{connections.map(([fromId, toId]) => {
 							const from = byId.get(fromId)!;
 							const to = byId.get(toId)!;
@@ -588,6 +690,7 @@ export default function StackConstellation() {
 						const preview = !selectedId && !technology.primary;
 						const dimmed = Boolean(selectedId && !visible);
 						const isSelected = selectedId === technology.id;
+						const masteryLabel = masteryLabels[masteryLevels[technology.id]];
 
 						return (
 							<button
@@ -598,6 +701,7 @@ export default function StackConstellation() {
 								data-dimmed={dimmed}
 								data-selected={isSelected}
 								aria-hidden={!visible}
+								aria-label={`${technology.label} — ${masteryLabel}`}
 								key={technology.id}
 								onClick={() => setSelectedId(technology.id)}
 								style={
@@ -607,6 +711,7 @@ export default function StackConstellation() {
 									} as CSSProperties
 								}
 								tabIndex={visible ? 0 : -1}
+								title={`${technology.label} — ${masteryLabel}`}
 								type="button"
 							>
 								<span
@@ -618,6 +723,11 @@ export default function StackConstellation() {
 								>
 									<span className="constellation__icon">{technology.icon}</span>
 									<span className="constellation__label">{technology.label}</span>
+									{isSelected && (
+										<span className="constellation__mastery">
+											{masteryLabel}
+										</span>
+									)}
 								</span>
 							</button>
 						);
