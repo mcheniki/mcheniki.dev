@@ -5,6 +5,7 @@ import IconPHP from '@svgs/php.svg?react';
 import IconReact from '@svgs/react.svg?react';
 import IconWordPress from '@svgs/wp.svg?react';
 import acfLogoUrl from '@svgs/acf.svg?url';
+import IconGutenberg from '@svgs/gutenberg.svg?react';
 import {
 	siBitbucket,
 	siAstro,
@@ -13,7 +14,6 @@ import {
 	siDocker,
 	siGit,
 	siGoogleanalytics,
-	siGutenberg,
 	siHtml5,
 	siInertia,
 	siJest,
@@ -155,7 +155,7 @@ const technologies: Technology[] = [
 	{
 		id: 'gutenberg',
 		label: 'Gutenberg',
-		icon: <SimpleIcon path={siGutenberg.path} />,
+		icon: <IconGutenberg />,
 		position: [49, 16],
 	},
 	{
@@ -381,7 +381,7 @@ export default function StackConstellation() {
 	const viewportRef = useRef<HTMLDivElement>(null);
 	const viewportSizeRef = useRef(viewportSize);
 	const nodeMotionRefs = useRef(new Map<TechnologyId, HTMLSpanElement>());
-	const nodeButtonRefs = useRef(new Map<TechnologyId, HTMLButtonElement>());
+	const nodeButtonRefs = useRef(new Map<TechnologyId, HTMLElement>());
 	const entryButtonRefs = useRef(new Map<TechnologyId, HTMLButtonElement>());
 	const lastEntryIdRef = useRef<TechnologyId | null>(null);
 	const lineRefs = useRef(new Map<string, SVGLineElement>());
@@ -718,32 +718,54 @@ export default function StackConstellation() {
 						const dimmed = Boolean(selectedId && !visible);
 						const isSelected = selectedId === technology.id;
 						const masteryLabel = masteryLabels[masteryLevels[technology.id]];
+						const neighbors = [
+							...new Set(
+								connections.flatMap(([from, to]) => {
+									if (from === technology.id) return [to];
+									if (to === technology.id) return [from];
+									return [];
+								}),
+							),
+						];
+						const canExplore =
+							visible &&
+							!isSelected &&
+							neighbors.length >= 3 &&
+							neighbors.some((id) => !visibleIds.has(id));
+						const Node = canExplore ? 'button' : 'span';
 
 						return (
-							<button
+							<Node
 								className="constellation__node"
 								data-visible={visible}
 								data-preview={preview}
 								data-secondary={!technology.primary}
 								data-dimmed={dimmed}
 								data-selected={isSelected}
+								data-interactive={canExplore}
 								aria-hidden={!visible}
-								aria-label={`${technology.label} — ${masteryLabel}`}
+								aria-label={`${technology.label} — ${masteryLabel}${
+									canExplore ? ' — Explorer' : ''
+								}`}
 								key={technology.id}
 								ref={(node) => {
 									if (node) nodeButtonRefs.current.set(technology.id, node);
 									else nodeButtonRefs.current.delete(technology.id);
 								}}
-								onClick={() => setSelectedId(technology.id)}
+								{...(canExplore
+									? {
+											onClick: () => setSelectedId(technology.id),
+											type: 'button',
+										}
+									: {})}
 								style={
 									{
 										'--node-x': `${position[0]}%`,
 										'--node-y': `${position[1]}%`,
 									} as CSSProperties
 								}
-								tabIndex={visible ? 0 : -1}
+								tabIndex={canExplore ? 0 : isSelected ? -1 : undefined}
 								title={`${technology.label} — ${masteryLabel}`}
-								type="button"
 							>
 								<span
 									className="constellation__node-motion"
@@ -760,7 +782,7 @@ export default function StackConstellation() {
 										</span>
 									)}
 								</span>
-							</button>
+							</Node>
 						);
 					})}
 				</div>

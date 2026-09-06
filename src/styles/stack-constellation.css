@@ -373,6 +373,9 @@
 .constellation__node[data-dimmed='true'] {
 	opacity: 0.16;
 }
+.constellation__node[data-interactive='false'] {
+	cursor: default;
+}
 .constellation__node[data-visible='false'] {
 	opacity: 0;
 	pointer-events: none;
@@ -410,6 +413,11 @@
 .constellation__node:focus-visible .constellation__node-motion {
 	outline: 2px solid var(--color-base-0);
 	outline-offset: 5px;
+}
+
+.constellation__node[data-interactive='true']:hover .constellation__icon,
+.constellation__node[data-interactive='true']:focus-visible .constellation__icon {
+	color: var(--color-primary-300);
 }
 
 .constellation__icon {
