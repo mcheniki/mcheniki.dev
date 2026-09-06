@@ -21,13 +21,14 @@ import {
 	siMysql,
 	siPostcss,
 	siPostgresql,
-	siShopify,
 	siSqlite,
 	siSass,
 	siTailwindcss,
 	siTanstack,
+	siThreedotjs,
 	siTypescript,
 	siVite,
+	siVitest,
 	siWebpack,
 	siWoocommerce,
 } from 'simple-icons';
@@ -43,6 +44,8 @@ type TechnologyId =
 	| 'react'
 	| 'astro'
 	| 'javascript'
+	| 'threejs'
+	| 'vitest'
 	| 'tanstack-start'
 	| 'nextjs'
 	| 'html'
@@ -59,7 +62,6 @@ type TechnologyId =
 	| 'vite'
 	| 'webpack'
 	| 'jest'
-	| 'shopify'
 	| 'salesforce'
 	| 'ab-testing'
 	| 'postgresql'
@@ -88,6 +90,12 @@ type EntryGalaxy = {
 	mobilePosition: [number, number];
 	rotation: number;
 	scale: number;
+	drift: [number, number];
+	driftDuration: number;
+	driftDelay: number;
+	cloudSway: number;
+	cloudSwayDuration: number;
+	cloudSwayDelay: number;
 };
 
 const masteryLabels: Record<MasteryLevel, string> = {
@@ -151,6 +159,18 @@ const technologies: Technology[] = [
 		label: 'Astro',
 		icon: <SimpleIcon path={siAstro.path} />,
 		position: [70, 36],
+	},
+	{
+		id: 'threejs',
+		label: 'Three.js',
+		icon: <SimpleIcon path={siThreedotjs.path} />,
+		position: [82, 70],
+	},
+	{
+		id: 'vitest',
+		label: 'Vitest',
+		icon: <SimpleIcon path={siVitest.path} />,
+		position: [88, 78],
 	},
 	{
 		id: 'gutenberg',
@@ -231,12 +251,6 @@ const technologies: Technology[] = [
 		position: [94, 82],
 	},
 	{ id: 'jest', label: 'Jest', icon: <SimpleIcon path={siJest.path} />, position: [93, 69] },
-	{
-		id: 'shopify',
-		label: 'Shopify',
-		icon: <SimpleIcon path={siShopify.path} />,
-		position: [96, 50],
-	},
 	{ id: 'salesforce', label: 'Salesforce', icon: <CapabilityIcon />, position: [50, 39] },
 	{ id: 'ab-testing', label: 'A/B testing', icon: <CapabilityIcon />, position: [60, 88] },
 	{
@@ -281,10 +295,58 @@ const technologies: Technology[] = [
 ];
 
 const entryGalaxies: EntryGalaxy[] = [
-	{ id: 'wordpress', position: [27, 28], mobilePosition: [25, 26], rotation: -8, scale: 1.08 },
-	{ id: 'react', position: [73, 28], mobilePosition: [75, 26], rotation: 9, scale: 0.98 },
-	{ id: 'php', position: [27, 69], mobilePosition: [25, 70], rotation: 5, scale: 0.96 },
-	{ id: 'javascript', position: [73, 69], mobilePosition: [75, 70], rotation: -11, scale: 1.05 },
+	{
+		id: 'wordpress',
+		position: [27, 28],
+		mobilePosition: [25, 26],
+		rotation: -8,
+		scale: 1.08,
+		drift: [20, -14],
+		driftDuration: 20,
+		driftDelay: -6,
+		cloudSway: 9,
+		cloudSwayDuration: 32,
+		cloudSwayDelay: -12,
+	},
+	{
+		id: 'react',
+		position: [73, 28],
+		mobilePosition: [75, 26],
+		rotation: 9,
+		scale: 0.98,
+		drift: [-18, 16],
+		driftDuration: 22,
+		driftDelay: -16,
+		cloudSway: 10,
+		cloudSwayDuration: 36,
+		cloudSwayDelay: -24,
+	},
+	{
+		id: 'php',
+		position: [27, 69],
+		mobilePosition: [25, 70],
+		rotation: 5,
+		scale: 0.96,
+		drift: [22, 12],
+		driftDuration: 16,
+		driftDelay: -10,
+		cloudSway: 8,
+		cloudSwayDuration: 28,
+		cloudSwayDelay: -18,
+	},
+	{
+		id: 'javascript',
+		position: [73, 69],
+		mobilePosition: [75, 70],
+		rotation: -11,
+		scale: 1.05,
+		drift: [-20, -18],
+		driftDuration: 24,
+		driftDelay: -20,
+		cloudSway: 10,
+		cloudSwayDuration: 34,
+		cloudSwayDelay: -28,
+	},
 ];
 
 const connections: [TechnologyId, TechnologyId][] = [
@@ -322,8 +384,8 @@ const connections: [TechnologyId, TechnologyId][] = [
 	['javascript', 'vite'],
 	['javascript', 'webpack'],
 	['javascript', 'jest'],
-	['javascript', 'html'],
-	['javascript', 'shopify'],
+	['javascript', 'threejs'],
+	['javascript', 'vitest'],
 	['docker', 'git'],
 	['docker', 'gitlab-ci'],
 	['git', 'bitbucket-pipelines'],
@@ -343,14 +405,15 @@ const masteryLevels: Record<TechnologyId, MasteryLevel> = {
 	html: 0,
 	'acf-pro': 0,
 	javascript: 0,
-	react: 1,
+	threejs: 1,
+	vitest: 2,
+	react: 0,
 	tailwind: 1,
 	twig: 1,
 	'rest-apis': 1,
 	mysql: 1,
 	laravel: 1,
 	'craft-cms': 1,
-	shopify: 1,
 	vite: 1,
 	webpack: 1,
 	postcss: 1,
@@ -378,6 +441,7 @@ export default function StackConstellation() {
 	const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
 	const [reducedMotion, setReducedMotion] = useState(false);
 	const [focusWithin, setFocusWithin] = useState(false);
+	const [entryMotionEnabled, setEntryMotionEnabled] = useState(false);
 	const viewportRef = useRef<HTMLDivElement>(null);
 	const viewportSizeRef = useRef(viewportSize);
 	const nodeMotionRefs = useRef(new Map<TechnologyId, HTMLSpanElement>());
@@ -513,6 +577,13 @@ export default function StackConstellation() {
 			lastFrameAtRef.current = null;
 		};
 		const sync = () => {
+			setEntryMotionEnabled(
+				!selectedId &&
+					isIntersecting &&
+					document.visibilityState === 'visible' &&
+					!reducedMotion &&
+					!paused,
+			);
 			const shouldAnimate =
 				Boolean(selectedId) &&
 				isIntersecting &&
@@ -553,7 +624,11 @@ export default function StackConstellation() {
 	const visibleIds = new Set<TechnologyId>(selectedId ? selectedAndNeighbors : []);
 
 	return (
-		<div className="constellation" data-selected={Boolean(selectedId)}>
+		<div
+			className="constellation"
+			data-entry-motion={entryMotionEnabled}
+			data-selected={Boolean(selectedId)}
+		>
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
 					{selected
@@ -635,24 +710,35 @@ export default function StackConstellation() {
 											}px`,
 											'--galaxy-rotation': `${galaxy.rotation}deg`,
 											'--galaxy-scale': galaxy.scale,
+											'--galaxy-drift-x': `${galaxy.drift[0]}px`,
+											'--galaxy-drift-y': `${galaxy.drift[1]}px`,
+											'--galaxy-drift-duration': `${galaxy.driftDuration}s`,
+											'--galaxy-drift-delay': `${galaxy.driftDelay}s`,
+											'--galaxy-cloud-sway': `${galaxy.cloudSway}deg`,
+											'--galaxy-cloud-sway-duration': `${galaxy.cloudSwayDuration}s`,
+											'--galaxy-cloud-sway-delay': `${galaxy.cloudSwayDelay}s`,
 										} as CSSProperties
 									}
 									tabIndex={selectedId ? -1 : 0}
 									type="button"
 								>
-									<span
-										aria-hidden="true"
-										className="constellation__galaxy-cloud"
-									/>
-									<span className="constellation__galaxy-nucleus">
-										<span className="constellation__icon">
-											{technology.icon}
+									<span className="constellation__galaxy-drift">
+										<span
+											aria-hidden="true"
+											className="constellation__galaxy-cloud-spin"
+										>
+											<span className="constellation__galaxy-cloud" />
 										</span>
+										<span className="constellation__galaxy-nucleus">
+											<span className="constellation__icon">
+												{technology.icon}
+											</span>
+										</span>
+										<span className="constellation__galaxy-label">
+											{technology.label}
+										</span>
+										<span className="constellation__galaxy-cue">Explorer</span>
 									</span>
-									<span className="constellation__galaxy-label">
-										{technology.label}
-									</span>
-									<span className="constellation__galaxy-cue">Explorer</span>
 								</button>
 							);
 						})}

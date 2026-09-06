@@ -81,11 +81,12 @@
 
 .constellation__galaxy {
 	--galaxy-nucleus-offset: 1.125rem;
+	--galaxy-drift-scale: 1;
 	position: absolute;
 	top: var(--galaxy-y);
 	left: var(--galaxy-x);
-	width: clamp(12rem, 25vw, 22rem);
-	height: clamp(10rem, 21vw, 18rem);
+	width: clamp(9rem, 18vw, 16.5rem);
+	height: clamp(7.5rem, 15.75vw, 13.5rem);
 	padding: 0;
 	border: 0;
 	background: transparent;
@@ -97,11 +98,37 @@
 		opacity 420ms ease;
 }
 
+.constellation__galaxy-drift {
+	position: absolute;
+	inset: 0;
+	transform: translate3d(0, 0, 0);
+	transition: transform 220ms ease-out;
+}
+
+.constellation[data-entry-motion='true'] .constellation__galaxy-drift {
+	animation: constellation-galaxy-drift var(--galaxy-drift-duration) ease-in-out
+		var(--galaxy-drift-delay) infinite alternate;
+}
+
+.constellation__galaxy-cloud-spin {
+	position: absolute;
+	inset: 0;
+	transform: rotate(0deg);
+	transform-origin: 50% calc(50% - var(--galaxy-nucleus-offset));
+	transition: transform 220ms ease-out;
+}
+
+.constellation[data-entry-motion='true'] .constellation__galaxy-cloud-spin {
+	animation: constellation-galaxy-cloud-sway var(--galaxy-cloud-sway-duration) ease-in-out
+		var(--galaxy-cloud-sway-delay) infinite alternate;
+}
+
 .constellation__galaxy-cloud {
 	position: absolute;
 	inset: 0 0 2.25rem;
 	background: url('/images/stack-galaxy.webp') center / contain no-repeat;
 	mix-blend-mode: screen;
+	opacity: 0.65;
 	transform: rotate(var(--galaxy-rotation)) scale(var(--galaxy-scale));
 	transition:
 		transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -156,9 +183,9 @@
 }
 
 .constellation__galaxy-label {
-	bottom: 1rem;
-	width: min(100%, 18rem);
-	font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+	bottom: 0.6rem;
+	width: min(100%, 14rem);
+	font-size: clamp(1rem, 1.35vw, 1.125rem);
 	font-weight: 700;
 	line-height: 1.2;
 }
@@ -209,11 +236,45 @@
 		opacity 220ms ease 480ms;
 }
 
+.constellation[data-selected='true'] .constellation__galaxy-drift {
+	animation: none;
+}
+
+.constellation[data-selected='true'] .constellation__galaxy-cloud-spin {
+	animation: none;
+}
+
 .constellation[data-selected='true']
 	.constellation__galaxy[data-chosen='true']
 	.constellation__galaxy-cloud {
 	opacity: 0;
 	transform: rotate(var(--galaxy-rotation)) scale(calc(var(--galaxy-scale) * 1.35));
+}
+
+@keyframes constellation-galaxy-drift {
+	from {
+		transform: translate3d(
+			calc(var(--galaxy-drift-x) * var(--galaxy-drift-scale) * -1),
+			calc(var(--galaxy-drift-y) * var(--galaxy-drift-scale) * -1),
+			0
+		);
+	}
+	to {
+		transform: translate3d(
+			calc(var(--galaxy-drift-x) * var(--galaxy-drift-scale)),
+			calc(var(--galaxy-drift-y) * var(--galaxy-drift-scale)),
+			0
+		);
+	}
+}
+
+@keyframes constellation-galaxy-cloud-sway {
+	from {
+		transform: rotate(calc(var(--galaxy-cloud-sway) * -1));
+	}
+	to {
+		transform: rotate(var(--galaxy-cloud-sway));
+	}
 }
 
 .constellation__stars {
@@ -545,10 +606,11 @@
 	}
 	.constellation__galaxy {
 		--galaxy-nucleus-offset: 0.85rem;
+		--galaxy-drift-scale: 0.68;
 		top: var(--galaxy-mobile-y);
 		left: var(--galaxy-mobile-x);
-		width: 9.5rem;
-		height: 9.5rem;
+		width: 7.75rem;
+		height: 7.75rem;
 	}
 	.constellation__galaxy-cloud {
 		bottom: 1.7rem;
@@ -566,8 +628,8 @@
 		height: 0.85rem;
 	}
 	.constellation__galaxy-label {
-		bottom: 0.65rem;
-		font-size: 0.875rem;
+		bottom: 0.45rem;
+		font-size: 0.75rem;
 	}
 	.constellation__galaxy-cue {
 		bottom: -0.1rem;
@@ -601,6 +663,8 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.constellation__galaxy,
+	.constellation__galaxy-drift,
+	.constellation__galaxy-cloud-spin,
 	.constellation__galaxy-cloud,
 	.constellation__galaxy-nucleus,
 	.constellation__galaxy-cue,
