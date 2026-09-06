@@ -1,0 +1,32 @@
+---
+import type { StackContent } from '../content/home';
+import Container from './Container.astro';
+import StackConstellation from './react/StackConstellation';
+import ShapeH2 from '@svgs/shape-h2.svg';
+
+type Props = {
+	content: StackContent;
+};
+
+const { content } = Astro.props;
+---
+
+<Container>
+	<div id="stack-constellation">
+		<header class="mb-48 max-w-3xl">
+			<h2
+				class="mb-24 flex items-center gap-6 text-14 font-medium tracking-[0.15em] text-primary-600 uppercase"
+			>
+				<ShapeH2 fill="currentColor" width="14" height="14" />
+				{content.eyebrow}
+			</h2>
+			<h3
+				class="mb-24 text-48 leading-[1.3em] font-extralight tracking-tighter text-base-50 md:text-64"
+			>
+				{content.title}
+			</h3>
+			<p class="lead text-base text-base-0">{content.description}</p>
+		</header>
+		<StackConstellation client:load />
+	</div>
+</Container>

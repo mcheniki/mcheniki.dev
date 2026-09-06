@@ -1,0 +1,43 @@
+---
+import { getEntry } from 'astro:content';
+import About from '@components/About.astro';
+import Contact from '@components/Contact.astro';
+import Hero from '@components/Hero.astro';
+import ProjectsSection from '@components/ProjectsSection.astro';
+import StackConstellationSection from '@components/StackConstellationSection.astro';
+import Layout from '../../layouts/Layout.astro';
+
+const locale = 'fr';
+const home = await getEntry('home', locale);
+
+if (!home) {
+	throw new Error('Missing French home content.');
+}
+
+const content = home.data;
+---
+
+<Layout
+	locale={locale}
+	title={`${content.meta.title} — Prototype constellation`}
+	description={content.meta.description}
+	isProfilePage
+>
+	<main id="main-content" class="min-h-screen pt-128 lg:pt-48">
+		<section class="mb-96 flex min-h-screen items-center">
+			<Hero content={content.hero} />
+		</section>
+		<section class="mb-96 flex items-center">
+			<About locale={locale} content={content.about} />
+		</section>
+		<section class="mb-96">
+			<StackConstellationSection content={content.stack} />
+		</section>
+		<section class="mb-96 scroll-mt-128" id="projects">
+			<ProjectsSection locale={locale} content={content.projects} />
+		</section>
+		<section class="mt-96 overflow-hidden" id="contact">
+			<Contact locale={locale} content={content.contact} />
+		</section>
+	</main>
+</Layout>
