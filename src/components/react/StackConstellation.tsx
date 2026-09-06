@@ -4,6 +4,7 @@ import IconNext from '@svgs/next.svg?react';
 import IconPHP from '@svgs/php.svg?react';
 import IconReact from '@svgs/react.svg?react';
 import IconWordPress from '@svgs/wp.svg?react';
+import acfLogoUrl from '@svgs/acf.svg?url';
 import {
 	siBitbucket,
 	siAstro,
@@ -80,6 +81,14 @@ type Technology = {
 };
 
 type MasteryLevel = 0 | 1 | 2;
+
+type EntryGalaxy = {
+	id: TechnologyId;
+	position: [number, number];
+	mobilePosition: [number, number];
+	rotation: number;
+	scale: number;
+};
 
 const masteryLabels: Record<MasteryLevel, string> = {
 	0: 'Expertise',
@@ -175,7 +184,12 @@ const technologies: Technology[] = [
 	},
 	{ id: 'html', label: 'HTML', icon: <SimpleIcon path={siHtml5.path} />, position: [85, 77] },
 	{ id: 'twig', label: 'Twig', icon: <CapabilityIcon />, position: [10, 72] },
-	{ id: 'acf-pro', label: 'ACF Pro', icon: <CapabilityIcon />, position: [30, 16] },
+	{
+		id: 'acf-pro',
+		label: 'ACF Pro',
+		icon: <img src={acfLogoUrl} alt="" />,
+		position: [30, 16],
+	},
 	{ id: 'wp-cli', label: 'WP-CLI', icon: <CapabilityIcon />, position: [22, 18] },
 	{
 		id: 'woocommerce',
@@ -266,21 +280,30 @@ const technologies: Technology[] = [
 	},
 ];
 
+const entryGalaxies: EntryGalaxy[] = [
+	{ id: 'wordpress', position: [27, 28], mobilePosition: [25, 26], rotation: -8, scale: 1.08 },
+	{ id: 'react', position: [73, 28], mobilePosition: [75, 26], rotation: 9, scale: 0.98 },
+	{ id: 'php', position: [27, 69], mobilePosition: [25, 70], rotation: 5, scale: 0.96 },
+	{ id: 'javascript', position: [73, 69], mobilePosition: [75, 70], rotation: -11, scale: 1.05 },
+];
+
 const connections: [TechnologyId, TechnologyId][] = [
 	['php', 'wordpress'],
 	['wordpress', 'gutenberg'],
 	['wordpress', 'scss'],
 	['wordpress', 'tailwind'],
+	['wordpress', 'wp-cli'],
+	['wordpress', 'acf-pro'],
+	['gutenberg', 'acf-pro'],
 	['gutenberg', 'react'],
 	['react', 'javascript'],
+	['react', 'tailwind'],
 	['react', 'tanstack-start'],
 	['react', 'nextjs'],
 	['react', 'astro'],
 	['javascript', 'astro'],
 	['wordpress', 'woocommerce'],
 	['wordpress', 'google-analytics'],
-	['gutenberg', 'acf-pro'],
-	['php', 'wp-cli'],
 	['php', 'mysql'],
 	['woocommerce', 'rest-apis'],
 	['google-analytics', 'ab-testing'],
@@ -350,33 +373,6 @@ const masteryLevels: Record<TechnologyId, MasteryLevel> = {
 	'google-analytics': 2,
 	salesforce: 2,
 };
-const floatProfiles: Partial<Record<TechnologyId, [number, number, number, number]>> = {
-	php: [6, 8, 13_000, 0.2],
-	wordpress: [9, 5, 16_000, 1.7],
-	javascript: [5, 10, 14_500, 2.8],
-	react: [7, 9, 12_000, 5.3],
-	gutenberg: [5, 7, 15_500, 0.9],
-	scss: [10, 4, 18_000, 3.6],
-	tailwind: [6, 8, 13_800, 4.8],
-	'tanstack-start': [8, 5, 16_500, 2.1],
-	nextjs: [4, 9, 11_800, 5.9],
-};
-
-function getFloatProfile(id: TechnologyId, index: number): [number, number, number, number] {
-	const profile = floatProfiles[id];
-	if (profile) return profile;
-	const hash = [...id].reduce(
-		(value, character) => (value * 31 + character.charCodeAt(0)) >>> 0,
-		index + 1,
-	);
-	return [
-		4 + (hash % 6),
-		4 + ((hash >>> 3) % 6),
-		11_000 + ((hash >>> 6) % 7_000),
-		((hash >>> 13) % 628) / 100,
-	];
-}
-
 export default function StackConstellation() {
 	const [selectedId, setSelectedId] = useState<TechnologyId | null>(null);
 	const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
@@ -385,6 +381,9 @@ export default function StackConstellation() {
 	const viewportRef = useRef<HTMLDivElement>(null);
 	const viewportSizeRef = useRef(viewportSize);
 	const nodeMotionRefs = useRef(new Map<TechnologyId, HTMLSpanElement>());
+	const nodeButtonRefs = useRef(new Map<TechnologyId, HTMLButtonElement>());
+	const entryButtonRefs = useRef(new Map<TechnologyId, HTMLButtonElement>());
+	const lastEntryIdRef = useRef<TechnologyId | null>(null);
 	const lineRefs = useRef(new Map<string, SVGLineElement>());
 	const elapsedRef = useRef(0);
 	const lastFrameAtRef = useRef<number | null>(null);
@@ -427,6 +426,14 @@ export default function StackConstellation() {
 		observer.observe(viewport);
 		return () => observer.disconnect();
 	}, []);
+
+	useEffect(() => {
+		if (selectedId) {
+			nodeButtonRefs.current.get(selectedId)?.focus();
+			return;
+		}
+		if (lastEntryIdRef.current) entryButtonRefs.current.get(lastEntryIdRef.current)?.focus();
+	}, [selectedId]);
 
 	useEffect(() => {
 		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -495,39 +502,8 @@ export default function StackConstellation() {
 							(position[1] / 100) * size.height,
 					];
 				});
-			} else {
-				technologies
-					.filter((technology) => technology.primary)
-					.forEach((technology, index) => {
-						const [amplitudeX, amplitudeY, period, phase] = getFloatProfile(
-							technology.id,
-							index,
-						);
-						const angle = reducedMotion
-							? phase
-							: (elapsedRef.current / period) * Math.PI * 2 + phase;
-						movingIds.add(technology.id);
-						offsets[technology.id] = [
-							Math.sin(angle) * amplitudeX,
-							Math.cos(angle * 0.85) * amplitudeY,
-						];
-					});
 			}
 			setNodeOffsets(offsets, movingIds);
-			if (!selectedId) {
-				connections.forEach(([fromId, toId]) => {
-					const line = lineRefs.current.get(`${fromId}-${toId}`);
-					if (!line || line.dataset.visible !== 'true') return;
-					const fromPosition = defaultPositions[fromId];
-					const toPosition = defaultPositions[toId];
-					const [fromX, fromY] = offsets[fromId] ?? [0, 0];
-					const [toX, toY] = offsets[toId] ?? [0, 0];
-					line.setAttribute('x1', `${fromPosition[0] + (fromX / size.width) * 100}%`);
-					line.setAttribute('y1', `${fromPosition[1] + (fromY / size.height) * 100}%`);
-					line.setAttribute('x2', `${toPosition[0] + (toX / size.width) * 100}%`);
-					line.setAttribute('y2', `${toPosition[1] + (toY / size.height) * 100}%`);
-				});
-			}
 		};
 
 		const stop = () => {
@@ -538,6 +514,7 @@ export default function StackConstellation() {
 		};
 		const sync = () => {
 			const shouldAnimate =
+				Boolean(selectedId) &&
 				isIntersecting &&
 				document.visibilityState === 'visible' &&
 				!reducedMotion &&
@@ -573,13 +550,7 @@ export default function StackConstellation() {
 			document.removeEventListener('visibilitychange', sync);
 		};
 	}, [focusWithin, orbitTracks, reducedMotion, selectedAndNeighbors, selectedId, viewportSize]);
-	const visibleIds = new Set<TechnologyId>(
-		selectedId
-			? selectedAndNeighbors
-			: technologies
-					.filter((technology) => technology.primary)
-					.map((technology) => technology.id),
-	);
+	const visibleIds = new Set<TechnologyId>(selectedId ? selectedAndNeighbors : []);
 
 	return (
 		<div className="constellation" data-selected={Boolean(selectedId)}>
@@ -587,7 +558,7 @@ export default function StackConstellation() {
 				<p aria-live="polite" className="constellation__status">
 					{selected
 						? `Exploration : ${selected.label} · ${masteryLabels[masteryLevels[selected.id]]}`
-						: 'Vue d’ensemble'}
+						: 'Choisissez une galaxie à explorer'}
 				</p>
 				{selectedId && (
 					<button
@@ -630,6 +601,62 @@ export default function StackConstellation() {
 				}}
 			>
 				<div className="constellation__world">
+					<div className="constellation__entry-galaxies">
+						{entryGalaxies.map((galaxy) => {
+							const technology = byId.get(galaxy.id)!;
+							const entryPosition =
+								viewportSize.width < 672 ? galaxy.mobilePosition : galaxy.position;
+							return (
+								<button
+									className="constellation__galaxy"
+									data-chosen={selectedId === galaxy.id}
+									aria-hidden={Boolean(selectedId)}
+									key={galaxy.id}
+									onClick={() => {
+										lastEntryIdRef.current = galaxy.id;
+										setSelectedId(galaxy.id);
+									}}
+									ref={(node) => {
+										if (node) entryButtonRefs.current.set(galaxy.id, node);
+										else entryButtonRefs.current.delete(galaxy.id);
+									}}
+									style={
+										{
+											'--galaxy-x': `${galaxy.position[0]}%`,
+											'--galaxy-y': `${galaxy.position[1]}%`,
+											'--galaxy-mobile-x': `${galaxy.mobilePosition[0]}%`,
+											'--galaxy-mobile-y': `${galaxy.mobilePosition[1]}%`,
+											'--galaxy-center-x': `${
+												((50 - entryPosition[0]) / 100) * viewportSize.width
+											}px`,
+											'--galaxy-center-y': `${
+												((50 - entryPosition[1]) / 100) *
+												viewportSize.height
+											}px`,
+											'--galaxy-rotation': `${galaxy.rotation}deg`,
+											'--galaxy-scale': galaxy.scale,
+										} as CSSProperties
+									}
+									tabIndex={selectedId ? -1 : 0}
+									type="button"
+								>
+									<span
+										aria-hidden="true"
+										className="constellation__galaxy-cloud"
+									/>
+									<span className="constellation__galaxy-nucleus">
+										<span className="constellation__icon">
+											{technology.icon}
+										</span>
+									</span>
+									<span className="constellation__galaxy-label">
+										{technology.label}
+									</span>
+									<span className="constellation__galaxy-cue">Explorer</span>
+								</button>
+							);
+						})}
+					</div>
 					<div
 						aria-hidden="true"
 						className="constellation__stars constellation__stars--far"
@@ -687,7 +714,7 @@ export default function StackConstellation() {
 					{technologies.map((technology) => {
 						const position = defaultPositions[technology.id];
 						const visible = visibleIds.has(technology.id);
-						const preview = !selectedId && !technology.primary;
+						const preview = false;
 						const dimmed = Boolean(selectedId && !visible);
 						const isSelected = selectedId === technology.id;
 						const masteryLabel = masteryLabels[masteryLevels[technology.id]];
@@ -703,6 +730,10 @@ export default function StackConstellation() {
 								aria-hidden={!visible}
 								aria-label={`${technology.label} — ${masteryLabel}`}
 								key={technology.id}
+								ref={(node) => {
+									if (node) nodeButtonRefs.current.set(technology.id, node);
+									else nodeButtonRefs.current.delete(technology.id);
+								}}
 								onClick={() => setSelectedId(technology.id)}
 								style={
 									{
