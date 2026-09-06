@@ -1,5 +1,5 @@
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { locales } from './i18n/config';
 
@@ -37,7 +37,23 @@ const home = defineCollection({
 			title: z.string(),
 			paragraphs: z.array(z.string()).length(3),
 		}),
-		stack: z.object({ eyebrow: z.string(), title: z.string(), description: z.string() }),
+		stack: z.object({
+			eyebrow: z.string(),
+			title: z.string(),
+			description: z.string(),
+			constellation: z.object({
+				chooseGalaxy: z.string(),
+				exploration: z.string(),
+				reset: z.string(),
+				orbitLegend: z.string(),
+				explore: z.string(),
+				mastery: z.object({
+					expertise: z.string(),
+					comfortable: z.string(),
+					focused: z.string(),
+				}),
+			}),
+		}),
 		projects: z.object({
 			eyebrow: z.string(),
 			title: z.string(),
@@ -53,6 +69,49 @@ const home = defineCollection({
 			details: z.string(),
 		}),
 	}),
+});
+
+const stackTechnologySchema = z.object({
+	id: z.string().min(1),
+	label: z.string().min(1),
+	mastery: z.enum(['expertise', 'comfortable', 'focused']),
+	primary: z.boolean().optional(),
+});
+
+const stack = defineCollection({
+	loader: file('./src/content/stack/catalog.yaml'),
+	schema: z
+		.object({
+			technologies: z.array(stackTechnologySchema).min(1),
+			connections: z.array(z.tuple([z.string().min(1), z.string().min(1)])),
+		})
+		.superRefine(({ technologies, connections }, context) => {
+			const technologyIds = new Set<string>();
+			technologies.forEach((technology, index) => {
+				if (technologyIds.has(technology.id)) {
+					context.addIssue({
+						code: 'custom',
+						message: `Duplicate technology id: ${technology.id}`,
+						path: ['technologies', index, 'id'],
+					});
+				}
+				technologyIds.add(technology.id);
+			});
+			connections.forEach(([from, to], index) => {
+				for (const [endpoint, id] of [
+					['from', from],
+					['to', to],
+				] as const) {
+					if (!technologyIds.has(id)) {
+						context.addIssue({
+							code: 'custom',
+							message: `Unknown technology in connection: ${id}`,
+							path: ['connections', index, endpoint],
+						});
+					}
+				}
+			});
+		}),
 });
 
 const dateSchema = z.object({
@@ -126,4 +185,4 @@ const resume = defineCollection({
 	}),
 });
 
-export const collections = { home, projects, resume };
+export const collections = { home, projects, resume, stack };

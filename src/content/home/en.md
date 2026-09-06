@@ -20,6 +20,16 @@ stack:
     eyebrow: 'My toolkit'
     title: 'From front end to production'
     description: 'I work across the front end, backend, third-party integrations and deployment. The tools depend on the project. I focus on keeping things straightforward to maintain and making room for what comes next.'
+    constellation:
+        chooseGalaxy: 'Choose a galaxy to explore'
+        exploration: 'Exploring'
+        reset: 'Overview'
+        orbitLegend: 'From the inner orbit to the outer orbit'
+        explore: 'Explore'
+        mastery:
+            expertise: 'Expertise'
+            comfortable: 'Comfortable'
+            focused: 'Focused practice'
 projects:
     eyebrow: 'Selected work'
     title: 'Some of my work'

@@ -1,442 +1,31 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import IconJS from '@svgs/js.svg?react';
-import IconNext from '@svgs/next.svg?react';
-import IconPHP from '@svgs/php.svg?react';
-import IconReact from '@svgs/react.svg?react';
-import IconWordPress from '@svgs/wp.svg?react';
-import acfLogoUrl from '@svgs/acf.svg?url';
-import IconGutenberg from '@svgs/gutenberg.svg?react';
-import {
-	siBitbucket,
-	siAstro,
-	siClaude,
-	siCraftcms,
-	siDocker,
-	siGit,
-	siGoogleanalytics,
-	siHtml5,
-	siInertia,
-	siJest,
-	siLaravel,
-	siMysql,
-	siPostcss,
-	siPostgresql,
-	siSqlite,
-	siSass,
-	siTailwindcss,
-	siTanstack,
-	siThreedotjs,
-	siTypescript,
-	siVite,
-	siVitest,
-	siWebpack,
-	siWoocommerce,
-} from 'simple-icons';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import type { StackCatalog, StackConstellationText } from '../../content/stack';
+import { entryGalaxies, getTechnologies, masteryOrbit } from './StackConstellationVisuals';
 
 import '../../styles/stack-constellation.css';
 
-type TechnologyId =
-	| 'php'
-	| 'wordpress'
-	| 'gutenberg'
-	| 'scss'
-	| 'tailwind'
-	| 'react'
-	| 'astro'
-	| 'javascript'
-	| 'threejs'
-	| 'vitest'
-	| 'tanstack-start'
-	| 'nextjs'
-	| 'html'
-	| 'twig'
-	| 'acf-pro'
-	| 'wp-cli'
-	| 'woocommerce'
-	| 'google-analytics'
-	| 'rest-apis'
-	| 'mysql'
-	| 'laravel'
-	| 'craft-cms'
-	| 'postcss'
-	| 'vite'
-	| 'webpack'
-	| 'jest'
-	| 'salesforce'
-	| 'ab-testing'
-	| 'postgresql'
-	| 'sqlite'
-	| 'inertia'
-	| 'docker'
-	| 'git'
-	| 'gitlab-ci'
-	| 'bitbucket-pipelines'
-	| 'codex'
-	| 'claude-code';
+type TechnologyId = string;
 
-type Technology = {
-	id: TechnologyId;
-	label: string;
-	icon: ReactNode;
-	position: [number, number];
-	primary?: boolean;
-};
-
-type MasteryLevel = 0 | 1 | 2;
-
-type EntryGalaxy = {
-	id: TechnologyId;
-	position: [number, number];
-	mobilePosition: [number, number];
-	rotation: number;
-	scale: number;
-	drift: [number, number];
-	driftDuration: number;
-	driftDelay: number;
-	cloudSway: number;
-	cloudSwayDuration: number;
-	cloudSwayDelay: number;
-};
-
-const masteryLabels: Record<MasteryLevel, string> = {
-	0: 'Expertise',
-	1: 'À l’aise',
-	2: 'Pratique ciblée',
-};
-
-function SimpleIcon({ path }: { path: string }) {
-	return (
-		<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-			<path d={path} />
-		</svg>
+export default function StackConstellation({
+	catalog,
+	text,
+}: {
+	catalog: StackCatalog;
+	text: StackConstellationText;
+}) {
+	const technologies = useMemo(() => getTechnologies(catalog), [catalog]);
+	const byId = useMemo(
+		() => new Map(technologies.map((technology) => [technology.id, technology])),
+		[technologies],
 	);
-}
-
-function CapabilityIcon() {
-	return (
-		<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-			<path d="M12 2 22 12 12 22 2 12 12 2Zm0 4.2L6.2 12l5.8 5.8 5.8-5.8L12 6.2Z" />
-		</svg>
+	const defaultPositions = useMemo(
+		() =>
+			Object.fromEntries(
+				technologies.map((technology) => [technology.id, technology.position]),
+			),
+		[technologies],
 	);
-}
-
-const technologies: Technology[] = [
-	{
-		id: 'php',
-		label: 'PHP',
-		icon: <IconPHP />,
-		position: [21, 47],
-		primary: true,
-	},
-	{
-		id: 'wordpress',
-		label: 'WordPress',
-		icon: <IconWordPress />,
-		position: [38, 31],
-		primary: true,
-	},
-	{
-		id: 'javascript',
-		label: 'JavaScript / TypeScript',
-		icon: (
-			<span className="constellation__combined-icon">
-				<IconJS />
-				<SimpleIcon path={siTypescript.path} />
-			</span>
-		),
-		position: [64, 58],
-		primary: true,
-	},
-	{
-		id: 'react',
-		label: 'React',
-		icon: <IconReact />,
-		position: [60, 27],
-		primary: true,
-	},
-	{
-		id: 'astro',
-		label: 'Astro',
-		icon: <SimpleIcon path={siAstro.path} />,
-		position: [70, 36],
-	},
-	{
-		id: 'threejs',
-		label: 'Three.js',
-		icon: <SimpleIcon path={siThreedotjs.path} />,
-		position: [82, 70],
-	},
-	{
-		id: 'vitest',
-		label: 'Vitest',
-		icon: <SimpleIcon path={siVitest.path} />,
-		position: [88, 78],
-	},
-	{
-		id: 'gutenberg',
-		label: 'Gutenberg',
-		icon: <IconGutenberg />,
-		position: [49, 16],
-	},
-	{
-		id: 'scss',
-		label: 'SCSS',
-		icon: <SimpleIcon path={siSass.path} />,
-		position: [28, 62],
-	},
-	{
-		id: 'tailwind',
-		label: 'Tailwind',
-		icon: <SimpleIcon path={siTailwindcss.path} />,
-		position: [43, 64],
-	},
-	{
-		id: 'tanstack-start',
-		label: 'TanStack Start',
-		icon: <SimpleIcon path={siTanstack.path} />,
-		position: [74, 19],
-	},
-	{
-		id: 'nextjs',
-		label: 'Next.js',
-		icon: <IconNext />,
-		position: [87, 60],
-	},
-	{ id: 'html', label: 'HTML', icon: <SimpleIcon path={siHtml5.path} />, position: [85, 77] },
-	{ id: 'twig', label: 'Twig', icon: <CapabilityIcon />, position: [10, 72] },
-	{
-		id: 'acf-pro',
-		label: 'ACF Pro',
-		icon: <img src={acfLogoUrl} alt="" />,
-		position: [30, 16],
-	},
-	{ id: 'wp-cli', label: 'WP-CLI', icon: <CapabilityIcon />, position: [22, 18] },
-	{
-		id: 'woocommerce',
-		label: 'WooCommerce',
-		icon: <SimpleIcon path={siWoocommerce.path} />,
-		position: [13, 27],
-	},
-	{
-		id: 'google-analytics',
-		label: 'Google Analytics',
-		icon: <SimpleIcon path={siGoogleanalytics.path} />,
-		position: [60, 5],
-	},
-	{ id: 'rest-apis', label: 'REST APIs', icon: <CapabilityIcon />, position: [26, 36] },
-	{ id: 'mysql', label: 'MySQL', icon: <SimpleIcon path={siMysql.path} />, position: [12, 43] },
-	{
-		id: 'laravel',
-		label: 'Laravel',
-		icon: <SimpleIcon path={siLaravel.path} />,
-		position: [8, 55],
-	},
-	{
-		id: 'craft-cms',
-		label: 'Craft CMS',
-		icon: <SimpleIcon path={siCraftcms.path} />,
-		position: [5, 63],
-	},
-	{
-		id: 'postcss',
-		label: 'PostCSS',
-		icon: <SimpleIcon path={siPostcss.path} />,
-		position: [36, 78],
-	},
-	{ id: 'vite', label: 'Vite', icon: <SimpleIcon path={siVite.path} />, position: [72, 82] },
-	{
-		id: 'webpack',
-		label: 'Webpack',
-		icon: <SimpleIcon path={siWebpack.path} />,
-		position: [94, 82],
-	},
-	{ id: 'jest', label: 'Jest', icon: <SimpleIcon path={siJest.path} />, position: [93, 69] },
-	{ id: 'salesforce', label: 'Salesforce', icon: <CapabilityIcon />, position: [50, 39] },
-	{ id: 'ab-testing', label: 'A/B testing', icon: <CapabilityIcon />, position: [60, 88] },
-	{
-		id: 'postgresql',
-		label: 'PostgreSQL',
-		icon: <SimpleIcon path={siPostgresql.path} />,
-		position: [5, 86],
-	},
-	{
-		id: 'sqlite',
-		label: 'SQLite',
-		icon: <SimpleIcon path={siSqlite.path} />,
-		position: [18, 90],
-	},
-	{
-		id: 'inertia',
-		label: 'Inertia',
-		icon: <SimpleIcon path={siInertia.path} />,
-		position: [32, 91],
-	},
-	{
-		id: 'docker',
-		label: 'Docker',
-		icon: <SimpleIcon path={siDocker.path} />,
-		position: [46, 91],
-	},
-	{ id: 'git', label: 'Git', icon: <SimpleIcon path={siGit.path} />, position: [58, 94] },
-	{ id: 'gitlab-ci', label: 'GitLab CI', icon: <CapabilityIcon />, position: [70, 94] },
-	{
-		id: 'bitbucket-pipelines',
-		label: 'Bitbucket Pipelines',
-		icon: <SimpleIcon path={siBitbucket.path} />,
-		position: [83, 94],
-	},
-	{ id: 'codex', label: 'Codex', icon: <CapabilityIcon />, position: [92, 30] },
-	{
-		id: 'claude-code',
-		label: 'Claude Code',
-		icon: <SimpleIcon path={siClaude.path} />,
-		position: [83, 20],
-	},
-];
-
-const entryGalaxies: EntryGalaxy[] = [
-	{
-		id: 'wordpress',
-		position: [27, 28],
-		mobilePosition: [25, 26],
-		rotation: -8,
-		scale: 1.08,
-		drift: [20, -14],
-		driftDuration: 20,
-		driftDelay: -6,
-		cloudSway: 9,
-		cloudSwayDuration: 32,
-		cloudSwayDelay: -12,
-	},
-	{
-		id: 'react',
-		position: [73, 28],
-		mobilePosition: [75, 26],
-		rotation: 9,
-		scale: 0.98,
-		drift: [-18, 16],
-		driftDuration: 22,
-		driftDelay: -16,
-		cloudSway: 10,
-		cloudSwayDuration: 36,
-		cloudSwayDelay: -24,
-	},
-	{
-		id: 'php',
-		position: [27, 69],
-		mobilePosition: [25, 70],
-		rotation: 5,
-		scale: 0.96,
-		drift: [22, 12],
-		driftDuration: 16,
-		driftDelay: -10,
-		cloudSway: 8,
-		cloudSwayDuration: 28,
-		cloudSwayDelay: -18,
-	},
-	{
-		id: 'javascript',
-		position: [73, 69],
-		mobilePosition: [75, 70],
-		rotation: -11,
-		scale: 1.05,
-		drift: [-20, -18],
-		driftDuration: 24,
-		driftDelay: -20,
-		cloudSway: 10,
-		cloudSwayDuration: 34,
-		cloudSwayDelay: -28,
-	},
-];
-
-const connections: [TechnologyId, TechnologyId][] = [
-	['php', 'wordpress'],
-	['wordpress', 'gutenberg'],
-	['wordpress', 'scss'],
-	['wordpress', 'tailwind'],
-	['wordpress', 'wp-cli'],
-	['wordpress', 'acf-pro'],
-	['gutenberg', 'acf-pro'],
-	['gutenberg', 'react'],
-	['react', 'javascript'],
-	['react', 'tailwind'],
-	['react', 'tanstack-start'],
-	['react', 'nextjs'],
-	['react', 'astro'],
-	['javascript', 'astro'],
-	['wordpress', 'woocommerce'],
-	['wordpress', 'google-analytics'],
-	['php', 'mysql'],
-	['woocommerce', 'rest-apis'],
-	['google-analytics', 'ab-testing'],
-	['rest-apis', 'salesforce'],
-	['php', 'laravel'],
-	['php', 'craft-cms'],
-	['php', 'twig'],
-	['laravel', 'inertia'],
-	['laravel', 'postgresql'],
-	['laravel', 'sqlite'],
-	['laravel', 'docker'],
-	['inertia', 'react'],
-	['scss', 'postcss'],
-	['scss', 'html'],
-	['scss', 'twig'],
-	['javascript', 'vite'],
-	['javascript', 'webpack'],
-	['javascript', 'jest'],
-	['javascript', 'threejs'],
-	['javascript', 'vitest'],
-	['docker', 'git'],
-	['docker', 'gitlab-ci'],
-	['git', 'bitbucket-pipelines'],
-	['git', 'codex'],
-	['git', 'claude-code'],
-];
-
-const byId = new Map(technologies.map((technology) => [technology.id, technology]));
-const defaultPositions = Object.fromEntries(
-	technologies.map((technology) => [technology.id, technology.position]),
-) as Record<TechnologyId, [number, number]>;
-const masteryLevels: Record<TechnologyId, MasteryLevel> = {
-	php: 0,
-	wordpress: 0,
-	gutenberg: 0,
-	scss: 0,
-	html: 0,
-	'acf-pro': 0,
-	javascript: 0,
-	threejs: 1,
-	vitest: 2,
-	react: 0,
-	tailwind: 1,
-	twig: 1,
-	'rest-apis': 1,
-	mysql: 1,
-	laravel: 1,
-	'craft-cms': 1,
-	vite: 1,
-	webpack: 1,
-	postcss: 1,
-	jest: 1,
-	docker: 1,
-	git: 1,
-	'gitlab-ci': 1,
-	woocommerce: 1,
-	'wp-cli': 1,
-	nextjs: 1,
-	inertia: 1,
-	postgresql: 1,
-	'ab-testing': 1,
-	astro: 2,
-	'tanstack-start': 0,
-	sqlite: 2,
-	'bitbucket-pipelines': 2,
-	codex: 2,
-	'claude-code': 2,
-	'google-analytics': 2,
-	salesforce: 2,
-};
-export default function StackConstellation() {
+	const connections = catalog.connections;
 	const [selectedId, setSelectedId] = useState<TechnologyId | null>(null);
 	const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
 	const [reducedMotion, setReducedMotion] = useState(false);
@@ -464,7 +53,7 @@ export default function StackConstellation() {
 				return [];
 			}),
 		];
-	}, [selectedId]);
+	}, [connections, selectedId]);
 	const orbitTracks = useMemo(() => {
 		if (!selectedId) return [];
 		const nodeClearance = viewportSize.width < 640 ? 52 : 64;
@@ -550,7 +139,7 @@ export default function StackConstellation() {
 				];
 				const neighbors = selectedAndNeighbors.slice(1);
 				neighbors.forEach((id, index) => {
-					const ring = masteryLevels[id];
+					const ring = masteryOrbit[byId.get(id)!.mastery];
 					const phase = (index / neighbors.length) * Math.PI * 2 - 0.4;
 					const angle =
 						phase + (reducedMotion ? 0 : elapsedRef.current / 180_000) * Math.PI * 2;
@@ -620,7 +209,17 @@ export default function StackConstellation() {
 			observer.disconnect();
 			document.removeEventListener('visibilitychange', sync);
 		};
-	}, [focusWithin, orbitTracks, reducedMotion, selectedAndNeighbors, selectedId, viewportSize]);
+	}, [
+		byId,
+		defaultPositions,
+		focusWithin,
+		orbitTracks,
+		reducedMotion,
+		selectedAndNeighbors,
+		selectedId,
+		technologies,
+		viewportSize,
+	]);
 	const visibleIds = new Set<TechnologyId>(selectedId ? selectedAndNeighbors : []);
 
 	return (
@@ -632,8 +231,8 @@ export default function StackConstellation() {
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
 					{selected
-						? `Exploration : ${selected.label} · ${masteryLabels[masteryLevels[selected.id]]}`
-						: 'Choisissez une galaxie à explorer'}
+						? `${text.exploration} : ${selected.label} · ${text.mastery[selected.mastery]}`
+						: text.chooseGalaxy}
 				</p>
 				{selectedId && (
 					<button
@@ -641,13 +240,14 @@ export default function StackConstellation() {
 						type="button"
 						onClick={() => setSelectedId(null)}
 					>
-						Vue d’ensemble
+						{text.reset}
 					</button>
 				)}
 			</div>
 			{selectedId && (
 				<p className="constellation__legend">
-					De l’orbite intérieure à l’extérieure : Expertise · À l’aise · Pratique ciblée
+					{text.orbitLegend} : {text.mastery.expertise} · {text.mastery.comfortable} ·{' '}
+					{text.mastery.focused}
 				</p>
 			)}
 
@@ -737,7 +337,9 @@ export default function StackConstellation() {
 										<span className="constellation__galaxy-label">
 											{technology.label}
 										</span>
-										<span className="constellation__galaxy-cue">Explorer</span>
+										<span className="constellation__galaxy-cue">
+											{text.explore}
+										</span>
 									</span>
 								</button>
 							);
@@ -803,7 +405,7 @@ export default function StackConstellation() {
 						const preview = false;
 						const dimmed = Boolean(selectedId && !visible);
 						const isSelected = selectedId === technology.id;
-						const masteryLabel = masteryLabels[masteryLevels[technology.id]];
+						const masteryLabel = text.mastery[technology.mastery];
 						const neighbors = [
 							...new Set(
 								connections.flatMap(([from, to]) => {
@@ -831,7 +433,7 @@ export default function StackConstellation() {
 								data-interactive={canExplore}
 								aria-hidden={!visible}
 								aria-label={`${technology.label} — ${masteryLabel}${
-									canExplore ? ' — Explorer' : ''
+									canExplore ? ` — ${text.explore}` : ''
 								}`}
 								key={technology.id}
 								ref={(node) => {

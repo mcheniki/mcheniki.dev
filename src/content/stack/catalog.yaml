@@ -1,0 +1,162 @@
+catalog:
+  # Edit technologies, mastery and connections here. Icons and coordinates live in StackConstellationVisuals.tsx.
+    # Accepted mastery values: expertise, comfortable, focused (inner to outer orbit).
+    technologies:
+        - id: php
+          label: PHP
+          mastery: expertise
+          primary: true
+        - id: wordpress
+          label: WordPress
+          mastery: expertise
+          primary: true
+        - id: javascript
+          label: JavaScript / TypeScript
+          mastery: expertise
+          primary: true
+        - id: react
+          label: React
+          mastery: expertise
+          primary: true
+        - id: astro
+          label: Astro
+          mastery: focused
+        - id: threejs
+          label: Three.js
+          mastery: comfortable
+        - id: vitest
+          label: Vitest
+          mastery: focused
+        - id: gutenberg
+          label: Gutenberg
+          mastery: expertise
+        - id: scss
+          label: SCSS
+          mastery: expertise
+        - id: tailwind
+          label: Tailwind
+          mastery: comfortable
+        - id: tanstack-start
+          label: TanStack Start
+          mastery: expertise
+        - id: nextjs
+          label: Next.js
+          mastery: comfortable
+        - id: html
+          label: HTML
+          mastery: expertise
+        - id: twig
+          label: Twig
+          mastery: comfortable
+        - id: acf-pro
+          label: ACF Pro
+          mastery: expertise
+        - id: wp-cli
+          label: WP-CLI
+          mastery: comfortable
+        - id: woocommerce
+          label: WooCommerce
+          mastery: comfortable
+        - id: google-analytics
+          label: Google Analytics
+          mastery: focused
+        - id: rest-apis
+          label: REST APIs
+          mastery: comfortable
+        - id: mysql
+          label: MySQL
+          mastery: comfortable
+        - id: laravel
+          label: Laravel
+          mastery: comfortable
+        - id: craft-cms
+          label: Craft CMS
+          mastery: comfortable
+        - id: postcss
+          label: PostCSS
+          mastery: comfortable
+        - id: vite
+          label: Vite
+          mastery: comfortable
+        - id: webpack
+          label: Webpack
+          mastery: comfortable
+        - id: jest
+          label: Jest
+          mastery: comfortable
+        - id: salesforce
+          label: Salesforce
+          mastery: focused
+        - id: ab-testing
+          label: A/B testing
+          mastery: comfortable
+        - id: postgresql
+          label: PostgreSQL
+          mastery: comfortable
+        - id: sqlite
+          label: SQLite
+          mastery: focused
+        - id: inertia
+          label: Inertia
+          mastery: comfortable
+        - id: docker
+          label: Docker
+          mastery: comfortable
+        - id: git
+          label: Git
+          mastery: comfortable
+        - id: gitlab-ci
+          label: GitLab CI
+          mastery: comfortable
+        - id: bitbucket-pipelines
+          label: Bitbucket Pipelines
+          mastery: focused
+        - id: codex
+          label: Codex
+          mastery: focused
+        - id: claude-code
+          label: Claude Code
+          mastery: focused
+
+    connections:
+        - [php, wordpress]
+        - [wordpress, gutenberg]
+        - [wordpress, scss]
+        - [wordpress, tailwind]
+        - [wordpress, wp-cli]
+        - [wordpress, acf-pro]
+        - [gutenberg, acf-pro]
+        - [gutenberg, react]
+        - [react, javascript]
+        - [react, tailwind]
+        - [react, tanstack-start]
+        - [react, nextjs]
+        - [react, astro]
+        - [javascript, astro]
+        - [wordpress, woocommerce]
+        - [wordpress, google-analytics]
+        - [php, mysql]
+        - [woocommerce, rest-apis]
+        - [google-analytics, ab-testing]
+        - [rest-apis, salesforce]
+        - [php, laravel]
+        - [php, craft-cms]
+        - [php, twig]
+        - [laravel, inertia]
+        - [laravel, postgresql]
+        - [laravel, sqlite]
+        - [laravel, docker]
+        - [inertia, react]
+        - [scss, postcss]
+        - [scss, html]
+        - [scss, twig]
+        - [javascript, vite]
+        - [javascript, webpack]
+        - [javascript, jest]
+        - [javascript, threejs]
+        - [javascript, vitest]
+        - [docker, git]
+        - [docker, gitlab-ci]
+        - [git, bitbucket-pipelines]
+        - [git, codex]
+        - [git, claude-code]

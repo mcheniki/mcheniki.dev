@@ -20,6 +20,16 @@ stack:
     eyebrow: 'Technique'
     title: 'Du front-end à la production'
     description: 'Mon travail couvre les interfaces, la logique serveur, les intégrations avec des services externes et le déploiement. Je choisis les outils selon le projet, avec une attention particulière à la maintenance et aux évolutions à venir.'
+    constellation:
+        chooseGalaxy: 'Choisissez une galaxie à explorer'
+        exploration: 'Exploration'
+        reset: 'Vue d’ensemble'
+        orbitLegend: 'De l’orbite intérieure à l’extérieure'
+        explore: 'Explorer'
+        mastery:
+            expertise: 'Expertise'
+            comfortable: 'À l’aise'
+            focused: 'Pratique ciblée'
 projects:
     eyebrow: 'Réalisations'
     title: 'Quelques projets'
