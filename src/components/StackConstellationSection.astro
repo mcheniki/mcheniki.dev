@@ -6,9 +6,10 @@ import ShapeH2 from '@svgs/shape-h2.svg';
 
 type Props = {
 	content: StackContent;
+	variant?: 'portal' | 'realistic';
 };
 
-const { content } = Astro.props;
+const { content, variant = 'realistic' } = Astro.props;
 ---
 
 <Container>
@@ -27,6 +28,6 @@ const { content } = Astro.props;
 			</h3>
 			<p class="lead text-base text-base-0">{content.description}</p>
 		</header>
-		<StackConstellation text={content.constellation} client:load />
+		<StackConstellation text={content.constellation} variant={variant} client:load />
 	</div>
 </Container>

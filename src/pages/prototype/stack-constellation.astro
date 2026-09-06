@@ -7,6 +7,8 @@ import ProjectsSection from '@components/ProjectsSection.astro';
 import StackConstellationSection from '@components/StackConstellationSection.astro';
 import Layout from '../../layouts/Layout.astro';
 
+export const prerender = false;
+
 const locale = 'fr';
 const home = await getEntry('home', locale);
 
@@ -15,6 +17,7 @@ if (!home) {
 }
 
 const content = home.data;
+const variant = Astro.url.searchParams.get('variant') === 'realistic' ? 'realistic' : 'portal';
 ---
 
 <Layout
@@ -32,7 +35,7 @@ const content = home.data;
 			<About locale={locale} content={content.about} />
 		</section>
 		<section class="mb-96">
-			<StackConstellationSection content={content.stack} />
+			<StackConstellationSection content={content.stack} variant={variant} />
 		</section>
 		<section class="mb-96 scroll-mt-128" id="projects">
 			<ProjectsSection locale={locale} content={content.projects} />
@@ -41,4 +44,53 @@ const content = home.data;
 			<Contact locale={locale} content={content.contact} />
 		</section>
 	</main>
+	{
+		import.meta.env.DEV && (
+			<nav class="prototype-variant-switcher" aria-label="Variante du prototype">
+				<a
+					aria-current={variant === 'portal' ? 'page' : undefined}
+					href="?variant=portal#stack-constellation"
+				>
+					Portail
+				</a>
+				<a
+					aria-current={variant === 'realistic' ? 'page' : undefined}
+					href="?variant=realistic#stack-constellation"
+				>
+					Réaliste
+				</a>
+			</nav>
+		)
+	}
 </Layout>
+
+<style>
+	.prototype-variant-switcher {
+		position: fixed;
+		right: 1rem;
+		bottom: 1rem;
+		z-index: 30;
+		display: flex;
+		gap: 0.25rem;
+		padding: 0.25rem;
+		border: 1px solid color-mix(in srgb, var(--color-base-50) 30%, transparent);
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--color-base-900) 88%, transparent);
+		backdrop-filter: blur(10px);
+		font-family: var(--font-jetbrains);
+		font-size: 0.7rem;
+		letter-spacing: 0.04em;
+	}
+
+	.prototype-variant-switcher a {
+		padding: 0.45rem 0.7rem;
+		border-radius: 999px;
+		color: var(--color-base-100);
+		text-decoration: none;
+	}
+
+	.prototype-variant-switcher a[aria-current='page'] {
+		background: var(--color-primary-500);
+		color: var(--color-base-900);
+	}
+</style>

@@ -42,6 +42,14 @@
 	text-align: center;
 }
 
+.constellation[data-variant='portal'] .constellation__legend {
+	visibility: hidden;
+}
+
+.constellation[data-variant='portal'] .constellation__legend[data-visible='true'] {
+	visibility: visible;
+}
+
 .constellation__reset {
 	padding: 0.5rem 0.75rem;
 	border: 1px solid var(--color-base-200);
@@ -82,6 +90,8 @@
 .constellation__galaxy {
 	--galaxy-nucleus-offset: 1.125rem;
 	--galaxy-drift-scale: 1;
+	--galaxy-frozen-x: 0px;
+	--galaxy-frozen-y: 0px;
 	position: absolute;
 	top: var(--galaxy-y);
 	left: var(--galaxy-x);
@@ -133,6 +143,245 @@
 	transition:
 		transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
 		opacity 420ms ease;
+}
+
+/* Portal variant: the four entrances echo the offset concentric fields of the homepage portal. */
+.constellation[data-variant='portal'] {
+	background:
+		radial-gradient(circle at 82% 10%, rgba(113, 223, 213, 0.1), transparent 28%),
+		radial-gradient(circle at 12% 90%, rgba(255, 87, 2, 0.1), transparent 32%), #080a10;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy {
+	--portal-diameter: clamp(5.5rem, 14vw, 11.25rem);
+	--portal-tilt: 30deg;
+	--portal-spin: -12deg;
+	--portal-rim: #bd3f00;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy-drift {
+	perspective: 44rem;
+	transform-style: flat;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy:nth-child(2n) {
+	--portal-tilt: 27deg;
+	--portal-spin: 14deg;
+	--portal-rim: #168e85;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy:nth-child(3) {
+	--portal-tilt: 34deg;
+	--portal-spin: 9deg;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy:nth-child(4) {
+	--portal-tilt: 25deg;
+	--portal-spin: -17deg;
+}
+
+.constellation__portal-planet {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: var(--portal-diameter);
+	aspect-ratio: 1;
+	isolation: isolate;
+	transform: translateX(-50%) scale(var(--galaxy-scale));
+	transform-style: flat;
+	transition:
+		transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+		opacity 420ms ease;
+}
+
+.constellation__portal-plane {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	overflow: hidden;
+	box-shadow: 0 0.28rem 0 var(--portal-rim);
+	transform: rotateX(var(--portal-tilt)) rotateZ(var(--portal-spin));
+	transform-style: flat;
+	z-index: 0;
+	transition:
+		transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+		filter 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.constellation__portal-disc {
+	position: absolute;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.constellation__portal-disc--outer {
+	top: 50%;
+	left: 50%;
+	width: 112%;
+	aspect-ratio: 1;
+	background: #ff5702;
+}
+
+.constellation__portal-disc--middle {
+	top: 47%;
+	left: 46%;
+	width: 86%;
+	aspect-ratio: 1;
+	background: #ff7c3c;
+}
+
+.constellation__portal-disc--inner {
+	top: 46%;
+	left: 45%;
+	width: 61%;
+	aspect-ratio: 1;
+	background: #ffad7d;
+}
+
+.constellation__portal-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: grid;
+	place-items: center;
+	width: 30%;
+	aspect-ratio: 1;
+	color: #080a10;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+	transition: width 720ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.constellation__portal-brand {
+	width: 100%;
+	height: 100%;
+	fill: #080a10;
+}
+
+.constellation__portal-brand--pair {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.12rem;
+	width: 100%;
+	height: 100%;
+}
+
+.constellation__portal-brand--pair svg {
+	width: 47%;
+	height: 47%;
+	fill: #080a10;
+}
+
+.constellation[data-variant='portal'] .constellation__portal-icon svg {
+	fill: #080a10;
+	color: #080a10;
+}
+
+.constellation__portal-stars {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.constellation__portal-stars span {
+	position: absolute;
+	width: 0.8rem;
+	height: 0.8rem;
+	background: #fff5ef;
+	clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+	opacity: 0.82;
+}
+
+.constellation__portal-stars span:nth-child(1) {
+	top: 12%;
+	left: 12%;
+}
+
+.constellation__portal-stars span:nth-child(2) {
+	top: 20%;
+	left: 54%;
+	width: 0.48rem;
+	height: 0.48rem;
+	background: #71dfd5;
+}
+
+.constellation__portal-stars span:nth-child(3) {
+	top: 46%;
+	right: 9%;
+	width: 0.56rem;
+	height: 0.56rem;
+}
+
+.constellation__portal-stars span:nth-child(4) {
+	bottom: 13%;
+	left: 46%;
+	width: 0.46rem;
+	height: 0.46rem;
+	background: #ff9b69;
+}
+
+.constellation__portal-stars span:nth-child(5) {
+	bottom: 20%;
+	right: 27%;
+	width: 0.65rem;
+	height: 0.65rem;
+	background: #71dfd5;
+}
+
+.constellation__galaxy:nth-child(2n) .constellation__portal-disc--outer {
+	background: #2bbeb2;
+}
+
+.constellation__galaxy:nth-child(2n) .constellation__portal-disc--middle {
+	background: #4dd5c8;
+}
+
+.constellation__galaxy:nth-child(2n) .constellation__portal-disc--inner {
+	background: #83e7dc;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy-label {
+	top: calc(var(--portal-diameter) + 1rem);
+	bottom: auto;
+	transition: opacity 160ms ease;
+}
+
+.constellation[data-variant='portal'] .constellation__orbit {
+	stroke: rgba(113, 223, 213, 0.7);
+}
+
+.constellation[data-variant='portal']
+	.constellation__node[data-selected='true']
+	.constellation__icon {
+	background: #ff5702;
+	box-shadow: none;
+}
+
+.constellation[data-variant='portal'][data-selected-id='javascript']
+	.constellation__node[data-selected='true']
+	.constellation__icon,
+.constellation[data-variant='portal'][data-selected-id='react']
+	.constellation__node[data-selected='true']
+	.constellation__icon {
+	background: #71dfd5;
+}
+
+.constellation[data-variant='portal']
+	.constellation__node[data-selected='true']
+	.constellation__portal-brand {
+	fill: #080a10;
+}
+
+.constellation[data-variant='portal'] .constellation__galaxy:hover .constellation__portal-plane,
+.constellation[data-variant='portal']
+	.constellation__galaxy:focus-visible
+	.constellation__portal-plane {
+	filter: brightness(1.06);
+	box-shadow:
+		inset 0 0 0 2px rgba(8, 10, 16, 0.58),
+		0 0.28rem 0 var(--portal-rim);
 }
 
 .constellation__galaxy-nucleus {
@@ -234,6 +483,56 @@
 	transition:
 		transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
 		opacity 220ms ease 480ms;
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-persistent='true']
+	.constellation__galaxy[data-chosen='true'] {
+	opacity: 1;
+	transform: translate(-50%, -50%);
+	transition: transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-persistent='true'][data-handoff-ready='true']
+	.constellation__galaxy[data-chosen='true'] {
+	transform: translate(-50%, -50%) translate(var(--handoff-x), var(--handoff-y));
+	transition:
+		transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+		opacity 180ms ease;
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-persistent='true'][data-handoff-ready='true']
+	.constellation__galaxy[data-chosen='true']
+	.constellation__portal-planet {
+	transform: translateX(-50%) scale(calc(var(--galaxy-scale) * var(--handoff-scale)));
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-persistent='true'][data-handoff-ready='true']
+	.constellation__galaxy[data-chosen='true']
+	.constellation__portal-plane {
+	transform: rotateX(0deg) rotateZ(0deg);
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-persistent='true'][data-handoff-ready='true']
+	.constellation__galaxy[data-chosen='true']
+	.constellation__portal-icon {
+	width: 50%;
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-persistent='true']
+	.constellation__galaxy[data-chosen='true']
+	.constellation__galaxy-label {
+	opacity: 0;
+}
+
+.constellation[data-variant='portal'][data-selected='true'][data-handoff-complete='true'][data-handoff-persistent='false']
+	.constellation__galaxy[data-chosen='true'] {
+	opacity: 0;
+}
+
+.constellation[data-variant='portal'][data-handoff-persistent='true']
+	.constellation__node[data-selected='true']
+	.constellation__icon {
+	visibility: hidden;
 }
 
 .constellation[data-selected='true'] .constellation__galaxy-drift {
@@ -378,6 +677,11 @@
 
 .constellation[data-selected='true'] .constellation__node[data-visible='true'] {
 	transition-delay: 280ms;
+}
+
+.constellation[data-variant='portal'][data-selected='true']
+	.constellation__node[data-visible='true'] {
+	transition-delay: 640ms;
 }
 
 .constellation__orbit {
@@ -554,6 +858,19 @@
 }
 
 @media (max-width: 42rem) {
+	.constellation[data-variant='portal'] .constellation__galaxy {
+		--portal-diameter: 5.5rem;
+		--portal-tilt: 20deg;
+	}
+	.constellation[data-variant='portal'] .constellation__galaxy:nth-child(2n),
+	.constellation[data-variant='portal'] .constellation__galaxy:nth-child(3),
+	.constellation[data-variant='portal'] .constellation__galaxy:nth-child(4) {
+		--portal-tilt: 20deg;
+	}
+	.constellation[data-variant='portal'] .constellation__galaxy-label {
+		top: auto;
+		bottom: 0.45rem;
+	}
 	.constellation__toolbar {
 		padding-inline: 1rem;
 	}
@@ -630,6 +947,10 @@
 	.constellation__galaxy-drift,
 	.constellation__galaxy-cloud-spin,
 	.constellation__galaxy-cloud,
+	.constellation__portal-planet,
+	.constellation__portal-plane,
+	.constellation__portal-icon,
+	.constellation__galaxy-label,
 	.constellation__galaxy-nucleus,
 	.constellation__galaxy-cue,
 	.constellation__stars,

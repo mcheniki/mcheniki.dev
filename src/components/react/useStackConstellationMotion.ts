@@ -181,6 +181,7 @@ export function useStackConstellationMotion({
 		entryMotionEnabled,
 		nodeMotionRefs,
 		orbitTracks,
+		reducedMotion,
 		viewportRef,
 		viewportSize,
 	};
