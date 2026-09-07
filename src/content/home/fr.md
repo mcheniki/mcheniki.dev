@@ -24,12 +24,8 @@ stack:
         chooseGalaxy: 'Choisissez une galaxie à explorer'
         exploration: 'Exploration'
         reset: 'Vue d’ensemble'
-        orbitLegend: 'De l’orbite intérieure à l’extérieure'
         explore: 'Explorer'
-        mastery:
-            expertise: 'Expertise'
-            comfortable: 'À l’aise'
-            focused: 'Pratique ciblée'
+        otherTools: 'Autres outils'
 projects:
     eyebrow: 'Réalisations'
     title: 'Quelques projets'

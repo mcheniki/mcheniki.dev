@@ -291,9 +291,7 @@ export default function StackConstellation({
 		>
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
-					{selected
-						? `${text.exploration} : ${selected.label} · ${text.mastery[selected.mastery]}`
-						: text.chooseGalaxy}
+					{selected ? `${text.exploration} : ${selected.label}` : text.chooseGalaxy}
 				</p>
 				{selectedId && (
 					<button className="constellation__reset" type="button" onClick={resetSelection}>
@@ -301,24 +299,6 @@ export default function StackConstellation({
 					</button>
 				)}
 			</div>
-			{isPortalVariant(variant) ? (
-				<p
-					aria-hidden={!selectedId}
-					className="constellation__legend"
-					data-visible={Boolean(selectedId)}
-				>
-					{text.orbitLegend} : {text.mastery.expertise} · {text.mastery.comfortable} ·{' '}
-					{text.mastery.focused}
-				</p>
-			) : (
-				selectedId && (
-					<p className="constellation__legend">
-						{text.orbitLegend} : {text.mastery.expertise} · {text.mastery.comfortable} ·{' '}
-						{text.mastery.focused}
-					</p>
-				)
-			)}
-
 			<div
 				className="constellation__viewport"
 				ref={viewportRef}
@@ -469,7 +449,6 @@ export default function StackConstellation({
 						const position = technology.position;
 						const visible = visibleIds.has(technology.id);
 						const isSelected = selectedId === technology.id;
-						const masteryLabel = text.mastery[technology.mastery];
 						const neighbors = [
 							...new Set(
 								connections.flatMap(([from, to]) => {
@@ -494,9 +473,7 @@ export default function StackConstellation({
 								data-selected={isSelected}
 								data-interactive={canExplore}
 								aria-hidden={!visible}
-								aria-label={`${technology.label} — ${masteryLabel}${
-									canExplore ? ` — ${text.explore}` : ''
-								}`}
+								aria-label={`${technology.label}${canExplore ? ` — ${text.explore}` : ''}`}
 								key={technology.id}
 								ref={(node) => {
 									if (node) nodeButtonRefs.current.set(technology.id, node);
@@ -515,7 +492,7 @@ export default function StackConstellation({
 									} as CSSProperties
 								}
 								tabIndex={canExplore ? 0 : isSelected ? -1 : undefined}
-								title={`${technology.label} — ${masteryLabel}`}
+								title={technology.label}
 							>
 								<span
 									className="constellation__node-motion"
@@ -534,11 +511,6 @@ export default function StackConstellation({
 										)}
 									</span>
 									<span className="constellation__label">{technology.label}</span>
-									{isSelected && (
-										<span className="constellation__mastery">
-											{masteryLabel}
-										</span>
-									)}
 								</span>
 							</Node>
 						);

@@ -33,8 +33,6 @@ import {
 	siWoocommerce,
 } from 'simple-icons';
 
-export type MasteryLevel = 'expertise' | 'comfortable' | 'focused';
-
 type Galaxy = {
 	order: number;
 	position: readonly [number, number];
@@ -52,7 +50,6 @@ type Galaxy = {
 export type StackTechnology = {
 	id: string;
 	label: string;
-	mastery: MasteryLevel;
 	position: readonly [number, number];
 	icon: ReactNode;
 	galaxy?: Galaxy;
@@ -78,7 +75,6 @@ export const technologies = [
 	{
 		id: 'php',
 		label: 'PHP',
-		mastery: 'expertise',
 		position: [21, 47],
 		icon: <IconPHP />,
 		galaxy: {
@@ -98,7 +94,6 @@ export const technologies = [
 	{
 		id: 'wordpress',
 		label: 'WordPress',
-		mastery: 'expertise',
 		position: [38, 31],
 		icon: <IconWordPress />,
 		galaxy: {
@@ -118,7 +113,6 @@ export const technologies = [
 	{
 		id: 'javascript',
 		label: 'JavaScript / TypeScript',
-		mastery: 'expertise',
 		position: [64, 58],
 		icon: (
 			<span className="constellation__combined-icon">
@@ -143,7 +137,6 @@ export const technologies = [
 	{
 		id: 'react',
 		label: 'React',
-		mastery: 'expertise',
 		position: [60, 27],
 		icon: <IconReact />,
 		galaxy: {
@@ -163,210 +156,180 @@ export const technologies = [
 	{
 		id: 'astro',
 		label: 'Astro',
-		mastery: 'focused',
 		position: [70, 36],
 		icon: <SimpleIcon path={siAstro.path} />,
 	},
 	{
 		id: 'threejs',
 		label: 'Three.js',
-		mastery: 'comfortable',
 		position: [82, 70],
 		icon: <SimpleIcon path={siThreedotjs.path} />,
 	},
 	{
 		id: 'vitest',
 		label: 'Vitest',
-		mastery: 'focused',
 		position: [88, 78],
 		icon: <SimpleIcon path={siVitest.path} />,
 	},
 	{
 		id: 'gutenberg',
 		label: 'Gutenberg',
-		mastery: 'expertise',
 		position: [49, 16],
 		icon: <IconGutenberg />,
 	},
 	{
 		id: 'scss',
 		label: 'SCSS',
-		mastery: 'expertise',
 		position: [28, 62],
 		icon: <SimpleIcon path={siSass.path} />,
 	},
 	{
 		id: 'tailwind',
 		label: 'Tailwind',
-		mastery: 'comfortable',
 		position: [43, 64],
 		icon: <SimpleIcon path={siTailwindcss.path} />,
 	},
 	{
 		id: 'tanstack-start',
 		label: 'TanStack Start',
-		mastery: 'expertise',
 		position: [74, 19],
 		icon: <SimpleIcon path={siTanstack.path} />,
 	},
 	{
 		id: 'nextjs',
 		label: 'Next.js',
-		mastery: 'comfortable',
 		position: [87, 60],
 		icon: <IconNext />,
 	},
 	{
 		id: 'html',
 		label: 'HTML',
-		mastery: 'expertise',
 		position: [85, 77],
 		icon: <SimpleIcon path={siHtml5.path} />,
 	},
 	{
 		id: 'twig',
 		label: 'Twig',
-		mastery: 'comfortable',
 		position: [10, 72],
 		icon: <CapabilityIcon />,
 	},
 	{
 		id: 'acf-pro',
 		label: 'ACF Pro',
-		mastery: 'expertise',
 		position: [30, 16],
 		icon: <img src={acfLogoUrl} alt="" />,
 	},
 	{
 		id: 'wp-cli',
 		label: 'WP-CLI',
-		mastery: 'comfortable',
 		position: [22, 18],
 		icon: <CapabilityIcon />,
 	},
 	{
 		id: 'woocommerce',
 		label: 'WooCommerce',
-		mastery: 'comfortable',
 		position: [13, 27],
 		icon: <SimpleIcon path={siWoocommerce.path} />,
 	},
 	{
 		id: 'google-analytics',
 		label: 'Google Analytics',
-		mastery: 'focused',
 		position: [60, 5],
 		icon: <SimpleIcon path={siGoogleanalytics.path} />,
 	},
 	{
 		id: 'mysql',
 		label: 'MySQL',
-		mastery: 'comfortable',
 		position: [12, 43],
 		icon: <SimpleIcon path={siMysql.path} />,
 	},
 	{
 		id: 'laravel',
 		label: 'Laravel',
-		mastery: 'comfortable',
 		position: [8, 55],
 		icon: <SimpleIcon path={siLaravel.path} />,
 	},
 	{
 		id: 'craft-cms',
 		label: 'Craft CMS',
-		mastery: 'comfortable',
 		position: [5, 63],
 		icon: <SimpleIcon path={siCraftcms.path} />,
 	},
 	{
 		id: 'postcss',
 		label: 'PostCSS',
-		mastery: 'comfortable',
 		position: [36, 78],
 		icon: <SimpleIcon path={siPostcss.path} />,
 	},
 	{
 		id: 'vite',
 		label: 'Vite',
-		mastery: 'comfortable',
 		position: [72, 82],
 		icon: <SimpleIcon path={siVite.path} />,
 	},
 	{
 		id: 'webpack',
 		label: 'Webpack',
-		mastery: 'comfortable',
 		position: [94, 82],
 		icon: <SimpleIcon path={siWebpack.path} />,
 	},
 	{
 		id: 'jest',
 		label: 'Jest',
-		mastery: 'comfortable',
 		position: [93, 69],
 		icon: <SimpleIcon path={siJest.path} />,
 	},
 	{
 		id: 'postgresql',
 		label: 'PostgreSQL',
-		mastery: 'comfortable',
 		position: [5, 86],
 		icon: <SimpleIcon path={siPostgresql.path} />,
 	},
 	{
 		id: 'sqlite',
 		label: 'SQLite',
-		mastery: 'focused',
 		position: [18, 90],
 		icon: <SimpleIcon path={siSqlite.path} />,
 	},
 	{
 		id: 'inertia',
 		label: 'Inertia',
-		mastery: 'comfortable',
 		position: [32, 91],
 		icon: <SimpleIcon path={siInertia.path} />,
 	},
 	{
 		id: 'docker',
 		label: 'Docker',
-		mastery: 'comfortable',
 		position: [46, 91],
 		icon: <SimpleIcon path={siDocker.path} />,
 	},
 	{
 		id: 'git',
 		label: 'Git',
-		mastery: 'comfortable',
 		position: [58, 94],
 		icon: <SimpleIcon path={siGit.path} />,
 	},
 	{
 		id: 'gitlab-ci',
 		label: 'GitLab CI',
-		mastery: 'comfortable',
 		position: [70, 94],
 		icon: <CapabilityIcon />,
 	},
 	{
 		id: 'bitbucket-pipelines',
 		label: 'Bitbucket Pipelines',
-		mastery: 'focused',
 		position: [83, 94],
 		icon: <SimpleIcon path={siBitbucket.path} />,
 	},
 	{
 		id: 'codex',
 		label: 'Codex',
-		mastery: 'focused',
 		position: [92, 30],
 		icon: <CapabilityIcon />,
 	},
 	{
 		id: 'claude-code',
 		label: 'Claude Code',
-		mastery: 'focused',
 		position: [83, 20],
 		icon: <SimpleIcon path={siClaude.path} />,
 	},
@@ -417,6 +380,37 @@ export const connections = [
 	['git', 'claude-code'],
 ] as const satisfies readonly (readonly [TechnologyId, TechnologyId])[];
 
+export const mobileRootIds = [
+	'wordpress',
+	'php',
+	'react',
+	'javascript',
+] as const satisfies readonly TechnologyId[];
+
+export function directNeighbors(id: TechnologyId) {
+	return [
+		...new Set(
+			connections.flatMap(([from, to]) => (from === id ? [to] : to === id ? [from] : [])),
+		),
+	];
+}
+
+export const mobileDisclosureGroups = mobileRootIds.map((id) => ({
+	root: technologies.find((technology) => technology.id === id)!,
+	neighbors: directNeighbors(id).map((neighborId) =>
+		technologies.find((technology) => technology.id === neighborId)!,
+	),
+}));
+
+const mobileCoveredIds = new Set(
+	mobileDisclosureGroups.flatMap(({ root, neighbors }) => [
+		root.id,
+		...neighbors.map(({ id }) => id),
+	]),
+);
+
+export const mobileOtherTechnologies = technologies.filter(({ id }) => !mobileCoveredIds.has(id));
+
 export const entryGalaxies = technologies
 	.filter((technology): technology is EntryGalaxy => 'galaxy' in technology)
 	.toSorted((first, second) => first.galaxy.order - second.galaxy.order);
@@ -438,6 +432,18 @@ function validateStackCatalog() {
 		if (!technologyIds.has(from) || !technologyIds.has(to)) {
 			throw new Error(`Unknown technology in connection: ${from}, ${to}`);
 		}
+	}
+	const mobileIds = new Set([
+		...mobileDisclosureGroups.flatMap(({ root, neighbors }) => [
+			root.id,
+			...neighbors.map(({ id }) => id),
+		]),
+		...mobileOtherTechnologies.map(({ id }) => id),
+	]);
+	if (mobileIds.size !== technologies.length) {
+		throw new Error(
+			'Mobile disclosures must cover every technology exactly once or as a direct neighbor.',
+		);
 	}
 }
 

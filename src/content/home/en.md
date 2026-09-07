@@ -24,12 +24,8 @@ stack:
         chooseGalaxy: 'Choose a galaxy to explore'
         exploration: 'Exploring'
         reset: 'Overview'
-        orbitLegend: 'From the inner orbit to the outer orbit'
         explore: 'Explore'
-        mastery:
-            expertise: 'Expertise'
-            comfortable: 'Comfortable'
-            focused: 'Focused practice'
+        otherTools: 'Other tools'
 projects:
     eyebrow: 'Selected work'
     title: 'Some of my work'

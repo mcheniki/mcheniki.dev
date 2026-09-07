@@ -1275,15 +1275,161 @@
 	color: var(--color-primary-200);
 }
 
-.constellation__mastery {
-	margin-top: 0.3rem;
+.constellation-mobile {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.constellation-mobile__disclosure {
+	border: 1px solid color-mix(in srgb, var(--color-base-400) 32%, transparent);
+	border-radius: 0.9rem;
+	background: #080a10;
+	overflow: clip;
+}
+
+.constellation-mobile__disclosure summary {
+	display: grid;
+	grid-template-columns: 2rem 2.2rem minmax(0, 1fr) 2.5rem;
+	align-items: center;
+	gap: 0.65rem;
+	min-height: 3.5rem;
+	padding: 0.65rem 0.85rem;
+	color: var(--color-base-50);
+	font-family: var(--font-jetbrains);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.2;
+	cursor: pointer;
+	list-style: none;
+}
+
+.constellation-mobile__disclosure summary::-webkit-details-marker {
+	display: none;
+}
+
+.constellation-mobile__gyro {
+	position: relative;
+	width: 1.7rem;
+	height: 1.7rem;
+}
+
+.constellation-mobile__gyro span {
+	position: absolute;
+	inset: 0.15rem;
+	border: 1.5px solid var(--color-primary-400);
+	border-radius: 50%;
+	transform: rotateX(65deg) rotateZ(25deg);
+}
+
+.constellation-mobile__gyro span + span {
+	border-color: var(--color-secondary-400);
+	transform: rotateY(65deg) rotateZ(-22deg);
+}
+
+.constellation-mobile__root-icon,
+.constellation-mobile__tool-icon {
+	display: grid;
+	place-items: center;
+}
+
+.constellation-mobile__root-icon svg,
+.constellation-mobile__root-icon img {
+	width: 1.75rem;
+	height: 1.75rem;
+	fill: currentColor;
+}
+
+.constellation-mobile__root-icon .constellation__combined-icon {
+	gap: 0.2rem;
+}
+
+.constellation-mobile__root-icon .constellation__combined-icon svg {
+	width: 0.8rem;
+	height: 0.8rem;
+}
+
+.constellation-mobile__toggle {
+	position: relative;
+	grid-column: 4;
+	width: 3rem;
+	height: 3rem;
+	border: 1px solid color-mix(in srgb, var(--color-primary-400) 70%, transparent);
+	border-radius: 50%;
+}
+
+.constellation-mobile__toggle::before,
+.constellation-mobile__toggle::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0.7rem;
+	height: 1.5px;
+	background: var(--color-primary-300);
+	content: '';
+	transform: translate(-50%, -50%);
+}
+
+.constellation-mobile__toggle::after {
+	transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.constellation-mobile__disclosure[open] .constellation-mobile__toggle::after {
+	transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.constellation-mobile__disclosure--other summary > span:nth-child(2) {
+	grid-column: 2 / span 2;
+}
+
+.constellation-mobile__tools {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	margin: 0;
+	padding: 0 0.85rem 0.85rem;
+	border-top: 1px solid color-mix(in srgb, var(--color-base-400) 20%, transparent);
+	list-style: none;
+	animation: constellation-mobile-open 180ms ease-out;
+}
+
+.constellation-mobile__tools li {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	min-width: 0;
+	padding-top: 0.5rem;
 	color: var(--color-base-100);
 	font-family: var(--font-jetbrains);
-	font-size: 0.625rem;
-	font-weight: 700;
-	letter-spacing: 0.08em;
-	line-height: 1.2;
-	text-transform: uppercase;
+	font-size: 0.875rem;
+	line-height: 1.4;
+}
+
+.constellation-mobile__tool-icon svg,
+.constellation-mobile__tool-icon img {
+	width: 1rem;
+	height: 1rem;
+	flex: none;
+	fill: currentColor;
+}
+
+.constellation-mobile__tool-icon .constellation__combined-icon {
+	gap: 0.12rem;
+}
+
+.constellation-mobile__tool-icon .constellation__combined-icon svg {
+	width: 0.55rem;
+	height: 0.55rem;
+}
+
+@keyframes constellation-mobile-open {
+	from {
+		opacity: 0;
+		transform: translateY(-0.2rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .constellation__node[data-secondary='true'] .constellation__icon,

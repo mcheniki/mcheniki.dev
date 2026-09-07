@@ -6,8 +6,6 @@ type OrbitTrack = {
 	radiusY: number;
 };
 
-const masteryOrbit = { expertise: 0, comfortable: 1, focused: 2 } as const;
-
 type MotionOptions = {
 	technologies: readonly CatalogTechnology[];
 	selectedId: TechnologyId | null;
@@ -95,7 +93,7 @@ export function useStackConstellationMotion({
 				];
 				selectedAndNeighbors.slice(1).forEach((id, index, neighbors) => {
 					const technology = byId.get(id)!;
-					const track = orbitTracks[masteryOrbit[technology.mastery]];
+					const track = orbitTracks[index % orbitTracks.length];
 					const phase = (index / neighbors.length) * Math.PI * 2 - 0.4;
 					const angle =
 						phase + (reducedMotion ? 0 : elapsedRef.current / 180_000) * Math.PI * 2;

@@ -45,13 +45,8 @@ const home = defineCollection({
 				chooseGalaxy: z.string(),
 				exploration: z.string(),
 				reset: z.string(),
-				orbitLegend: z.string(),
 				explore: z.string(),
-				mastery: z.object({
-					expertise: z.string(),
-					comfortable: z.string(),
-					focused: z.string(),
-				}),
+				otherTools: z.string(),
 			}),
 		}),
 		projects: z.object({
