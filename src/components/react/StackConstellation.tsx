@@ -20,8 +20,18 @@ function isPortalVariant(variant: StackConstellationVariant) {
 	);
 }
 
+function displayLabel(technology: (typeof technologies)[number], text: StackConstellationText) {
+	return technology.id === 'other-tools' ? text.otherTools : technology.label;
+}
+
 function hasPortalBrand(id: TechnologyId) {
-	return id === 'php' || id === 'wordpress' || id === 'javascript' || id === 'react';
+	return (
+		id === 'php' ||
+		id === 'wordpress' ||
+		id === 'javascript' ||
+		id === 'react' ||
+		id === 'other-tools'
+	);
 }
 
 function PortalBrandMark({ id }: { id: TechnologyId }) {
@@ -35,6 +45,14 @@ function PortalBrandMark({ id }: { id: TechnologyId }) {
 					<path d={siTypescript.path} />
 				</svg>
 			</span>
+		);
+	}
+
+	if (id === 'other-tools') {
+		return (
+			<svg className="constellation__portal-brand" viewBox="0 0 24 24" aria-hidden="true">
+				<path d="M4 8h16v11H4V8Zm5-3h6l1 3H8l1-3Zm-3 7h12v2H6v-2Z" />
+			</svg>
 		);
 	}
 
@@ -291,7 +309,9 @@ export default function StackConstellation({
 		>
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
-					{selected ? `${text.exploration} : ${selected.label}` : text.chooseGalaxy}
+					{selected
+						? `${text.exploration} : ${displayLabel(selected, text)}`
+						: text.chooseGalaxy}
 				</p>
 				{selectedId && (
 					<button className="constellation__reset" type="button" onClick={resetSelection}>
@@ -395,7 +415,7 @@ export default function StackConstellation({
 											</span>
 										)}
 										<span className="constellation__galaxy-label">
-											{galaxy.label}
+											{displayLabel(galaxy, text)}
 										</span>
 										{variant === 'realistic' && (
 											<span className="constellation__galaxy-cue">
@@ -473,7 +493,7 @@ export default function StackConstellation({
 								data-selected={isSelected}
 								data-interactive={canExplore}
 								aria-hidden={!visible}
-								aria-label={`${technology.label}${canExplore ? ` — ${text.explore}` : ''}`}
+								aria-label={`${displayLabel(technology, text)}${canExplore ? ` — ${text.explore}` : ''}`}
 								key={technology.id}
 								ref={(node) => {
 									if (node) nodeButtonRefs.current.set(technology.id, node);
@@ -492,7 +512,7 @@ export default function StackConstellation({
 									} as CSSProperties
 								}
 								tabIndex={canExplore ? 0 : isSelected ? -1 : undefined}
-								title={technology.label}
+								title={displayLabel(technology, text)}
 							>
 								<span
 									className="constellation__node-motion"
@@ -510,7 +530,9 @@ export default function StackConstellation({
 											technology.icon
 										)}
 									</span>
-									<span className="constellation__label">{technology.label}</span>
+									<span className="constellation__label">
+										{displayLabel(technology, text)}
+									</span>
 								</span>
 							</Node>
 						);

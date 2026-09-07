@@ -8,10 +8,12 @@ import acfLogoUrl from '@svgs/acf.svg?url';
 import IconGutenberg from '@svgs/gutenberg.svg?react';
 import {
 	siAstro,
+	siBetterauth,
 	siBitbucket,
 	siClaude,
 	siCraftcms,
 	siDocker,
+	siFigma,
 	siGit,
 	siGoogleanalytics,
 	siHtml5,
@@ -22,6 +24,7 @@ import {
 	siPostcss,
 	siPostgresql,
 	siSass,
+	siShopify,
 	siSqlite,
 	siTailwindcss,
 	siTanstack,
@@ -31,6 +34,7 @@ import {
 	siVitest,
 	siWebpack,
 	siWoocommerce,
+	siZod,
 } from 'simple-icons';
 
 type Galaxy = {
@@ -50,6 +54,7 @@ type Galaxy = {
 export type StackTechnology = {
 	id: string;
 	label: string;
+	kind?: 'group';
 	position: readonly [number, number];
 	icon: ReactNode;
 	galaxy?: Galaxy;
@@ -71,6 +76,14 @@ function CapabilityIcon() {
 	);
 }
 
+export function ToolboxIcon() {
+	return (
+		<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+			<path d="M4 8h16v11H4V8Zm5-3h6l1 3H8l1-3Zm-3 7h12v2H6v-2Z" />
+		</svg>
+	);
+}
+
 export const technologies = [
 	{
 		id: 'php',
@@ -79,7 +92,7 @@ export const technologies = [
 		icon: <IconPHP />,
 		galaxy: {
 			order: 3,
-			position: [27, 69],
+			position: [33, 70],
 			mobilePosition: [25, 70],
 			rotation: 5,
 			scale: 0.96,
@@ -98,7 +111,7 @@ export const technologies = [
 		icon: <IconWordPress />,
 		galaxy: {
 			order: 1,
-			position: [27, 28],
+			position: [18, 25],
 			mobilePosition: [25, 26],
 			rotation: -8,
 			scale: 1.08,
@@ -122,7 +135,7 @@ export const technologies = [
 		),
 		galaxy: {
 			order: 4,
-			position: [73, 69],
+			position: [67, 70],
 			mobilePosition: [75, 70],
 			rotation: -11,
 			scale: 1.05,
@@ -141,7 +154,7 @@ export const technologies = [
 		icon: <IconReact />,
 		galaxy: {
 			order: 2,
-			position: [73, 28],
+			position: [50, 20],
 			mobilePosition: [75, 26],
 			rotation: 9,
 			scale: 0.98,
@@ -151,6 +164,26 @@ export const technologies = [
 			cloudSway: 10,
 			cloudSwayDuration: 36,
 			cloudSwayDelay: -24,
+		},
+	},
+	{
+		id: 'other-tools',
+		label: 'Other tools',
+		kind: 'group',
+		position: [82, 25],
+		icon: <ToolboxIcon />,
+		galaxy: {
+			order: 5,
+			position: [82, 25],
+			mobilePosition: [50, 88],
+			rotation: -4,
+			scale: 0.94,
+			drift: [14, -10],
+			driftDuration: 18,
+			driftDelay: -8,
+			cloudSway: 7,
+			cloudSwayDuration: 30,
+			cloudSwayDelay: -14,
 		},
 	},
 	{
@@ -194,6 +227,24 @@ export const technologies = [
 		label: 'TanStack Start',
 		position: [74, 19],
 		icon: <SimpleIcon path={siTanstack.path} />,
+	},
+	{
+		id: 'tanstack-query',
+		label: 'TanStack Query',
+		position: [78, 23],
+		icon: <SimpleIcon path={siTanstack.path} />,
+	},
+	{
+		id: 'zod',
+		label: 'Zod',
+		position: [66, 10],
+		icon: <SimpleIcon path={siZod.path} />,
+	},
+	{
+		id: 'better-auth',
+		label: 'Better Auth',
+		position: [72, 12],
+		icon: <SimpleIcon path={siBetterauth.path} />,
 	},
 	{
 		id: 'nextjs',
@@ -333,6 +384,24 @@ export const technologies = [
 		position: [83, 20],
 		icon: <SimpleIcon path={siClaude.path} />,
 	},
+	{
+		id: 'shopify',
+		label: 'Shopify',
+		position: [90, 52],
+		icon: <SimpleIcon path={siShopify.path} />,
+	},
+	{
+		id: 'figma',
+		label: 'Figma',
+		position: [88, 46],
+		icon: <SimpleIcon path={siFigma.path} />,
+	},
+	{
+		id: 'gravity-forms',
+		label: 'Gravity Forms',
+		position: [42, 22],
+		icon: <CapabilityIcon />,
+	},
 ] as const satisfies readonly StackTechnology[];
 
 export type TechnologyId = (typeof technologies)[number]['id'];
@@ -347,15 +416,16 @@ export const connections = [
 	['wordpress', 'wp-cli'],
 	['wordpress', 'acf-pro'],
 	['gutenberg', 'acf-pro'],
-	['gutenberg', 'react'],
 	['react', 'javascript'],
 	['react', 'tailwind'],
 	['react', 'tanstack-start'],
+	['react', 'tanstack-query'],
+	['react', 'zod'],
+	['react', 'better-auth'],
 	['react', 'nextjs'],
 	['react', 'astro'],
 	['javascript', 'astro'],
 	['wordpress', 'woocommerce'],
-	['wordpress', 'google-analytics'],
 	['php', 'mysql'],
 	['php', 'laravel'],
 	['php', 'craft-cms'],
@@ -363,7 +433,6 @@ export const connections = [
 	['laravel', 'inertia'],
 	['laravel', 'postgresql'],
 	['laravel', 'sqlite'],
-	['laravel', 'docker'],
 	['inertia', 'react'],
 	['scss', 'postcss'],
 	['scss', 'html'],
@@ -373,11 +442,18 @@ export const connections = [
 	['javascript', 'jest'],
 	['javascript', 'threejs'],
 	['javascript', 'vitest'],
-	['docker', 'git'],
-	['docker', 'gitlab-ci'],
-	['git', 'bitbucket-pipelines'],
-	['git', 'codex'],
-	['git', 'claude-code'],
+	['other-tools', 'git'],
+	['other-tools', 'docker'],
+	['other-tools', 'bitbucket-pipelines'],
+	['other-tools', 'gitlab-ci'],
+	['other-tools', 'codex'],
+	['other-tools', 'claude-code'],
+	['other-tools', 'google-analytics'],
+	['other-tools', 'shopify'],
+	['other-tools', 'figma'],
+	['wordpress', 'gravity-forms'],
+	['php', 'postgresql'],
+	['react', 'sqlite'],
 ] as const satisfies readonly (readonly [TechnologyId, TechnologyId])[];
 
 export const mobileRootIds = [
@@ -385,6 +461,18 @@ export const mobileRootIds = [
 	'php',
 	'react',
 	'javascript',
+] as const satisfies readonly TechnologyId[];
+
+export const toolboxToolIds = [
+	'git',
+	'docker',
+	'gitlab-ci',
+	'bitbucket-pipelines',
+	'codex',
+	'claude-code',
+	'google-analytics',
+	'shopify',
+	'figma',
 ] as const satisfies readonly TechnologyId[];
 
 export function directNeighbors(id: TechnologyId) {
@@ -402,14 +490,11 @@ export const mobileDisclosureGroups = mobileRootIds.map((id) => ({
 	),
 }));
 
-const mobileCoveredIds = new Set(
-	mobileDisclosureGroups.flatMap(({ root, neighbors }) => [
-		root.id,
-		...neighbors.map(({ id }) => id),
-	]),
+export const mobileToolboxTechnologies = toolboxToolIds.map((id) =>
+	technologies.find((technology) => technology.id === id)!,
 );
 
-export const mobileOtherTechnologies = technologies.filter(({ id }) => !mobileCoveredIds.has(id));
+export const mobileOtherTechnologies = mobileToolboxTechnologies;
 
 export const entryGalaxies = technologies
 	.filter((technology): technology is EntryGalaxy => 'galaxy' in technology)
@@ -433,17 +518,24 @@ function validateStackCatalog() {
 			throw new Error(`Unknown technology in connection: ${from}, ${to}`);
 		}
 	}
-	const mobileIds = new Set([
-		...mobileDisclosureGroups.flatMap(({ root, neighbors }) => [
-			root.id,
-			...neighbors.map(({ id }) => id),
-		]),
-		...mobileOtherTechnologies.map(({ id }) => id),
-	]);
-	if (mobileIds.size !== technologies.length) {
-		throw new Error(
-			'Mobile disclosures must cover every technology exactly once or as a direct neighbor.',
-		);
+	for (const { root, neighbors } of mobileDisclosureGroups) {
+		const expectedNeighbors = new Set(directNeighbors(root.id));
+		if (
+			neighbors.length !== expectedNeighbors.size ||
+			neighbors.some(({ id }) => !expectedNeighbors.has(id))
+		) {
+			throw new Error('Mobile galaxy disclosures must match their desktop direct neighbors.');
+		}
+	}
+	if (mobileToolboxTechnologies.length !== 9) {
+		throw new Error('Toolbox must contain the agreed nine tools.');
+	}
+	const toolboxNeighborIds = new Set(directNeighbors('other-tools'));
+	if (
+		toolboxNeighborIds.size !== toolboxToolIds.length ||
+		toolboxToolIds.some((id) => !toolboxNeighborIds.has(id))
+	) {
+		throw new Error('Toolbox connections must match the agreed nine tools.');
 	}
 }
 

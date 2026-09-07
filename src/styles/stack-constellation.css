@@ -473,13 +473,13 @@
 }
 
 .constellation__portal-planet--pair .constellation__portal-icon {
-	width: 48%;
+	width: 38%;
 }
 
 .constellation:is([data-variant='outline'], [data-variant='gyroscope'], [data-variant='crescent'])
 	.constellation__portal-planet--pair
 	.constellation__portal-icon {
-	width: 48%;
+	width: 38%;
 }
 
 .constellation__portal-planet--gyroscope .constellation__portal-icon {
@@ -1267,6 +1267,23 @@
 	svg {
 	width: 1.25rem;
 	height: 1.25rem;
+	fill: #080a10;
+}
+
+.constellation[data-selected-id='javascript']
+	.constellation__node[data-selected='true']
+	.constellation__portal-brand--pair {
+	gap: 0.22rem;
+	width: auto;
+	height: 1.2rem;
+}
+
+.constellation[data-selected-id='javascript']
+	.constellation__node[data-selected='true']
+	.constellation__portal-brand--pair
+	svg {
+	width: 1.2rem;
+	height: 1.2rem;
 	fill: #080a10;
 }
 
