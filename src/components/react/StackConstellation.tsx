@@ -7,6 +7,18 @@ import { useStackConstellationMotion } from './useStackConstellationMotion';
 import '../../styles/stack-constellation.css';
 
 type StackConstellationText = StackContent['constellation'];
+type StackConstellationVariant =
+	'portal' | 'realistic' | 'outline' | 'gyroscope' | 'crescent' | 'gyroscope-portal';
+
+function isPortalVariant(variant: StackConstellationVariant) {
+	return (
+		variant === 'portal' ||
+		variant === 'outline' ||
+		variant === 'gyroscope' ||
+		variant === 'crescent' ||
+		variant === 'gyroscope-portal'
+	);
+}
 
 function hasPortalBrand(id: TechnologyId) {
 	return id === 'php' || id === 'wordpress' || id === 'javascript' || id === 'react';
@@ -38,12 +50,89 @@ function PortalBrandMark({ id }: { id: TechnologyId }) {
 	);
 }
 
+function PortalEntrance({ id, variant }: { id: TechnologyId; variant: StackConstellationVariant }) {
+	return (
+		<span
+			className={[
+				'constellation__portal-planet',
+				`constellation__portal-planet--${variant}`,
+				id === 'javascript' && variant !== 'portal'
+					? 'constellation__portal-planet--pair'
+					: '',
+			]
+				.filter(Boolean)
+				.join(' ')}
+		>
+			{variant === 'portal' && (
+				<span className="constellation__portal-plane">
+					<span className="constellation__portal-disc constellation__portal-disc--outer" />
+					<span className="constellation__portal-disc constellation__portal-disc--middle" />
+					<span className="constellation__portal-disc constellation__portal-disc--inner" />
+				</span>
+			)}
+			{variant === 'outline' && (
+				<span className="constellation__portal-plane constellation__portal-plane--outline">
+					<span className="constellation__portal-ring constellation__portal-ring--outer" />
+					<span className="constellation__portal-ring constellation__portal-ring--middle" />
+					<span className="constellation__portal-ring constellation__portal-ring--inner" />
+				</span>
+			)}
+			{(variant === 'gyroscope' || variant === 'gyroscope-portal') && (
+				<span
+					className={[
+						'constellation__portal-plane',
+						'constellation__portal-plane--gyroscope',
+						variant === 'gyroscope-portal'
+							? 'constellation__portal-plane--gyroscope-portal'
+							: '',
+					]
+						.filter(Boolean)
+						.join(' ')}
+				>
+					{variant === 'gyroscope-portal' && (
+						<span className="constellation__portal-banded-annulus">
+							<span className="constellation__portal-band constellation__portal-band--outer" />
+							<span className="constellation__portal-band constellation__portal-band--middle" />
+							<span className="constellation__portal-band constellation__portal-band--inner" />
+						</span>
+					)}
+					<span className="constellation__portal-gyro-ring constellation__portal-gyro-ring--back" />
+					<span className="constellation__portal-gyro-ring constellation__portal-gyro-ring--middle" />
+					<span className="constellation__portal-gyro-ring constellation__portal-gyro-ring--front" />
+				</span>
+			)}
+			{variant === 'crescent' && (
+				<span className="constellation__portal-plane constellation__portal-plane--crescent">
+					<svg viewBox="0 0 100 100" aria-hidden="true">
+						<defs>
+							<mask id={`constellation-crescent-${id}`}>
+								<rect width="100" height="100" fill="white" />
+								<circle cx="57" cy="44" r="33" fill="black" />
+							</mask>
+						</defs>
+						<circle
+							cx="50"
+							cy="50"
+							r="43"
+							mask={`url(#constellation-crescent-${id})`}
+						/>
+					</svg>
+					<span className="constellation__portal-crescent-orbit" />
+				</span>
+			)}
+			<span aria-hidden="true" className="constellation__portal-icon">
+				<PortalBrandMark id={id} />
+			</span>
+		</span>
+	);
+}
+
 export default function StackConstellation({
 	text,
 	variant = 'realistic',
 }: {
 	text: StackConstellationText;
-	variant?: 'portal' | 'realistic';
+	variant?: StackConstellationVariant;
 }) {
 	const byId = useMemo(
 		() => new Map(technologies.map((technology) => [technology.id, technology])),
@@ -86,7 +175,7 @@ export default function StackConstellation({
 	});
 	const visibleIds = new Set<TechnologyId>(selectedId ? selectedAndNeighbors : []);
 	const freezePortalDrift = (id: TechnologyId) => {
-		if (variant !== 'portal') return;
+		if (!isPortalVariant(variant)) return;
 		const button = entryButtonRefs.current.get(id);
 		const drift = button?.querySelector<HTMLElement>('.constellation__galaxy-drift');
 		const planet = button?.querySelector<HTMLElement>('.constellation__portal-planet');
@@ -124,7 +213,8 @@ export default function StackConstellation({
 	};
 
 	useLayoutEffect(() => {
-		if (variant !== 'portal' || !selectedId || handoffId !== selectedId || handoffReady) return;
+		if (!isPortalVariant(variant) || !selectedId || handoffId !== selectedId || handoffReady)
+			return;
 		const button = entryButtonRefs.current.get(selectedId);
 		const planet = button?.querySelector<HTMLElement>('.constellation__portal-planet');
 		const targetMotion = nodeMotionRefs.current.get(selectedId);
@@ -189,14 +279,15 @@ export default function StackConstellation({
 			data-entry-motion={entryMotionEnabled}
 			data-handoff-complete={handoffComplete}
 			data-handoff-persistent={
-				variant === 'portal' && handoffId === selectedId && selectedId
+				isPortalVariant(variant) && handoffId === selectedId && selectedId
 					? hasPortalBrand(selectedId)
 					: false
 			}
 			data-handoff-ready={handoffReady}
 			data-selected={Boolean(selectedId)}
 			data-selected-id={selectedId ?? undefined}
-			data-variant={variant}
+			data-study-variant={variant}
+			data-variant={variant === 'gyroscope-portal' ? 'gyroscope' : variant}
 		>
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
@@ -210,7 +301,7 @@ export default function StackConstellation({
 					</button>
 				)}
 			</div>
-			{variant === 'portal' ? (
+			{isPortalVariant(variant) ? (
 				<p
 					aria-hidden={!selectedId}
 					className="constellation__legend"
@@ -256,10 +347,9 @@ export default function StackConstellation({
 					<div className="constellation__entry-galaxies">
 						{entryGalaxies.map((galaxy) => {
 							const { galaxy: galaxyMotion } = galaxy;
-							const isChosen =
-								variant === 'portal'
-									? handoffId === galaxy.id && selectedId === handoffId
-									: selectedId === galaxy.id;
+							const isChosen = isPortalVariant(variant)
+								? handoffId === galaxy.id && selectedId === handoffId
+								: selectedId === galaxy.id;
 							const entryPosition =
 								viewportSize.width < 672
 									? galaxyMotion.mobilePosition
@@ -307,20 +397,8 @@ export default function StackConstellation({
 									type="button"
 								>
 									<span className="constellation__galaxy-drift">
-										{variant === 'portal' ? (
-											<span className="constellation__portal-planet">
-												<span className="constellation__portal-plane">
-													<span className="constellation__portal-disc constellation__portal-disc--outer" />
-													<span className="constellation__portal-disc constellation__portal-disc--middle" />
-													<span className="constellation__portal-disc constellation__portal-disc--inner" />
-												</span>
-												<span
-													aria-hidden="true"
-													className="constellation__portal-icon"
-												>
-													<PortalBrandMark id={galaxy.id} />
-												</span>
-											</span>
+										{isPortalVariant(variant) ? (
+											<PortalEntrance id={galaxy.id} variant={variant} />
 										) : (
 											<span
 												aria-hidden="true"
@@ -361,7 +439,7 @@ export default function StackConstellation({
 						aria-hidden="true"
 						className="constellation__stars constellation__stars--near"
 					/>
-					{variant === 'portal' && (
+					{isPortalVariant(variant) && (
 						<div aria-hidden="true" className="constellation__portal-stars">
 							<span />
 							<span />
@@ -447,7 +525,7 @@ export default function StackConstellation({
 									}}
 								>
 									<span className="constellation__icon">
-										{variant === 'portal' &&
+										{isPortalVariant(variant) &&
 										isSelected &&
 										hasPortalBrand(technology.id) ? (
 											<PortalBrandMark id={technology.id} />

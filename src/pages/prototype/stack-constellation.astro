@@ -17,7 +17,19 @@ if (!home) {
 }
 
 const content = home.data;
-const variant = Astro.url.searchParams.get('variant') === 'realistic' ? 'realistic' : 'portal';
+const variants = [
+	'portal',
+	'realistic',
+	'outline',
+	'gyroscope',
+	'crescent',
+	'gyroscope-portal',
+] as const;
+type Variant = (typeof variants)[number];
+const requestedVariant = Astro.url.searchParams.get('variant');
+const variant: Variant = variants.includes(requestedVariant as Variant)
+	? (requestedVariant as Variant)
+	: 'gyroscope';
 ---
 
 <Layout
@@ -59,6 +71,30 @@ const variant = Astro.url.searchParams.get('variant') === 'realistic' ? 'realist
 				>
 					Réaliste
 				</a>
+				<a
+					aria-current={variant === 'outline' ? 'page' : undefined}
+					href="?variant=outline#stack-constellation"
+				>
+					Ajourés
+				</a>
+				<a
+					aria-current={variant === 'gyroscope' ? 'page' : undefined}
+					href="?variant=gyroscope#stack-constellation"
+				>
+					Désaxés
+				</a>
+				<a
+					aria-current={variant === 'crescent' ? 'page' : undefined}
+					href="?variant=crescent#stack-constellation"
+				>
+					Décentrés
+				</a>
+				<a
+					aria-current={variant === 'gyroscope-portal' ? 'page' : undefined}
+					href="?variant=gyroscope-portal#stack-constellation"
+				>
+					Désaxés +
+				</a>
 			</nav>
 		)
 	}
@@ -80,6 +116,9 @@ const variant = Astro.url.searchParams.get('variant') === 'realistic' ? 'realist
 		font-family: var(--font-jetbrains);
 		font-size: 0.7rem;
 		letter-spacing: 0.04em;
+		max-width: calc(100vw - 2rem);
+		flex-wrap: wrap;
+		justify-content: flex-end;
 	}
 
 	.prototype-variant-switcher a {
@@ -92,5 +131,19 @@ const variant = Astro.url.searchParams.get('variant') === 'realistic' ? 'realist
 	.prototype-variant-switcher a[aria-current='page'] {
 		background: var(--color-primary-500);
 		color: var(--color-base-900);
+	}
+
+	@media (max-width: 42rem) {
+		.prototype-variant-switcher {
+			right: 0.5rem;
+			bottom: 0.5rem;
+			font-size: 0.625rem;
+			max-width: calc(100vw - 1rem);
+		}
+
+		.prototype-variant-switcher a {
+			padding: 0.4rem 0.55rem;
+			white-space: nowrap;
+		}
 	}
 </style>
