@@ -37,7 +37,6 @@ export default defineConfig({
 			},
 		}),
 		sitemap({
-			filter: (page) => new URL(page).pathname !== '/prototype/stack-constellation/',
 			i18n: {
 				defaultLocale: 'fr',
 				locales: {
