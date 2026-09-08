@@ -3,14 +3,10 @@ import type { StackContent } from '../../content/home';
 import StackConstellation from './StackConstellation';
 import StackConstellationMobile from './StackConstellationMobile';
 
-type Variant = 'portal' | 'realistic' | 'outline' | 'gyroscope' | 'crescent' | 'gyroscope-portal';
-
 export default function StackConstellationResponsive({
 	text,
-	variant,
 }: {
 	text: StackContent['constellation'];
-	variant: Variant;
 }) {
 	const [desktop, setDesktop] = useState<boolean | null>(null);
 
@@ -26,7 +22,7 @@ export default function StackConstellationResponsive({
 		return (
 			<>
 				<div className="hidden md:block">
-					<StackConstellation text={text} variant={variant} />
+					<StackConstellation text={text} />
 				</div>
 				<div className="md:hidden">
 					<StackConstellationMobile text={text} />
@@ -35,9 +31,5 @@ export default function StackConstellationResponsive({
 		);
 	}
 
-	return desktop ? (
-		<StackConstellation text={text} variant={variant} />
-	) : (
-		<StackConstellationMobile text={text} />
-	);
+	return desktop ? <StackConstellation text={text} /> : <StackConstellationMobile text={text} />;
 }

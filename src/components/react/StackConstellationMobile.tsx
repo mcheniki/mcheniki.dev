@@ -12,14 +12,6 @@ function GyroMotif() {
 	);
 }
 
-function RootLabel({ id, label }: { id: string; label: string }) {
-	if (id === 'javascript') {
-		return <span aria-label={label}>JavaScript&nbsp;/ TypeScript</span>;
-	}
-
-	return <span>{label}</span>;
-}
-
 function TechnologyList({
 	technologies,
 }: {
@@ -45,7 +37,7 @@ export default function StackConstellationMobile({ text }: { text: Text }) {
 					<summary>
 						<GyroMotif />
 						<span className="constellation-mobile__root-icon">{root.icon}</span>
-						<RootLabel id={root.id} label={root.label} />
+						<span>{root.label}</span>
 						<span aria-hidden="true" className="constellation-mobile__toggle" />
 					</summary>
 					<TechnologyList technologies={neighbors} />

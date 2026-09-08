@@ -18,11 +18,14 @@ import {
 	siGoogleanalytics,
 	siHtml5,
 	siInertia,
+	siJavascript,
 	siJest,
 	siLaravel,
 	siMysql,
 	siPostcss,
 	siPostgresql,
+	siPhp,
+	siReact,
 	siSass,
 	siShopify,
 	siSqlite,
@@ -34,6 +37,7 @@ import {
 	siVitest,
 	siWebpack,
 	siWoocommerce,
+	siWordpress,
 	siZod,
 } from 'simple-icons';
 
@@ -41,14 +45,10 @@ type Galaxy = {
 	order: number;
 	position: readonly [number, number];
 	mobilePosition: readonly [number, number];
-	rotation: number;
 	scale: number;
 	drift: readonly [number, number];
 	driftDuration: number;
 	driftDelay: number;
-	cloudSway: number;
-	cloudSwayDuration: number;
-	cloudSwayDelay: number;
 };
 
 export type StackTechnology = {
@@ -57,6 +57,8 @@ export type StackTechnology = {
 	kind?: 'group';
 	position: readonly [number, number];
 	icon: ReactNode;
+	mark?: ReactNode;
+	markSize?: 'pair';
 	galaxy?: Galaxy;
 };
 
@@ -90,18 +92,19 @@ export const technologies = [
 		label: 'PHP',
 		position: [21, 47],
 		icon: <IconPHP />,
+		mark: (
+			<span className="constellation__galaxy-mark">
+				<SimpleIcon path={siPhp.path} />
+			</span>
+		),
 		galaxy: {
 			order: 3,
 			position: [33, 70],
 			mobilePosition: [25, 70],
-			rotation: 5,
 			scale: 0.96,
 			drift: [22, 12],
 			driftDuration: 16,
 			driftDelay: -10,
-			cloudSway: 8,
-			cloudSwayDuration: 28,
-			cloudSwayDelay: -18,
 		},
 	},
 	{
@@ -109,18 +112,19 @@ export const technologies = [
 		label: 'WordPress',
 		position: [38, 31],
 		icon: <IconWordPress />,
+		mark: (
+			<span className="constellation__galaxy-mark">
+				<SimpleIcon path={siWordpress.path} />
+			</span>
+		),
 		galaxy: {
 			order: 1,
 			position: [18, 25],
 			mobilePosition: [25, 26],
-			rotation: -8,
 			scale: 1.08,
 			drift: [20, -14],
 			driftDuration: 20,
 			driftDelay: -6,
-			cloudSway: 9,
-			cloudSwayDuration: 32,
-			cloudSwayDelay: -12,
 		},
 	},
 	{
@@ -133,18 +137,21 @@ export const technologies = [
 				<SimpleIcon path={siTypescript.path} />
 			</span>
 		),
+		mark: (
+			<span className="constellation__galaxy-mark constellation__galaxy-mark--pair">
+				<SimpleIcon path={siJavascript.path} />
+				<SimpleIcon path={siTypescript.path} />
+			</span>
+		),
+		markSize: 'pair',
 		galaxy: {
 			order: 4,
 			position: [67, 70],
 			mobilePosition: [75, 70],
-			rotation: -11,
 			scale: 1.05,
 			drift: [-20, -18],
 			driftDuration: 24,
 			driftDelay: -20,
-			cloudSway: 10,
-			cloudSwayDuration: 34,
-			cloudSwayDelay: -28,
 		},
 	},
 	{
@@ -152,18 +159,19 @@ export const technologies = [
 		label: 'React',
 		position: [60, 27],
 		icon: <IconReact />,
+		mark: (
+			<span className="constellation__galaxy-mark">
+				<SimpleIcon path={siReact.path} />
+			</span>
+		),
 		galaxy: {
 			order: 2,
 			position: [50, 20],
 			mobilePosition: [75, 26],
-			rotation: 9,
 			scale: 0.98,
 			drift: [-18, 16],
 			driftDuration: 22,
 			driftDelay: -16,
-			cloudSway: 10,
-			cloudSwayDuration: 36,
-			cloudSwayDelay: -24,
 		},
 	},
 	{
@@ -172,18 +180,19 @@ export const technologies = [
 		kind: 'group',
 		position: [82, 25],
 		icon: <ToolboxIcon />,
+		mark: (
+			<span className="constellation__galaxy-mark">
+				<ToolboxIcon />
+			</span>
+		),
 		galaxy: {
 			order: 5,
 			position: [82, 25],
 			mobilePosition: [50, 88],
-			rotation: -4,
 			scale: 0.94,
 			drift: [14, -10],
 			driftDuration: 18,
 			driftDelay: -8,
-			cloudSway: 7,
-			cloudSwayDuration: 30,
-			cloudSwayDelay: -14,
 		},
 	},
 	{
@@ -463,7 +472,7 @@ export const mobileRootIds = [
 	'javascript',
 ] as const satisfies readonly TechnologyId[];
 
-export const toolboxToolIds = [
+const mobileToolboxOrder = [
 	'git',
 	'docker',
 	'gitlab-ci',
@@ -474,6 +483,32 @@ export const toolboxToolIds = [
 	'shopify',
 	'figma',
 ] as const satisfies readonly TechnologyId[];
+const mobileToolboxOrderSet = new Set<TechnologyId>(mobileToolboxOrder);
+
+// These orders retain the established orbit sequence without duplicating any graph edges.
+const orbitNeighborOrder: Partial<Record<TechnologyId, readonly TechnologyId[]>> = {
+	react: [
+		'tailwind',
+		'inertia',
+		'tanstack-query',
+		'tanstack-start',
+		'nextjs',
+		'astro',
+		'javascript',
+		'zod',
+		'better-auth',
+		'sqlite',
+	],
+};
+
+const orbitTrackByConnection: Partial<Record<TechnologyId, Partial<Record<TechnologyId, number>>>> =
+	{
+		'other-tools': { 'claude-code': 1, figma: 1 },
+		react: { inertia: 1, 'tanstack-query': 1, zod: 2, 'better-auth': 1, sqlite: 1 },
+		php: { postgresql: 1, laravel: 1, 'craft-cms': 2 },
+		wordpress: { 'acf-pro': 0, scss: 0, woocommerce: 1, 'wp-cli': 2, 'gravity-forms': 1 },
+		javascript: { astro: 2, vite: 0, webpack: 1, vitest: 1 },
+	};
 
 export function directNeighbors(id: TechnologyId) {
 	return [
@@ -483,6 +518,20 @@ export function directNeighbors(id: TechnologyId) {
 	];
 }
 
+export function orderedOrbitNeighbors(id: TechnologyId) {
+	const neighbors = directNeighbors(id);
+	const orderedNeighbors = orbitNeighborOrder[id];
+	if (!orderedNeighbors) return neighbors;
+	return [
+		...orderedNeighbors.filter((neighborId) => neighbors.includes(neighborId)),
+		...neighbors.filter((neighborId) => !orderedNeighbors.includes(neighborId)),
+	];
+}
+
+export function orbitTrack(id: TechnologyId, neighborId: TechnologyId) {
+	return orbitTrackByConnection[id]?.[neighborId];
+}
+
 export const mobileDisclosureGroups = mobileRootIds.map((id) => ({
 	root: technologies.find((technology) => technology.id === id)!,
 	neighbors: directNeighbors(id).map((neighborId) =>
@@ -490,9 +539,10 @@ export const mobileDisclosureGroups = mobileRootIds.map((id) => ({
 	),
 }));
 
-export const mobileToolboxTechnologies = toolboxToolIds.map((id) =>
-	technologies.find((technology) => technology.id === id)!,
-);
+export const mobileToolboxTechnologies = [
+	...mobileToolboxOrder.filter((id) => directNeighbors('other-tools').includes(id)),
+	...directNeighbors('other-tools').filter((id) => !mobileToolboxOrderSet.has(id)),
+].map((id) => technologies.find((technology) => technology.id === id)!);
 
 export const mobileOtherTechnologies = mobileToolboxTechnologies;
 
@@ -527,15 +577,23 @@ function validateStackCatalog() {
 			throw new Error('Mobile galaxy disclosures must match their desktop direct neighbors.');
 		}
 	}
-	if (mobileToolboxTechnologies.length !== 9) {
-		throw new Error('Toolbox must contain the agreed nine tools.');
+	for (const [id, orderedNeighbors] of Object.entries(orbitNeighborOrder)) {
+		const directNeighborIds = new Set(
+			connections.flatMap(([from, to]) => (from === id ? [to] : to === id ? [from] : [])),
+		);
+		if (
+			new Set(orderedNeighbors).size !== orderedNeighbors.length ||
+			orderedNeighbors.some((neighborId) => !directNeighborIds.has(neighborId))
+		) {
+			throw new Error(`Orbit order must match direct neighbors for ${id}.`);
+		}
 	}
 	const toolboxNeighborIds = new Set(directNeighbors('other-tools'));
 	if (
-		toolboxNeighborIds.size !== toolboxToolIds.length ||
-		toolboxToolIds.some((id) => !toolboxNeighborIds.has(id))
+		mobileToolboxTechnologies.length !== toolboxNeighborIds.size ||
+		mobileToolboxTechnologies.some(({ id }) => !toolboxNeighborIds.has(id))
 	) {
-		throw new Error('Toolbox connections must match the agreed nine tools.');
+		throw new Error('Toolbox technologies must match their direct connections.');
 	}
 }
 

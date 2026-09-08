@@ -1,157 +1,37 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { StackContent } from '../../content/home';
-import { siJavascript, siPhp, siReact, siTypescript, siWordpress } from 'simple-icons';
-import { connections, entryGalaxies, technologies, type TechnologyId } from './stackCatalog';
+import { directNeighbors, entryGalaxies, technologies, type TechnologyId } from './stackCatalog';
 import { useStackConstellationMotion } from './useStackConstellationMotion';
 
 import '../../styles/stack-constellation.css';
 
 type StackConstellationText = StackContent['constellation'];
-type StackConstellationVariant =
-	'portal' | 'realistic' | 'outline' | 'gyroscope' | 'crescent' | 'gyroscope-portal';
-
-function isPortalVariant(variant: StackConstellationVariant) {
-	return (
-		variant === 'portal' ||
-		variant === 'outline' ||
-		variant === 'gyroscope' ||
-		variant === 'crescent' ||
-		variant === 'gyroscope-portal'
-	);
-}
-
 function displayLabel(technology: (typeof technologies)[number], text: StackConstellationText) {
 	return technology.id === 'other-tools' ? text.otherTools : technology.label;
 }
 
-function hasPortalBrand(id: TechnologyId) {
-	return (
-		id === 'php' ||
-		id === 'wordpress' ||
-		id === 'javascript' ||
-		id === 'react' ||
-		id === 'other-tools'
-	);
-}
-
-function PortalBrandMark({ id }: { id: TechnologyId }) {
-	if (id === 'javascript') {
-		return (
-			<span className="constellation__portal-brand constellation__portal-brand--pair">
-				<svg viewBox="0 0 24 24" aria-hidden="true">
-					<path d={siJavascript.path} />
-				</svg>
-				<svg viewBox="0 0 24 24" aria-hidden="true">
-					<path d={siTypescript.path} />
-				</svg>
-			</span>
-		);
-	}
-
-	if (id === 'other-tools') {
-		return (
-			<svg className="constellation__portal-brand" viewBox="0 0 24 24" aria-hidden="true">
-				<path d="M4 8h16v11H4V8Zm5-3h6l1 3H8l1-3Zm-3 7h12v2H6v-2Z" />
-			</svg>
-		);
-	}
-
-	const brands = { php: siPhp, wordpress: siWordpress, react: siReact };
-	const brand = brands[id as keyof typeof brands];
-
-	if (!brand) return null;
-
-	return (
-		<svg className="constellation__portal-brand" viewBox="0 0 24 24" aria-hidden="true">
-			<path d={brand.path} />
-		</svg>
-	);
-}
-
-function PortalEntrance({ id, variant }: { id: TechnologyId; variant: StackConstellationVariant }) {
+function GalaxyEntrance({ technology }: { technology: (typeof entryGalaxies)[number] }) {
 	return (
 		<span
-			className={[
-				'constellation__portal-planet',
-				`constellation__portal-planet--${variant}`,
-				id === 'javascript' && variant !== 'portal'
-					? 'constellation__portal-planet--pair'
-					: '',
-			]
-				.filter(Boolean)
-				.join(' ')}
+			className={`constellation__galaxy-entrance ${
+				'markSize' in technology && technology.markSize === 'pair'
+					? 'constellation__galaxy-entrance--pair'
+					: ''
+			}`}
 		>
-			{variant === 'portal' && (
-				<span className="constellation__portal-plane">
-					<span className="constellation__portal-disc constellation__portal-disc--outer" />
-					<span className="constellation__portal-disc constellation__portal-disc--middle" />
-					<span className="constellation__portal-disc constellation__portal-disc--inner" />
-				</span>
-			)}
-			{variant === 'outline' && (
-				<span className="constellation__portal-plane constellation__portal-plane--outline">
-					<span className="constellation__portal-ring constellation__portal-ring--outer" />
-					<span className="constellation__portal-ring constellation__portal-ring--middle" />
-					<span className="constellation__portal-ring constellation__portal-ring--inner" />
-				</span>
-			)}
-			{(variant === 'gyroscope' || variant === 'gyroscope-portal') && (
-				<span
-					className={[
-						'constellation__portal-plane',
-						'constellation__portal-plane--gyroscope',
-						variant === 'gyroscope-portal'
-							? 'constellation__portal-plane--gyroscope-portal'
-							: '',
-					]
-						.filter(Boolean)
-						.join(' ')}
-				>
-					{variant === 'gyroscope-portal' && (
-						<span className="constellation__portal-banded-annulus">
-							<span className="constellation__portal-band constellation__portal-band--outer" />
-							<span className="constellation__portal-band constellation__portal-band--middle" />
-							<span className="constellation__portal-band constellation__portal-band--inner" />
-						</span>
-					)}
-					<span className="constellation__portal-gyro-ring constellation__portal-gyro-ring--back" />
-					<span className="constellation__portal-gyro-ring constellation__portal-gyro-ring--middle" />
-					<span className="constellation__portal-gyro-ring constellation__portal-gyro-ring--front" />
-				</span>
-			)}
-			{variant === 'crescent' && (
-				<span className="constellation__portal-plane constellation__portal-plane--crescent">
-					<svg viewBox="0 0 100 100" aria-hidden="true">
-						<defs>
-							<mask id={`constellation-crescent-${id}`}>
-								<rect width="100" height="100" fill="white" />
-								<circle cx="57" cy="44" r="33" fill="black" />
-							</mask>
-						</defs>
-						<circle
-							cx="50"
-							cy="50"
-							r="43"
-							mask={`url(#constellation-crescent-${id})`}
-						/>
-					</svg>
-					<span className="constellation__portal-crescent-orbit" />
-				</span>
-			)}
-			<span aria-hidden="true" className="constellation__portal-icon">
-				<PortalBrandMark id={id} />
+			<span className="constellation__galaxy-rings">
+				<span className="constellation__galaxy-ring constellation__galaxy-ring--back" />
+				<span className="constellation__galaxy-ring constellation__galaxy-ring--middle" />
+				<span className="constellation__galaxy-ring constellation__galaxy-ring--front" />
+			</span>
+			<span aria-hidden="true" className="constellation__galaxy-icon">
+				{technology.mark}
 			</span>
 		</span>
 	);
 }
 
-export default function StackConstellation({
-	text,
-	variant = 'realistic',
-}: {
-	text: StackConstellationText;
-	variant?: StackConstellationVariant;
-}) {
+export default function StackConstellation({ text }: { text: StackConstellationText }) {
 	const byId = useMemo(
 		() => new Map(technologies.map((technology) => [technology.id, technology])),
 		[technologies],
@@ -169,14 +49,7 @@ export default function StackConstellation({
 	const selected = selectedId ? byId.get(selectedId) : undefined;
 	const selectedAndNeighbors = useMemo(() => {
 		if (!selectedId) return [];
-		return [
-			selectedId,
-			...connections.flatMap(([from, to]) => {
-				if (from === selectedId) return [to];
-				if (to === selectedId) return [from];
-				return [];
-			}),
-		];
+		return [selectedId, ...directNeighbors(selectedId)];
 	}, [selectedId]);
 	const {
 		entryMotionEnabled,
@@ -188,15 +61,13 @@ export default function StackConstellation({
 	} = useStackConstellationMotion({
 		technologies,
 		selectedId,
-		selectedAndNeighbors,
 		paused: focusWithin,
 	});
 	const visibleIds = new Set<TechnologyId>(selectedId ? selectedAndNeighbors : []);
-	const freezePortalDrift = (id: TechnologyId) => {
-		if (!isPortalVariant(variant)) return;
+	const freezeGalaxyDrift = (id: TechnologyId) => {
 		const button = entryButtonRefs.current.get(id);
 		const drift = button?.querySelector<HTMLElement>('.constellation__galaxy-drift');
-		const planet = button?.querySelector<HTMLElement>('.constellation__portal-planet');
+		const planet = button?.querySelector<HTMLElement>('.constellation__galaxy-entrance');
 		const viewport = viewportRef.current;
 		if (!button || !drift || !planet || !viewport) return;
 
@@ -231,10 +102,9 @@ export default function StackConstellation({
 	};
 
 	useLayoutEffect(() => {
-		if (!isPortalVariant(variant) || !selectedId || handoffId !== selectedId || handoffReady)
-			return;
+		if (!selectedId || handoffId !== selectedId || handoffReady) return;
 		const button = entryButtonRefs.current.get(selectedId);
-		const planet = button?.querySelector<HTMLElement>('.constellation__portal-planet');
+		const planet = button?.querySelector<HTMLElement>('.constellation__galaxy-entrance');
 		const targetMotion = nodeMotionRefs.current.get(selectedId);
 		const targetIcon = nodeButtonRefs.current
 			.get(selectedId)
@@ -266,7 +136,7 @@ export default function StackConstellation({
 		handoffViewportRef.current = `${viewportSize.width}:${viewportSize.height}`;
 		setHandoffReady(true);
 		setHandoffComplete(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-	}, [handoffId, handoffReady, selectedId, variant, viewportSize, viewportRef, nodeMotionRefs]);
+	}, [handoffId, handoffReady, selectedId, viewportSize, viewportRef, nodeMotionRefs]);
 
 	useEffect(() => {
 		if (!handoffReady) return;
@@ -297,15 +167,11 @@ export default function StackConstellation({
 			data-entry-motion={entryMotionEnabled}
 			data-handoff-complete={handoffComplete}
 			data-handoff-persistent={
-				isPortalVariant(variant) && handoffId === selectedId && selectedId
-					? hasPortalBrand(selectedId)
-					: false
+				handoffId === selectedId && selected ? 'mark' in selected : false
 			}
 			data-handoff-ready={handoffReady}
 			data-selected={Boolean(selectedId)}
 			data-selected-id={selectedId ?? undefined}
-			data-study-variant={variant}
-			data-variant={variant === 'gyroscope-portal' ? 'gyroscope' : variant}
 		>
 			<div className="constellation__toolbar">
 				<p aria-live="polite" className="constellation__status">
@@ -347,13 +213,7 @@ export default function StackConstellation({
 					<div className="constellation__entry-galaxies">
 						{entryGalaxies.map((galaxy) => {
 							const { galaxy: galaxyMotion } = galaxy;
-							const isChosen = isPortalVariant(variant)
-								? handoffId === galaxy.id && selectedId === handoffId
-								: selectedId === galaxy.id;
-							const entryPosition =
-								viewportSize.width < 672
-									? galaxyMotion.mobilePosition
-									: galaxyMotion.position;
+							const isChosen = handoffId === galaxy.id && selectedId === handoffId;
 							return (
 								<button
 									className="constellation__galaxy"
@@ -362,7 +222,7 @@ export default function StackConstellation({
 									key={galaxy.id}
 									onClick={() => {
 										lastEntryIdRef.current = galaxy.id;
-										freezePortalDrift(galaxy.id);
+										freezeGalaxyDrift(galaxy.id);
 										setSelectedId(galaxy.id);
 									}}
 									ref={(node) => {
@@ -375,53 +235,21 @@ export default function StackConstellation({
 											'--galaxy-y': `${galaxyMotion.position[1]}%`,
 											'--galaxy-mobile-x': `${galaxyMotion.mobilePosition[0]}%`,
 											'--galaxy-mobile-y': `${galaxyMotion.mobilePosition[1]}%`,
-											'--galaxy-center-x': `${
-												((50 - entryPosition[0]) / 100) * viewportSize.width
-											}px`,
-											'--galaxy-center-y': `${
-												((50 - entryPosition[1]) / 100) *
-												viewportSize.height
-											}px`,
-											'--galaxy-rotation': `${galaxyMotion.rotation}deg`,
 											'--galaxy-scale': galaxyMotion.scale,
 											'--galaxy-drift-x': `${galaxyMotion.drift[0]}px`,
 											'--galaxy-drift-y': `${galaxyMotion.drift[1]}px`,
 											'--galaxy-drift-duration': `${galaxyMotion.driftDuration}s`,
 											'--galaxy-drift-delay': `${galaxyMotion.driftDelay}s`,
-											'--galaxy-cloud-sway': `${galaxyMotion.cloudSway}deg`,
-											'--galaxy-cloud-sway-duration': `${galaxyMotion.cloudSwayDuration}s`,
-											'--galaxy-cloud-sway-delay': `${galaxyMotion.cloudSwayDelay}s`,
 										} as CSSProperties
 									}
 									tabIndex={selectedId ? -1 : 0}
 									type="button"
 								>
 									<span className="constellation__galaxy-drift">
-										{isPortalVariant(variant) ? (
-											<PortalEntrance id={galaxy.id} variant={variant} />
-										) : (
-											<span
-												aria-hidden="true"
-												className="constellation__galaxy-cloud-spin"
-											>
-												<span className="constellation__galaxy-cloud" />
-											</span>
-										)}
-										{variant === 'realistic' && (
-											<span className="constellation__galaxy-nucleus">
-												<span className="constellation__icon">
-													{galaxy.icon}
-												</span>
-											</span>
-										)}
+										<GalaxyEntrance technology={galaxy} />
 										<span className="constellation__galaxy-label">
 											{displayLabel(galaxy, text)}
 										</span>
-										{variant === 'realistic' && (
-											<span className="constellation__galaxy-cue">
-												{text.explore}
-											</span>
-										)}
 									</span>
 								</button>
 							);
@@ -439,15 +267,13 @@ export default function StackConstellation({
 						aria-hidden="true"
 						className="constellation__stars constellation__stars--near"
 					/>
-					{isPortalVariant(variant) && (
-						<div aria-hidden="true" className="constellation__portal-stars">
-							<span />
-							<span />
-							<span />
-							<span />
-							<span />
-						</div>
-					)}
+					<div aria-hidden="true" className="constellation__accent-stars">
+						<span />
+						<span />
+						<span />
+						<span />
+						<span />
+					</div>
 					<svg
 						className="constellation__orbits"
 						aria-hidden="true"
@@ -469,15 +295,7 @@ export default function StackConstellation({
 						const position = technology.position;
 						const visible = visibleIds.has(technology.id);
 						const isSelected = selectedId === technology.id;
-						const neighbors = [
-							...new Set(
-								connections.flatMap(([from, to]) => {
-									if (from === technology.id) return [to];
-									if (to === technology.id) return [from];
-									return [];
-								}),
-							),
-						];
+						const neighbors = directNeighbors(technology.id);
 						const canExplore =
 							visible &&
 							!isSelected &&
@@ -522,13 +340,9 @@ export default function StackConstellation({
 									}}
 								>
 									<span className="constellation__icon">
-										{isPortalVariant(variant) &&
-										isSelected &&
-										hasPortalBrand(technology.id) ? (
-											<PortalBrandMark id={technology.id} />
-										) : (
-											technology.icon
-										)}
+										{isSelected && 'mark' in technology
+											? technology.mark
+											: technology.icon}
 									</span>
 									<span className="constellation__label">
 										{displayLabel(technology, text)}

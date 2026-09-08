@@ -4,12 +4,9 @@ import Container from './Container.astro';
 import StackConstellationResponsive from './react/StackConstellationResponsive';
 import ShapeH2 from '@svgs/shape-h2.svg';
 
-type Props = {
-	content: StackContent;
-	variant?: 'portal' | 'realistic' | 'outline' | 'gyroscope' | 'crescent' | 'gyroscope-portal';
-};
+type Props = { content: StackContent };
 
-const { content, variant = 'realistic' } = Astro.props;
+const { content } = Astro.props;
 ---
 
 <Container>
@@ -28,6 +25,6 @@ const { content, variant = 'realistic' } = Astro.props;
 			</h3>
 			<p class="lead text-base text-base-0">{content.description}</p>
 		</header>
-		<StackConstellationResponsive text={content.constellation} variant={variant} client:load />
+		<StackConstellationResponsive text={content.constellation} client:load />
 	</div>
 </Container>

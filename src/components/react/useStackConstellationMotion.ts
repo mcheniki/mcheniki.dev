@@ -1,35 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { CatalogTechnology, TechnologyId } from './stackCatalog';
+import {
+	orbitTrack,
+	orderedOrbitNeighbors,
+	type CatalogTechnology,
+	type TechnologyId,
+} from './stackCatalog';
 
 type OrbitTrack = {
 	radiusX: number;
 	radiusY: number;
 };
 
-// Inner orbits indicate stronger mastery; preserve confirmed placements independently of neighbor order.
-const selectionOrbitOverrides: Partial<
-	Record<TechnologyId, Partial<Record<TechnologyId, number>>>
-> = {
-	'other-tools': { 'claude-code': 1, figma: 1 },
-	react: { inertia: 1, 'tanstack-query': 1, zod: 2, 'better-auth': 1, sqlite: 1 },
-	php: { postgresql: 1, laravel: 1, 'craft-cms': 2 },
-	wordpress: { 'acf-pro': 0, scss: 0, woocommerce: 1, 'wp-cli': 2, 'gravity-forms': 1 },
-	javascript: { astro: 2, vite: 0, webpack: 1, vitest: 1 },
-} as const;
-
 type MotionOptions = {
 	technologies: readonly CatalogTechnology[];
 	selectedId: TechnologyId | null;
-	selectedAndNeighbors: TechnologyId[];
 	paused: boolean;
 };
 
-export function useStackConstellationMotion({
-	technologies,
-	selectedId,
-	selectedAndNeighbors,
-	paused,
-}: MotionOptions) {
+export function useStackConstellationMotion({ technologies, selectedId, paused }: MotionOptions) {
 	const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
 	const [reducedMotion, setReducedMotion] = useState(false);
 	const [entryMotionEnabled, setEntryMotionEnabled] = useState(false);
@@ -102,25 +90,10 @@ export function useStackConstellationMotion({
 					centerX - (selectedPosition[0] / 100) * size.width,
 					centerY - (selectedPosition[1] / 100) * size.height,
 				];
-				const orbitalNeighbors: TechnologyId[] =
-					selectedId === 'react'
-						? [
-								'tailwind',
-								'inertia',
-								'tanstack-query',
-								'tanstack-start',
-								'nextjs',
-								'astro',
-								'javascript',
-								'zod',
-								'better-auth',
-								'sqlite',
-							]
-						: selectedAndNeighbors.slice(1);
+				const orbitalNeighbors = orderedOrbitNeighbors(selectedId);
 				orbitalNeighbors.forEach((id, index, neighbors) => {
 					const technology = byId.get(id)!;
-					const trackIndex =
-						selectionOrbitOverrides[selectedId]?.[id] ?? index % orbitTracks.length;
+					const trackIndex = orbitTrack(selectedId, id) ?? index % orbitTracks.length;
 					const track = orbitTracks[trackIndex];
 					const phase = (index / neighbors.length) * Math.PI * 2 - 0.4;
 					const angle =
@@ -192,16 +165,7 @@ export function useStackConstellationMotion({
 			observer.disconnect();
 			document.removeEventListener('visibilitychange', sync);
 		};
-	}, [
-		byId,
-		orbitTracks,
-		paused,
-		reducedMotion,
-		selectedAndNeighbors,
-		selectedId,
-		technologies,
-		viewportSize,
-	]);
+	}, [byId, orbitTracks, paused, reducedMotion, selectedId, technologies, viewportSize]);
 
 	return {
 		entryMotionEnabled,
