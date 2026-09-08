@@ -12,7 +12,7 @@ export default function StackConstellationResponsive({
 	text: StackContent['constellation'];
 	variant: Variant;
 }) {
-	const [desktop, setDesktop] = useState(false);
+	const [desktop, setDesktop] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		const media = window.matchMedia('(min-width: 768px)');
@@ -21,6 +21,19 @@ export default function StackConstellationResponsive({
 		media.addEventListener('change', sync);
 		return () => media.removeEventListener('change', sync);
 	}, []);
+
+	if (desktop === null) {
+		return (
+			<>
+				<div className="hidden md:block">
+					<StackConstellation text={text} variant={variant} />
+				</div>
+				<div className="md:hidden">
+					<StackConstellationMobile text={text} />
+				</div>
+			</>
+		);
+	}
 
 	return desktop ? (
 		<StackConstellation text={text} variant={variant} />
