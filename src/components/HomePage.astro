@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from './Hero.astro';
 import About from './About.astro';
-import StackSection from './StackSection.astro';
+import StackConstellationSection from './StackConstellationSection.astro';
 import ProjectsSection from './ProjectsSection.astro';
 import Contact from './Contact.astro';
 
@@ -36,7 +36,7 @@ const content = home.data;
 			<About locale={locale} content={content.about} />
 		</section>
 		<section class="mb-96">
-			<StackSection content={content.stack} />
+			<StackConstellationSection content={content.stack} />
 		</section>
 		<section class="mb-96 scroll-mt-128" id="projects">
 			<ProjectsSection locale={locale} content={content.projects} />

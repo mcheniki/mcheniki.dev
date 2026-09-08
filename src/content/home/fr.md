@@ -6,8 +6,8 @@ meta:
 hero:
     jobPrimary: 'Développeur web'
     jobEmphasis: 'senior'
-    specialties: 'JavaScript · PHP · React · WordPress'
-    description: 'Je développe des sites et des applications web, des premières décisions techniques à la mise en ligne. Depuis 10 ans, j’interviens aussi bien dans le code que sur les questions qui font avancer un projet.'
+    specialties: 'TypeScript · PHP · React · WordPress'
+    description: 'Je développe des sites et des applications web, des premières décisions techniques à la mise en ligne. Depuis 10 ans, je combine développement, choix d’architecture et accompagnement technique des équipes.'
 about:
     eyebrow: 'À propos'
     years: '10 ans'
@@ -20,6 +20,12 @@ stack:
     eyebrow: 'Technique'
     title: 'Du front-end à la production'
     description: 'Mon travail couvre les interfaces, la logique serveur, les intégrations avec des services externes et le déploiement. Je choisis les outils selon le projet, avec une attention particulière à la maintenance et aux évolutions à venir.'
+    constellation:
+        chooseGalaxy: 'Choisissez une galaxie à explorer'
+        exploration: 'Exploration'
+        reset: 'Vue d’ensemble'
+        explore: 'Explorer'
+        otherTools: 'Autres outils'
 projects:
     eyebrow: 'Réalisations'
     title: 'Quelques projets'

@@ -134,7 +134,6 @@ html {
 	--text-75: 4.6875rem;
 	--text-96: 6rem;
 	--text-152: 9.5rem;
-	--text-clamp-stack: clamp(1.6875rem, 0.9183rem + 1.2019vw, 2rem);
 	--text-clamp-ten: clamp(26.25rem, -4.5192rem + 48.0769vw, 38.75rem);
 	--text-clamp-h1: clamp(5rem, -3.5rem + 13.2813vw, 7.125rem);
 	--text-clamp-h2: clamp(4.75rem, 1.6731rem + 4.8077vw, 6rem);
@@ -159,7 +158,6 @@ html {
 
 	/* ANIMATIONS */
 	--animate-shake: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite alternate;
-	--animate-marquee: marquee 20s linear infinite;
 	--animate-float: float 2s ease-in-out infinite alternate;
 
 	@keyframes shake {
@@ -179,15 +177,6 @@ html {
 		40%,
 		60% {
 			transform: translate3d(3px, 0, 0);
-		}
-	}
-
-	@keyframes marquee {
-		from {
-			transform: translateX(0);
-		}
-		to {
-			transform: translateX(calc(-100% - 12px));
 		}
 	}
 
@@ -265,37 +254,6 @@ html {
 		margin-top: 1em;
 	}
 
-	.stack-container::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 40%;
-		background-image: linear-gradient(
-			180deg,
-			rgb(24 26 35 / 1) 0%,
-			rgb(24 26 35 / 0.5) 22%,
-			transparent 62%
-		);
-		z-index: 2;
-	}
-
-	.stack-container::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		height: 40%;
-		background-image: linear-gradient(
-			360deg,
-			rgb(24 26 35 / 1) 0%,
-			rgb(24 26 35 / 0.5) 22%,
-			transparent 62%
-		);
-		z-index: 2;
-	}
 }
 
 @layer utilities {
@@ -621,7 +579,7 @@ html {
 }
 
 .portal-stack[data-name='wordpress'] {
-	transform: translate3d(20%, -330%, 10px);
+	transform: translate3d(calc(20% - 12px), calc(-330% - 8px), 10px);
 	animation-name: float-stack-wordpress;
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
@@ -634,12 +592,30 @@ html {
 
 @keyframes float-stack-wordpress {
 	to {
-		transform: translate3d(20%, -330%, 10px) rotate3d(1, 1, 1, -20deg);
+		transform: translate3d(calc(20% - 12px), calc(-330% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
+	}
+}
+
+.portal-stack[data-name='typescript'] {
+	transform: translate3d(calc(180% - 12px), calc(-200% - 8px), 10px);
+	animation-name: float-stack-typescript;
+	animation-duration: 3s;
+	animation-fill-mode: forwards;
+	animation-timing-function: cubic-bezier(0.63, -0.01, 0.39, 0.99);
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-delay: 1s;
+	transform-origin: 90% 20%;
+}
+
+@keyframes float-stack-typescript {
+	to {
+		transform: translate3d(calc(180% - 12px), calc(-200% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
 	}
 }
 
 .portal-stack[data-name='react'] {
-	transform: translate3d(50%, -120%, 10px);
+	transform: translate3d(calc(50% - 12px), calc(-120% - 8px), 10px);
 	animation-name: float-stack-react;
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
@@ -652,34 +628,33 @@ html {
 
 @keyframes float-stack-react {
 	to {
-		transform: translate3d(50%, -120%, 10px) rotate3d(1, 1, 1, -20deg);
+		transform: translate3d(calc(50% - 12px), calc(-120% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
 	}
 }
 
-.portal-stack[data-name='next'] {
-	transform: translate3d(180%, -200%, 10px);
-	animation-name: float-stack-next;
+.portal-stack[data-name='php'] {
+	transform: translate3d(calc(200% - 12px), calc(-120% - 8px), 10px);
+	animation-name: float-stack-php;
 	animation-duration: 3s;
 	animation-fill-mode: forwards;
 	animation-timing-function: cubic-bezier(0.63, -0.01, 0.39, 0.99);
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
-	animation-delay: 1s;
+	animation-delay: 2s;
 	transform-origin: 90% 20%;
+}
+
+@keyframes float-stack-php {
+	to {
+		transform: translate3d(calc(200% - 12px), calc(-120% - 8px), 10px) rotate3d(1, 1, 1, -20deg);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.portal-element-orange-stroke,
 	.portal-element-mehdinaut,
 	.portal-stars path,
-	.portal-stack,
-	.stack-marquee {
+	.portal-stack {
 		animation: none !important;
-	}
-}
-
-@keyframes float-stack-next {
-	to {
-		transform: translate3d(180%, -200%, 10px) rotate3d(1, 1, 1, -20deg);
 	}
 }

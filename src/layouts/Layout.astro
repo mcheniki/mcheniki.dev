@@ -16,6 +16,7 @@ type Props = {
 	description: string;
 	image?: string;
 	imageAlt?: string;
+	noindex?: boolean;
 	isProfilePage?: boolean;
 	// fallow-ignore-next-line unused-component-prop -- Read below when rendering JSON-LD.
 	structuredData?: Record<string, unknown>;
@@ -27,6 +28,7 @@ const {
 	description,
 	image = '/images/og.webp',
 	imageAlt,
+	noindex = false,
 	isProfilePage = false,
 	structuredData,
 } = Astro.props;
@@ -102,6 +104,7 @@ const profileData = isProfilePage
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
+		{noindex && <meta name="robots" content="noindex" />}
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/ico" href="/favicon.ico" />
 		<title>{title}</title>

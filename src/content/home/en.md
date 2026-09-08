@@ -6,8 +6,8 @@ meta:
 hero:
     jobPrimary: 'Senior'
     jobEmphasis: 'Web Developer'
-    specialties: 'JavaScript · PHP · React · WordPress'
-    description: 'I build websites and web apps, from planning through launch. With 10 years of experience, I’m comfortable writing the code, working through technical decisions and helping a team move forward.'
+    specialties: 'TypeScript · PHP · React · WordPress'
+    description: 'I build websites and web apps, from planning through launch. With 10 years of experience, I write code, make technical decisions and support other developers.'
 about:
     eyebrow: 'About'
     years: '10 years'
@@ -20,6 +20,12 @@ stack:
     eyebrow: 'My toolkit'
     title: 'From front end to production'
     description: 'I work across the front end, backend, third-party integrations and deployment. The tools depend on the project. I focus on keeping things straightforward to maintain and making room for what comes next.'
+    constellation:
+        chooseGalaxy: 'Choose a galaxy to explore'
+        exploration: 'Exploring'
+        reset: 'Overview'
+        explore: 'Explore'
+        otherTools: 'Other tools'
 projects:
     eyebrow: 'Selected work'
     title: 'Some of my work'

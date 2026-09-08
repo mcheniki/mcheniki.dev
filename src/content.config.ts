@@ -37,7 +37,18 @@ const home = defineCollection({
 			title: z.string(),
 			paragraphs: z.array(z.string()).length(3),
 		}),
-		stack: z.object({ eyebrow: z.string(), title: z.string(), description: z.string() }),
+		stack: z.object({
+			eyebrow: z.string(),
+			title: z.string(),
+			description: z.string(),
+			constellation: z.object({
+				chooseGalaxy: z.string(),
+				exploration: z.string(),
+				reset: z.string(),
+				explore: z.string(),
+				otherTools: z.string(),
+			}),
+		}),
 		projects: z.object({
 			eyebrow: z.string(),
 			title: z.string(),
