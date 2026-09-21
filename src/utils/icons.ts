@@ -20,6 +20,8 @@ import {
 	siThreedotjs,
 	siLaravel,
 	siPostgresql,
+	siTanstack,
+	siSqlite,
 } from 'simple-icons';
 import type { SimpleIcon } from 'simple-icons';
 
@@ -45,6 +47,8 @@ const ICON_MAP = {
 	threedotjs: siThreedotjs,
 	laravel: siLaravel,
 	postgresql: siPostgresql,
+	tanstack: siTanstack,
+	sqlite: siSqlite,
 } as const satisfies Record<string, SimpleIcon>;
 
 type IconName = keyof typeof ICON_MAP;

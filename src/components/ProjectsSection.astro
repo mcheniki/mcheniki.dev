@@ -42,6 +42,7 @@ const personalProjects = sortedProjects.filter(
 	(project) => project.data.projectType === 'personal',
 );
 const ecokwaCaseStudyUrl = locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/';
+const restmoneyCaseStudyUrl = locale === 'fr' ? '/projects/restmoney/' : '/en/projects/restmoney/';
 ---
 
 <Container>
@@ -121,7 +122,11 @@ const ecokwaCaseStudyUrl = locale === 'fr' ? '/projects/ecokwa/' : '/en/projects
 					mission={project.data.mission}
 					url={project.data.url}
 					caseStudyUrl={
-						project.data.translationKey === 'ecokwa' ? ecokwaCaseStudyUrl : undefined
+						project.data.translationKey === 'ecokwa'
+							? ecokwaCaseStudyUrl
+							: project.data.translationKey === 'restmoney'
+								? restmoneyCaseStudyUrl
+								: undefined
 					}
 					locale={locale}
 				>

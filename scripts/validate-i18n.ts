@@ -74,8 +74,8 @@ async function validateProjectParity() {
 	}
 
 	assert(
-		projectsByKey.size === 7,
-		`Expected seven project translation groups, found ${projectsByKey.size}.`,
+		projectsByKey.size === 8,
+		`Expected eight project translation groups, found ${projectsByKey.size}.`,
 	);
 
 	for (const [translationKey, translations] of projectsByKey) {
@@ -127,8 +127,8 @@ function validateProductionPage(html: string, locale: Locale, expectedPath: stri
 
 	const alternateTags = html.match(/<link\b[^>]*\brel="alternate"[^>]*>/g) ?? [];
 	assert(
-		!html.includes('hreflang="x-default"'),
-		`Unexpected x-default alternate for ${expectedPath}.`,
+		html.includes('hreflang="x-default"') && html.includes('href="https://mcheniki.dev/"'),
+		`Missing x-default alternate for ${expectedPath}.`,
 	);
 	for (const targetLocale of locales) {
 		const alternate = alternateTags.find(
@@ -144,15 +144,17 @@ function validateProductionPage(html: string, locale: Locale, expectedPath: stri
 
 	const projectCards = html.match(/class="[^"]*\bproject-card\b[^"]*"/g) ?? [];
 	assert(
-		projectCards.length === 7,
-		`Expected seven project cards for ${expectedPath}, found ${projectCards.length}.`,
+		projectCards.length === 8,
+		`Expected eight project cards for ${expectedPath}, found ${projectCards.length}.`,
 	);
 	const personalGroupStart = html.indexOf('data-project-group="personal"');
 	const personalGroupEnd = html.indexOf('</section>', personalGroupStart);
 	const personalGroup = html.slice(personalGroupStart, personalGroupEnd);
 	assert(
-		personalGroupStart >= 0 && personalGroup.includes('data-project-id="ecokwa"'),
-		`The EcoKwa card is missing from the personal project group for ${expectedPath}.`,
+		personalGroupStart >= 0 &&
+			personalGroup.includes('data-project-id="ecokwa"') &&
+			personalGroup.includes('data-project-id="restmoney"'),
+		`A personal project card is missing from the personal project group for ${expectedPath}.`,
 	);
 	const ecokwaTemplateStart = html.indexOf('<template data-project-id="ecokwa">');
 	const ecokwaTemplateEnd = html.indexOf('</template>', ecokwaTemplateStart);
@@ -171,9 +173,29 @@ function validateProductionPage(html: string, locale: Locale, expectedPath: stri
 			ecokwaTemplate.includes(expectedApplicationLabel),
 		`The EcoKwa drawer CTA labels are ambiguous for ${expectedPath}.`,
 	);
+	const restmoneyTemplateStart = html.indexOf('<template data-project-id="restmoney">');
+	const restmoneyTemplateEnd = html.indexOf('</template>', restmoneyTemplateStart);
+	const restmoneyTemplate = html.slice(restmoneyTemplateStart, restmoneyTemplateEnd);
+	assert(
+		restmoneyTemplate.includes('href="https://restmoney.mcheniki.dev/"') &&
+			restmoneyTemplate.includes(
+				`href="${locale === 'fr' ? '/projects/restmoney/' : '/en/projects/restmoney/'}"`,
+			),
+		`The RestMoney drawer CTAs are incomplete for ${expectedPath}.`,
+	);
+	assert(
+		restmoneyTemplate.includes(expectedCaseStudyLabel) &&
+			restmoneyTemplate.includes(expectedApplicationLabel),
+		`The RestMoney drawer CTA labels are ambiguous for ${expectedPath}.`,
+	);
 }
 
-function validateCaseStudy(html: string, locale: Locale, expectedPath: string) {
+function validateCaseStudy(
+	html: string,
+	locale: Locale,
+	expectedPath: string,
+	project: { appUrl: string; supportingImages: string[]; title: string },
+) {
 	assert(
 		getAttribute(html.match(/<html\b[^>]*>/)?.[0] ?? '', 'lang') === locale,
 		`Incorrect case study lang for ${expectedPath}.`,
@@ -186,35 +208,56 @@ function validateCaseStudy(html: string, locale: Locale, expectedPath: string) {
 		`Incorrect case study canonical for ${expectedPath}.`,
 	);
 	assert(
-		html.includes('href="https://ecokwa.mcheniki.dev"') &&
-			html.includes('ecokwa-indicator') &&
-			html.includes('ecokwa-comparison'),
-		`The EcoKwa case study is missing its application CTA or supporting captures for ${expectedPath}.`,
+		html.includes(`href="${project.appUrl}"`) &&
+			project.supportingImages.every((image) => html.includes(image)),
+		`The ${project.title} case study is missing its application CTA or supporting captures for ${expectedPath}.`,
 	);
 }
 
 async function main() {
-	const [frenchPage, englishPage, frenchCaseStudy, englishCaseStudy, sitemap] = await Promise.all(
-		[
-			readFile(path.join(clientDirectory, 'index.html'), 'utf8'),
-			readFile(path.join(clientDirectory, 'en/index.html'), 'utf8'),
-			readFile(path.join(clientDirectory, 'projects/ecokwa/index.html'), 'utf8'),
-			readFile(path.join(clientDirectory, 'en/projects/ecokwa/index.html'), 'utf8'),
-			readFile(path.join(clientDirectory, 'sitemap-0.xml'), 'utf8'),
-		],
-	);
+	const [
+		frenchPage,
+		englishPage,
+		frenchEcoKwaCaseStudy,
+		englishEcoKwaCaseStudy,
+		frenchRestMoneyCaseStudy,
+		englishRestMoneyCaseStudy,
+		sitemap,
+	] = await Promise.all([
+		readFile(path.join(clientDirectory, 'index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'en/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'projects/ecokwa/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'en/projects/ecokwa/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'projects/restmoney/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'en/projects/restmoney/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'sitemap-0.xml'), 'utf8'),
+	]);
 
 	validateProductionPage(frenchPage, 'fr', '/');
 	validateProductionPage(englishPage, 'en', '/en/');
-	validateCaseStudy(frenchCaseStudy, 'fr', '/projects/ecokwa/');
-	validateCaseStudy(englishCaseStudy, 'en', '/en/projects/ecokwa/');
+	const ecoKwa = {
+		appUrl: 'https://ecokwa.mcheniki.dev',
+		supportingImages: ['ecokwa-indicator', 'ecokwa-comparison'],
+		title: 'EcoKwa',
+	};
+	const restMoney = {
+		appUrl: 'https://restmoney.mcheniki.dev/',
+		supportingImages: ['restmoney-dashboard', 'restmoney-income'],
+		title: 'RestMoney',
+	};
+	validateCaseStudy(frenchEcoKwaCaseStudy, 'fr', '/projects/ecokwa/', ecoKwa);
+	validateCaseStudy(englishEcoKwaCaseStudy, 'en', '/en/projects/ecokwa/', ecoKwa);
+	validateCaseStudy(frenchRestMoneyCaseStudy, 'fr', '/projects/restmoney/', restMoney);
+	validateCaseStudy(englishRestMoneyCaseStudy, 'en', '/en/projects/restmoney/', restMoney);
 	assert(!sitemap.includes('/fr/'), 'The sitemap must not contain /fr/.');
 	assert(
 		sitemap.includes('https://mcheniki.dev/') &&
 			sitemap.includes('https://mcheniki.dev/en/') &&
 			sitemap.includes('https://mcheniki.dev/projects/ecokwa/') &&
-			sitemap.includes('https://mcheniki.dev/en/projects/ecokwa/'),
-		'The sitemap is missing a localized home or EcoKwa URL.',
+			sitemap.includes('https://mcheniki.dev/en/projects/ecokwa/') &&
+			sitemap.includes('https://mcheniki.dev/projects/restmoney/') &&
+			sitemap.includes('https://mcheniki.dev/en/projects/restmoney/'),
+		'The sitemap is missing a localized home or project URL.',
 	);
 
 	const translationErrors = getTranslationParityErrors();
