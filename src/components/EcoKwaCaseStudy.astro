@@ -44,7 +44,7 @@ const content = {
 		],
 		roleTitle: 'Mon rôle',
 		roleText:
-			"J'ai conçu et développé EcoKwa de façon autonome, de la modélisation des données et des imports jusqu'au front-end, aux tests, au déploiement et à l'exploitation de l'application.",
+			"J'ai conçu et développé EcoKwa, de la modélisation des données et des imports jusqu'au front-end, aux tests, au déploiement et à l'exploitation de l'application.",
 		challengesEyebrow: 'Décisions techniques',
 		challengesTitle: 'Trois défis au cœur du projet',
 		challenges: [
@@ -68,10 +68,12 @@ const content = {
 			"Comparaison de l'inflation générale, alimentaire et énergétique dans EcoKwa",
 		comparisonCaption:
 			'Les séries compatibles sont alignées sur une période commune sans combler artificiellement les données absentes.',
-		stackEyebrow: 'Technique',
+		imagesEyebrow: 'En images',
+		stackEyebrow: 'Technologies',
 		stackTitle: 'Une stack full-stack récente, au service du produit',
 		stackDetails:
 			'Inertia.js · Tailwind CSS · Laravel Queues & Scheduler · Pest · Vitest · Inertia SSR · GitLab CI/CD · Coolify',
+		finalEyebrow: "Essayer l'application",
 		finalTitle: 'Explorer les données dans EcoKwa',
 		finalText:
 			"L'application est en ligne : recherchez un indicateur, consultez sa méthodologie ou comparez plusieurs séries.",
@@ -101,7 +103,7 @@ const content = {
 		],
 		roleTitle: 'My role',
 		roleText:
-			'I designed and developed EcoKwa independently, from data modelling and imports through to the front end, tests, deployment and operation of the application.',
+			'I designed and developed EcoKwa, from data modelling and imports through to the front end, tests, deployment and operation of the application.',
 		challengesEyebrow: 'Technical decisions',
 		challengesTitle: 'Three challenges at the heart of the project',
 		challenges: [
@@ -124,10 +126,12 @@ const content = {
 		comparisonAlt: 'Comparison of headline, food and energy inflation in EcoKwa',
 		comparisonCaption:
 			'Compatible series are aligned over a shared period without artificially filling missing observations.',
-		stackEyebrow: 'Technical stack',
+		imagesEyebrow: 'In pictures',
+		stackEyebrow: 'Technologies',
 		stackTitle: 'A modern full-stack foundation serving the product',
 		stackDetails:
 			'Inertia.js · Tailwind CSS · Laravel Queues & Scheduler · Pest · Vitest · Inertia SSR · GitLab CI/CD · Coolify',
+		finalEyebrow: 'Try the application',
 		finalTitle: 'Explore the data in EcoKwa',
 		finalText:
 			'The application is live: search for an indicator, read its methodology or compare several series.',
@@ -288,6 +292,9 @@ const structuredData = {
 			</section>
 
 			<section class="mb-96 grid gap-48">
+				<h2 class="text-14 font-medium tracking-wider text-primary-500 uppercase">
+					{copy.imagesEyebrow}
+				</h2>
 				<figure>
 					<Image
 						src={indicatorImage}
@@ -345,7 +352,10 @@ const structuredData = {
 			</section>
 
 			<section class="rounded-24 border border-primary-500/50 p-24 text-center md:p-64">
-				<h2 class="mb-12 font-jetbrains text-36 text-base-0">{copy.finalTitle}</h2>
+				<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+					{copy.finalEyebrow}
+				</h2>
+				<h3 class="mb-12 font-jetbrains text-36 text-base-0">{copy.finalTitle}</h3>
 				<p class="text-16 mx-auto mb-24 max-w-2xl leading-relaxed text-base-100">
 					{copy.finalText}
 				</p>

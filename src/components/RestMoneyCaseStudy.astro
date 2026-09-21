@@ -32,6 +32,7 @@ const content = {
 		open: "Ouvrir l'application",
 		heroAlt: 'Montage de présentation de RestMoney montrant un aperçu du tableau de bord',
 		heroCaption: 'Montage de présentation réalisé à partir de l’interface de RestMoney.',
+		problemEyebrow: 'Le point de départ',
 		problemTitle: 'Savoir ce qu’il me reste, au fil de l’année',
 		problem:
 			'En tant qu’auto-entrepreneur, je voulais savoir, à chaque encaissement, ce que je pouvais vraiment considérer comme disponible. Le chiffre d’affaires seul ne suffit pas : RestMoney affiche les montants à mettre de côté pour les cotisations et les impôts, puis estime ce qu’il me reste. C’est un repère pour suivre mon année, pas un outil de conseil comptable.',
@@ -45,6 +46,7 @@ const content = {
 		roleTitle: 'Mon rôle',
 		roleText:
 			'J’ai imaginé puis développé RestMoney, des calculs visibles dans l’interface jusqu’à l’architecture full-stack, l’authentification, les données de démonstration et la mise en ligne.',
+		decisionsEyebrow: 'Décisions techniques',
 		decisionsTitle: 'Des choix techniques adaptés à un outil personnel',
 		decisions: [
 			{
@@ -67,8 +69,11 @@ const content = {
 		incomeAlt: 'Liste et historique des revenus enregistrés dans RestMoney',
 		incomeCaption:
 			'Les revenus peuvent être recherchés, triés et consultés pour comprendre leur effet sur le montant restant.',
+		imagesEyebrow: 'En images',
+		stackEyebrow: 'Technologies',
 		stackTitle: 'Une base full-stack pensée pour rester simple',
 		stackDetails: 'TanStack Start · Better Auth · Drizzle ORM · Bun · Zod · Recharts · Vite',
+		finalEyebrow: "Essayer l'application",
 		finalTitle: 'Découvrir RestMoney',
 		finalText:
 			'L’application est disponible en démo avec des données fictives. Les montants affichés sont des estimations et ne remplacent pas un conseil fiscal ou comptable.',
@@ -86,6 +91,7 @@ const content = {
 		open: 'Open the application',
 		heroAlt: 'RestMoney presentation montage showing an overview of the dashboard',
 		heroCaption: 'Presentation montage created from the RestMoney interface.',
+		problemEyebrow: 'Starting point',
 		problemTitle: 'Knowing what remains throughout the year',
 		problem:
 			'As a self-employed professional, I wanted to know, with each payment, what I could actually treat as available. Revenue alone does not answer that: RestMoney shows the amounts to set aside for contributions and taxes, then estimates what remains. It is a practical way to follow my year, not accounting advice.',
@@ -99,6 +105,7 @@ const content = {
 		roleTitle: 'My role',
 		roleText:
 			'I shaped and developed RestMoney, from the calculations shown in the interface through to the full-stack architecture, authentication, demonstration data and deployment.',
+		decisionsEyebrow: 'Technical decisions',
 		decisionsTitle: 'Technical choices suited to a personal tool',
 		decisions: [
 			{
@@ -120,8 +127,11 @@ const content = {
 		incomeAlt: 'List and history of income entries recorded in RestMoney',
 		incomeCaption:
 			'Income can be searched, sorted and inspected to understand its effect on what remains.',
+		imagesEyebrow: 'In pictures',
+		stackEyebrow: 'Technologies',
 		stackTitle: 'A full-stack foundation designed to stay simple',
 		stackDetails: 'TanStack Start · Better Auth · Drizzle ORM · Bun · Zod · Recharts · Vite',
+		finalEyebrow: 'Try the application',
 		finalTitle: 'Explore RestMoney',
 		finalText:
 			'The application is available as a demo with fictional data. Displayed amounts are estimates and do not replace tax or accounting advice.',
@@ -200,7 +210,7 @@ const structuredData = {
 							{copy.title}
 						</h1>
 						<p class="max-w-3xl text-20 leading-relaxed text-base-100">{copy.intro}</p>
-						<ul class="mt-24 flex flex-wrap gap-6" aria-label={copy.stackTitle}>
+						<ul class="mt-24 flex flex-wrap gap-6" aria-label={copy.stackEyebrow}>
 							{
 								stack
 									.slice(0, 4)
@@ -234,14 +244,17 @@ const structuredData = {
 
 			<section class="mb-96 grid gap-48 lg:grid-cols-2">
 				<div>
-					<h2 class="mb-12 font-jetbrains text-36 leading-tight text-base-0">
-						{copy.problemTitle}
+					<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+						{copy.problemEyebrow}
 					</h2>
+					<h3 class="mb-12 font-jetbrains text-36 leading-tight text-base-0">
+						{copy.problemTitle}
+					</h3>
 					<p class="text-16 leading-relaxed text-base-100">{copy.problem}</p>
 				</div>
 				<div class="grid gap-24 sm:grid-cols-2">
 					<div class="rounded-24 bg-base-700 p-24">
-						<h2 class="mb-12 font-jetbrains text-20 text-base-0">{copy.builtTitle}</h2>
+						<h3 class="mb-12 font-jetbrains text-20 text-base-0">{copy.builtTitle}</h3>
 						<ul
 							class="text-16 list-disc space-y-6 pl-24 leading-relaxed text-base-100 marker:text-primary-500"
 						>
@@ -249,7 +262,7 @@ const structuredData = {
 						</ul>
 					</div>
 					<div class="rounded-24 border border-base-600 p-24">
-						<h2 class="mb-12 font-jetbrains text-20 text-base-0">{copy.roleTitle}</h2>
+						<h3 class="mb-12 font-jetbrains text-20 text-base-0">{copy.roleTitle}</h3>
 						<p class="text-16 leading-relaxed text-base-100">{copy.roleText}</p>
 					</div>
 				</div>
@@ -257,17 +270,23 @@ const structuredData = {
 
 			<section class="mb-96">
 				<header class="mb-32 max-w-3xl">
-					<h2 class="font-jetbrains text-36 leading-tight text-base-0">
-						{copy.decisionsTitle}
+					<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+						{copy.decisionsEyebrow}
 					</h2>
+					<h3 class="font-jetbrains text-36 leading-tight text-base-0">
+						{copy.decisionsTitle}
+					</h3>
 				</header>
 				<div class="grid gap-24 lg:grid-cols-3">
 					{
-						copy.decisions.map((decision) => (
+						copy.decisions.map((decision, index) => (
 							<article class="rounded-24 border border-base-600 p-24">
-								<h3 class="mb-12 font-jetbrains text-20 text-base-0">
+								<p class="mb-24 font-jetbrains text-14 text-primary-500">
+									0{index + 1}
+								</p>
+								<h4 class="mb-12 font-jetbrains text-20 text-base-0">
 									{decision.title}
-								</h3>
+								</h4>
 								<p class="text-16 leading-relaxed text-base-100">{decision.text}</p>
 							</article>
 						))
@@ -276,6 +295,9 @@ const structuredData = {
 			</section>
 
 			<section class="mb-96 grid gap-48">
+				<h2 class="text-14 font-medium tracking-wider text-primary-500 uppercase">
+					{copy.imagesEyebrow}
+				</h2>
 				<figure>
 					<Image
 						src={dashboardImage}
@@ -307,9 +329,12 @@ const structuredData = {
 			</section>
 
 			<section class="mb-96 rounded-24 bg-base-700 p-24 md:p-48">
-				<h2 class="mb-24 max-w-4xl font-jetbrains text-36 leading-tight text-base-0">
-					{copy.stackTitle}
+				<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+					{copy.stackEyebrow}
 				</h2>
+				<h3 class="mb-24 max-w-4xl font-jetbrains text-36 leading-tight text-base-0">
+					{copy.stackTitle}
+				</h3>
 				<ul class="mb-24 flex flex-wrap gap-12">
 					{
 						stack.map((tech) => {
@@ -332,7 +357,10 @@ const structuredData = {
 			</section>
 
 			<section class="rounded-24 border border-primary-500/50 p-24 text-center md:p-64">
-				<h2 class="mb-12 font-jetbrains text-36 text-base-0">{copy.finalTitle}</h2>
+				<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+					{copy.finalEyebrow}
+				</h2>
+				<h3 class="mb-12 font-jetbrains text-36 text-base-0">{copy.finalTitle}</h3>
 				<p class="text-16 mx-auto mb-24 max-w-2xl leading-relaxed text-base-100">
 					{copy.finalText}
 				</p>
