@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import Container from '@components/Container.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import ProjectDrawer from '@components/ProjectDrawer.astro';
@@ -41,8 +42,6 @@ const professionalProjects = sortedProjects.filter(
 const personalProjects = sortedProjects.filter(
 	(project) => project.data.projectType === 'personal',
 );
-const ecokwaCaseStudyUrl = locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/';
-const restmoneyCaseStudyUrl = locale === 'fr' ? '/projects/restmoney/' : '/en/projects/restmoney/';
 ---
 
 <Container>
@@ -122,11 +121,9 @@ const restmoneyCaseStudyUrl = locale === 'fr' ? '/projects/restmoney/' : '/en/pr
 					mission={project.data.mission}
 					url={project.data.url}
 					caseStudyUrl={
-						project.data.translationKey === 'ecokwa'
-							? ecokwaCaseStudyUrl
-							: project.data.translationKey === 'restmoney'
-								? restmoneyCaseStudyUrl
-								: undefined
+						project.data.caseStudyPath
+							? getRelativeLocaleUrl(locale, project.data.caseStudyPath)
+							: undefined
 					}
 					locale={locale}
 				>

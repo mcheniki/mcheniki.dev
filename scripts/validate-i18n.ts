@@ -8,7 +8,7 @@ const projectDirectory = path.resolve('src/content/projects');
 const locales = ['fr', 'en'] as const;
 type Locale = (typeof locales)[number];
 type ProjectMetadata = Record<'translationKey' | 'locale' | 'image' | 'order' | 'stack', string> &
-	Partial<Record<'url' | 'projectType', string>>;
+	Partial<Record<'url' | 'caseStudyPath' | 'projectType', string>>;
 
 function assert(condition: unknown, message: string): asserts condition {
 	if (!condition) throw new Error(message);
@@ -58,6 +58,7 @@ async function validateProjectParity() {
 				]),
 			),
 			url: readOptionalFrontmatterValue(frontmatter[1], 'url'),
+			caseStudyPath: readOptionalFrontmatterValue(frontmatter[1], 'caseStudyPath'),
 			projectType:
 				readOptionalFrontmatterValue(frontmatter[1], 'projectType') ?? 'professional',
 		} as ProjectMetadata;
@@ -87,7 +88,14 @@ async function validateProjectParity() {
 		}
 
 		const [french, english] = [translations.get('fr')!, translations.get('en')!];
-		for (const field of ['image', 'url', 'order', 'stack', 'projectType'] as const) {
+		for (const field of [
+			'image',
+			'url',
+			'caseStudyPath',
+			'order',
+			'stack',
+			'projectType',
+		] as const) {
 			assert(
 				french[field] === english[field],
 				`Project translations for ${translationKey} diverge on ${field}.`,

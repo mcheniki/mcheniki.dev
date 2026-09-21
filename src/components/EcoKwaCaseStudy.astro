@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import Container from '@components/Container.astro';
 import Cta from '@components/Cta.astro';
 import Layout from '../layouts/Layout.astro';
@@ -134,11 +135,8 @@ const content = {
 } as const;
 
 const copy = content[locale];
-const homeUrl = locale === 'fr' ? '/#projects' : '/en/#projects';
-const caseStudyUrl = new URL(
-	locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/',
-	Astro.site,
-);
+const homeUrl = `${getRelativeLocaleUrl(locale)}#projects`;
+const caseStudyUrl = new URL(Astro.url.pathname, Astro.site);
 const heroImageUrl = new URL(heroImage.src, Astro.site);
 const personUrl = new URL('/', Astro.site);
 personUrl.hash = 'person';
