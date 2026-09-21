@@ -5,6 +5,7 @@ title: 'EcoKwa'
 stack: ['laravel', 'react', 'typescript', 'postgresql', 'docker']
 image: './ecokwa.webp'
 url: 'https://ecokwa.mcheniki.dev'
+caseStudy: 'ecokwa'
 order: 0
 projectType: 'personal'
 role: 'Projet personnel'
@@ -16,6 +17,6 @@ d'orientation des retraites. L'application permet de rechercher une donnée publ
 consulter son évolution et de comparer plusieurs séries, avec leur source et leur
 méthodologie.
 
-J'ai conçu et développé l'application de façon autonome, des imports de données jusqu'au
+J'ai conçu et développé l'application, des imports de données jusqu'au
 front-end, aux tests et au déploiement. La fiche complète présente les principaux choix
 techniques réalisés pour fiabiliser les données et les rendre compréhensibles.

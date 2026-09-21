@@ -8,6 +8,7 @@ import ShapeH2 from '@svgs/shape-h2.svg';
 import type { ProjectsContent } from '../content/home';
 import { validateProjectTranslations } from '../content/projects';
 import type { Locale } from '../i18n/config';
+import { getRoutePath } from '../i18n/routes';
 
 type Props = {
 	locale: Locale;
@@ -41,7 +42,6 @@ const professionalProjects = sortedProjects.filter(
 const personalProjects = sortedProjects.filter(
 	(project) => project.data.projectType === 'personal',
 );
-const ecokwaCaseStudyUrl = locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/';
 ---
 
 <Container>
@@ -121,7 +121,9 @@ const ecokwaCaseStudyUrl = locale === 'fr' ? '/projects/ecokwa/' : '/en/projects
 					mission={project.data.mission}
 					url={project.data.url}
 					caseStudyUrl={
-						project.data.translationKey === 'ecokwa' ? ecokwaCaseStudyUrl : undefined
+						project.data.caseStudy
+							? getRoutePath(locale, project.data.caseStudy)
+							: undefined
 					}
 					locale={locale}
 				>

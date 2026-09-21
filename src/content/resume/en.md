@@ -99,7 +99,7 @@ project:
     text: 'An application for searching, tracking and comparing French public data.'
     cta: 'View case study'
     stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
-    url: '/en/projects/ecokwa/'
+    route: 'ecokwa'
 educationEyebrow: 'Education'
 educationTitle: 'Studies & Languages'
 education:

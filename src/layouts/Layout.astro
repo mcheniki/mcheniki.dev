@@ -2,16 +2,17 @@
 import '../styles/fonts.css';
 import '../styles/global.css';
 
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getEntry } from 'astro:content';
 
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { localeMetadata, locales, type Locale } from '../i18n/config';
+import { getAlternateRoutePath, getRoutePath, type RouteId } from '../i18n/routes';
 import { useTranslations } from '../i18n/ui';
 
 type Props = {
 	locale: Locale;
+	route: RouteId;
 	title: string;
 	description: string;
 	image?: string;
@@ -24,6 +25,7 @@ type Props = {
 
 const {
 	locale,
+	route,
 	title,
 	description,
 	image = '/images/og.webp',
@@ -38,11 +40,8 @@ if (!home) {
 	throw new Error(`Missing home content for locale "${locale}".`);
 }
 
-const routePath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
 const getLocaleURL = (targetLocale: Locale) => {
-	const path = routePath === '/' ? undefined : routePath;
-
-	return new URL(getRelativeLocaleUrl(targetLocale, path), Astro.site);
+	return new URL(getRoutePath(targetLocale, route), Astro.site);
 };
 const canonicalURL = getLocaleURL(locale);
 const ogImageURL = new URL(image, Astro.site);
@@ -53,7 +52,6 @@ personURL.hash = 'person';
 const t = useTranslations(locale);
 const resolvedImageAlt = imageAlt ?? t('meta.ogImageAlt');
 const alternateLocale = locales.find((targetLocale) => targetLocale !== locale);
-const alternateURL = alternateLocale ? getLocaleURL(alternateLocale) : undefined;
 const personData = {
 	'@type': 'Person',
 	'@id': personURL,
@@ -173,7 +171,7 @@ const profileData = isProfilePage
 		>
 			{t('a11y.skipToContent')}
 		</a>
-		<Header locale={locale} alternateUrl={alternateURL?.pathname} />
+		<Header locale={locale} alternateUrl={getAlternateRoutePath(locale, route)} />
 		<slot />
 		<Footer locale={locale} />
 	</body>
