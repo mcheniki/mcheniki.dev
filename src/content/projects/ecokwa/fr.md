@@ -5,7 +5,7 @@ title: 'EcoKwa'
 stack: ['laravel', 'react', 'typescript', 'postgresql', 'docker']
 image: './ecokwa.webp'
 url: 'https://ecokwa.mcheniki.dev'
-caseStudyPath: 'projects/ecokwa/'
+caseStudy: 'ecokwa'
 order: 0
 projectType: 'personal'
 role: 'Projet personnel'

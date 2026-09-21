@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import Container from '@components/Container.astro';
 import Cta from '@components/Cta.astro';
 import Layout from '../layouts/Layout.astro';
 import type { Locale } from '../i18n/config';
+import { getRoutePath } from '../i18n/routes';
 import { getIcon, getIconTitle } from '../utils/icons';
 import heroImage from '../content/projects/restmoney/restmoney.webp';
 import dashboardImage from '../content/projects/restmoney/restmoney-dashboard.webp';
@@ -129,7 +129,7 @@ const content = {
 } as const;
 
 const copy = content[locale];
-const homeUrl = `${getRelativeLocaleUrl(locale)}#projects`;
+const homeUrl = `${getRoutePath(locale, 'home')}#projects`;
 const caseStudyUrl = new URL(Astro.url.pathname, Astro.site);
 const heroImageUrl = new URL(heroImage.src, Astro.site);
 const personUrl = new URL('/', Astro.site);
@@ -165,6 +165,7 @@ const structuredData = {
 
 <Layout
 	locale={locale}
+	route="restmoney"
 	title={copy.metaTitle}
 	description={copy.metaDescription}
 	image={heroImage.src}

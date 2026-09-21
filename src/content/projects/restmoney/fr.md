@@ -5,7 +5,7 @@ title: 'RestMoney'
 stack: ['react', 'typescript', 'tanstack', 'tailwindcss', 'sqlite']
 image: './restmoney.webp'
 url: 'https://restmoney.mcheniki.dev/'
-caseStudyPath: 'projects/restmoney/'
+caseStudy: 'restmoney'
 order: 1
 projectType: 'personal'
 role: 'Projet personnel'

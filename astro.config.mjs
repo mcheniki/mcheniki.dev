@@ -11,6 +11,7 @@ import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 
 import tailwindcss from '@tailwindcss/vite';
+import { getRouteIdFromPath, getRoutePath } from './src/i18n/routes';
 
 export default defineConfig({
 	site: PUBLIC_URL_WEBSITE ?? 'http://localhost:4321',
@@ -37,12 +38,17 @@ export default defineConfig({
 			},
 		}),
 		sitemap({
-			i18n: {
-				defaultLocale: 'fr',
-				locales: {
-					fr: 'fr',
-					en: 'en',
-				},
+			serialize(item) {
+				const route = getRouteIdFromPath(new URL(item.url).pathname);
+				if (!route) return item;
+
+				return {
+					...item,
+					links: ['fr', 'en'].map((locale) => ({
+						lang: locale,
+						url: new URL(getRoutePath(locale, route), item.url).href,
+					})),
+				};
 			},
 		}),
 	],

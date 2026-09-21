@@ -5,7 +5,7 @@ import ShapeH2 from '@svgs/shape-h2.svg';
 import ArrowRight from '@svgs/arrow-right.svg';
 import type { Locale } from '../i18n/config';
 import { getEntry } from 'astro:content';
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getRoutePath } from '../i18n/routes';
 
 type Props = {
 	locale: Locale;
@@ -19,9 +19,9 @@ if (!resume) {
 }
 
 const content = resume.data;
-const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
-const homeUrl = getRelativeLocaleUrl(locale);
-const projectUrl = getRelativeLocaleUrl(locale, content.project.path);
+const contactUrl = `${getRoutePath(locale, 'home')}#contact`;
+const homeUrl = getRoutePath(locale, 'home');
+const projectUrl = getRoutePath(locale, content.project.route);
 const structuredData = {
 	'@context': 'https://schema.org',
 	'@type': 'ProfilePage',
@@ -38,6 +38,7 @@ const structuredData = {
 
 <Layout
 	locale={locale}
+	route="resume"
 	title={content.meta.title}
 	description={content.meta.description}
 	structuredData={structuredData}

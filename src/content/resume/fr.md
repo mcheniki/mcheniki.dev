@@ -99,7 +99,7 @@ project:
     text: 'Une application pour rechercher, suivre et comparer des données publiques françaises.'
     cta: 'Voir l’étude de cas'
     stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
-    path: 'projects/ecokwa/'
+    route: 'ecokwa'
 educationEyebrow: 'Formation'
 educationTitle: 'Études & langues'
 education:

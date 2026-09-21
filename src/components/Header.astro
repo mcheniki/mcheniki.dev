@@ -2,8 +2,8 @@
 import Cta from './Cta.astro';
 import Container from './Container.astro';
 import { Image } from 'astro:assets';
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import { locales, localeMetadata, type Locale } from '../i18n/config';
+import { getRoutePath } from '../i18n/routes';
 import { useTranslations } from '../i18n/ui';
 
 type Props = {
@@ -13,9 +13,9 @@ type Props = {
 
 const { locale, alternateUrl } = Astro.props;
 const t = useTranslations(locale);
-const contactUrl = `${getRelativeLocaleUrl(locale)}#contact`;
-const homeUrl = getRelativeLocaleUrl(locale);
-const resumeUrl = getRelativeLocaleUrl(locale, 'resume');
+const contactUrl = `${getRoutePath(locale, 'home')}#contact`;
+const homeUrl = getRoutePath(locale, 'home');
+const resumeUrl = getRoutePath(locale, 'resume');
 const alternateLocale = locales.find((language) => language !== locale);
 ---
 
@@ -54,7 +54,7 @@ const alternateLocale = locales.find((language) => language !== locale);
 					{
 						alternateLocale && (
 							<a
-								href={alternateUrl ?? getRelativeLocaleUrl(alternateLocale)}
+								href={alternateUrl ?? getRoutePath(alternateLocale, 'home')}
 								lang={localeMetadata[alternateLocale].html}
 								hreflang={localeMetadata[alternateLocale].hreflang}
 								aria-label={

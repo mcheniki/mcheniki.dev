@@ -2,6 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { locales } from './i18n/config';
+import { caseStudyRouteIds, routeIds } from './i18n/routes';
 
 const projects = defineCollection({
 	loader: glob({ pattern: '**/*.md', base: './src/content/projects/' }),
@@ -13,7 +14,7 @@ const projects = defineCollection({
 			stack: z.array(z.string()),
 			image: image(),
 			url: z.url().optional(),
-			caseStudyPath: z.string().optional(),
+			caseStudy: z.enum(caseStudyRouteIds).optional(),
 			order: z.number().optional(),
 			projectType: z.enum(['professional', 'personal']).default('professional'),
 			role: z.string().optional(),
@@ -124,7 +125,7 @@ const resume = defineCollection({
 			text: z.string(),
 			cta: z.string(),
 			stack: z.array(z.string()),
-			path: z.string(),
+			route: z.enum(routeIds),
 		}),
 		educationEyebrow: z.string(),
 		educationTitle: z.string(),

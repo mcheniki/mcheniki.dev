@@ -8,7 +8,7 @@ const projectDirectory = path.resolve('src/content/projects');
 const locales = ['fr', 'en'] as const;
 type Locale = (typeof locales)[number];
 type ProjectMetadata = Record<'translationKey' | 'locale' | 'image' | 'order' | 'stack', string> &
-	Partial<Record<'url' | 'caseStudyPath' | 'projectType', string>>;
+	Partial<Record<'url' | 'caseStudy' | 'projectType', string>>;
 
 function assert(condition: unknown, message: string): asserts condition {
 	if (!condition) throw new Error(message);
@@ -58,7 +58,7 @@ async function validateProjectParity() {
 				]),
 			),
 			url: readOptionalFrontmatterValue(frontmatter[1], 'url'),
-			caseStudyPath: readOptionalFrontmatterValue(frontmatter[1], 'caseStudyPath'),
+			caseStudy: readOptionalFrontmatterValue(frontmatter[1], 'caseStudy'),
 			projectType:
 				readOptionalFrontmatterValue(frontmatter[1], 'projectType') ?? 'professional',
 		} as ProjectMetadata;
@@ -91,7 +91,7 @@ async function validateProjectParity() {
 		for (const field of [
 			'image',
 			'url',
-			'caseStudyPath',
+			'caseStudy',
 			'order',
 			'stack',
 			'projectType',
@@ -170,7 +170,7 @@ function validateProductionPage(html: string, locale: Locale, expectedPath: stri
 	assert(
 		ecokwaTemplate.includes('href="https://ecokwa.mcheniki.dev"') &&
 			ecokwaTemplate.includes(
-				`href="${locale === 'fr' ? '/projects/ecokwa/' : '/en/projects/ecokwa/'}"`,
+				`href="${locale === 'fr' ? '/projets/ecokwa/' : '/en/projects/ecokwa/'}"`,
 			),
 		`The EcoKwa drawer CTAs are incomplete for ${expectedPath}.`,
 	);
@@ -187,7 +187,7 @@ function validateProductionPage(html: string, locale: Locale, expectedPath: stri
 	assert(
 		restmoneyTemplate.includes('href="https://restmoney.mcheniki.dev/"') &&
 			restmoneyTemplate.includes(
-				`href="${locale === 'fr' ? '/projects/restmoney/' : '/en/projects/restmoney/'}"`,
+				`href="${locale === 'fr' ? '/projets/restmoney/' : '/en/projects/restmoney/'}"`,
 			),
 		`The RestMoney drawer CTAs are incomplete for ${expectedPath}.`,
 	);
@@ -234,9 +234,9 @@ async function main() {
 	] = await Promise.all([
 		readFile(path.join(clientDirectory, 'index.html'), 'utf8'),
 		readFile(path.join(clientDirectory, 'en/index.html'), 'utf8'),
-		readFile(path.join(clientDirectory, 'projects/ecokwa/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'projets/ecokwa/index.html'), 'utf8'),
 		readFile(path.join(clientDirectory, 'en/projects/ecokwa/index.html'), 'utf8'),
-		readFile(path.join(clientDirectory, 'projects/restmoney/index.html'), 'utf8'),
+		readFile(path.join(clientDirectory, 'projets/restmoney/index.html'), 'utf8'),
 		readFile(path.join(clientDirectory, 'en/projects/restmoney/index.html'), 'utf8'),
 		readFile(path.join(clientDirectory, 'sitemap-0.xml'), 'utf8'),
 	]);
@@ -253,17 +253,19 @@ async function main() {
 		supportingImages: ['restmoney-dashboard', 'restmoney-income'],
 		title: 'RestMoney',
 	};
-	validateCaseStudy(frenchEcoKwaCaseStudy, 'fr', '/projects/ecokwa/', ecoKwa);
+	validateCaseStudy(frenchEcoKwaCaseStudy, 'fr', '/projets/ecokwa/', ecoKwa);
 	validateCaseStudy(englishEcoKwaCaseStudy, 'en', '/en/projects/ecokwa/', ecoKwa);
-	validateCaseStudy(frenchRestMoneyCaseStudy, 'fr', '/projects/restmoney/', restMoney);
+	validateCaseStudy(frenchRestMoneyCaseStudy, 'fr', '/projets/restmoney/', restMoney);
 	validateCaseStudy(englishRestMoneyCaseStudy, 'en', '/en/projects/restmoney/', restMoney);
 	assert(!sitemap.includes('/fr/'), 'The sitemap must not contain /fr/.');
 	assert(
 		sitemap.includes('https://mcheniki.dev/') &&
 			sitemap.includes('https://mcheniki.dev/en/') &&
-			sitemap.includes('https://mcheniki.dev/projects/ecokwa/') &&
+			sitemap.includes('https://mcheniki.dev/parcours/') &&
+			sitemap.includes('https://mcheniki.dev/en/resume/') &&
+			sitemap.includes('https://mcheniki.dev/projets/ecokwa/') &&
 			sitemap.includes('https://mcheniki.dev/en/projects/ecokwa/') &&
-			sitemap.includes('https://mcheniki.dev/projects/restmoney/') &&
+			sitemap.includes('https://mcheniki.dev/projets/restmoney/') &&
 			sitemap.includes('https://mcheniki.dev/en/projects/restmoney/'),
 		'The sitemap is missing a localized home or project URL.',
 	);

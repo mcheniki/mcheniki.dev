@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import Container from '@components/Container.astro';
 import Cta from '@components/Cta.astro';
 import Layout from '../layouts/Layout.astro';
 import type { Locale } from '../i18n/config';
+import { getRoutePath } from '../i18n/routes';
 import { getIcon, getIconTitle } from '../utils/icons';
 import heroImage from '../content/projects/ecokwa/ecokwa.webp';
 import indicatorImage from '../content/projects/ecokwa/ecokwa-indicator.webp';
@@ -135,7 +135,7 @@ const content = {
 } as const;
 
 const copy = content[locale];
-const homeUrl = `${getRelativeLocaleUrl(locale)}#projects`;
+const homeUrl = `${getRoutePath(locale, 'home')}#projects`;
 const caseStudyUrl = new URL(Astro.url.pathname, Astro.site);
 const heroImageUrl = new URL(heroImage.src, Astro.site);
 const personUrl = new URL('/', Astro.site);
@@ -171,6 +171,7 @@ const structuredData = {
 
 <Layout
 	locale={locale}
+	route="ecokwa"
 	title={copy.metaTitle}
 	description={copy.metaDescription}
 	image={heroImage.src}
@@ -234,17 +235,17 @@ const structuredData = {
 
 			<section class="mb-96 grid gap-48 lg:grid-cols-2">
 				<div>
-					<p class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+					<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
 						{copy.problemEyebrow}
-					</p>
-					<h2 class="mb-12 font-jetbrains text-36 leading-tight text-base-0">
-						{copy.problemTitle}
 					</h2>
+					<h3 class="mb-12 font-jetbrains text-36 leading-tight text-base-0">
+						{copy.problemTitle}
+					</h3>
 					<p class="text-16 leading-relaxed text-base-100">{copy.problem}</p>
 				</div>
 				<div class="grid gap-24 sm:grid-cols-2">
 					<div class="rounded-24 bg-base-700 p-24">
-						<h2 class="mb-12 font-jetbrains text-20 text-base-0">{copy.builtTitle}</h2>
+						<h3 class="mb-12 font-jetbrains text-20 text-base-0">{copy.builtTitle}</h3>
 						<ul
 							class="text-16 list-disc space-y-6 pl-24 leading-relaxed text-base-100 marker:text-primary-500"
 						>
@@ -252,7 +253,7 @@ const structuredData = {
 						</ul>
 					</div>
 					<div class="rounded-24 border border-base-600 p-24">
-						<h2 class="mb-12 font-jetbrains text-20 text-base-0">{copy.roleTitle}</h2>
+						<h3 class="mb-12 font-jetbrains text-20 text-base-0">{copy.roleTitle}</h3>
 						<p class="text-16 leading-relaxed text-base-100">{copy.roleText}</p>
 					</div>
 				</div>
@@ -260,12 +261,12 @@ const structuredData = {
 
 			<section class="mb-96">
 				<header class="mb-32 max-w-3xl">
-					<p class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+					<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
 						{copy.challengesEyebrow}
-					</p>
-					<h2 class="font-jetbrains text-36 leading-tight text-base-0">
-						{copy.challengesTitle}
 					</h2>
+					<h3 class="font-jetbrains text-36 leading-tight text-base-0">
+						{copy.challengesTitle}
+					</h3>
 				</header>
 				<div class="grid gap-24 lg:grid-cols-3">
 					{
@@ -274,9 +275,9 @@ const structuredData = {
 								<p class="mb-24 font-jetbrains text-14 text-primary-500">
 									0{index + 1}
 								</p>
-								<h3 class="mb-12 font-jetbrains text-20 text-base-0">
+								<h4 class="mb-12 font-jetbrains text-20 text-base-0">
 									{challenge.title}
-								</h3>
+								</h4>
 								<p class="text-16 leading-relaxed text-base-100">
 									{challenge.text}
 								</p>
@@ -316,12 +317,12 @@ const structuredData = {
 			</section>
 
 			<section class="mb-96 rounded-24 bg-base-700 p-24 md:p-48">
-				<p class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
+				<h2 class="mb-6 text-14 font-medium tracking-wider text-primary-500 uppercase">
 					{copy.stackEyebrow}
-				</p>
-				<h2 class="mb-24 max-w-4xl font-jetbrains text-36 leading-tight text-base-0">
-					{copy.stackTitle}
 				</h2>
+				<h3 class="mb-24 max-w-4xl font-jetbrains text-36 leading-tight text-base-0">
+					{copy.stackTitle}
+				</h3>
 				<ul class="mb-24 flex flex-wrap gap-12">
 					{
 						stack.map((tech) => {
