@@ -13,8 +13,8 @@ mission: 'Full-stack product design and development'
 ---
 
 EcoKwa brings together indicators from Insee, DREES and the French Pensions Advisory
-Council. The application lets people search for public data, follow its evolution and compare
-several series, with their source and methodology.
+Council. The application lets people search for public data and follow its evolution, with its
+source and methodology.
 
 I designed and developed the application, from data imports through to the
 front end, tests and deployment. The full case study presents the main technical choices made

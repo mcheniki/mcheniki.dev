@@ -1,5 +1,6 @@
 ---
-import EcoKwaCaseStudy from '@components/EcoKwaCaseStudy.astro';
+import CaseStudy from '@components/CaseStudy.astro';
+import { ecoKwaCaseStudy } from '../../data/case-studies/ecokwa';
 ---
 
-<EcoKwaCaseStudy locale="fr" />
+<CaseStudy locale="fr" caseStudy={ecoKwaCaseStudy} />

@@ -1,5 +1,6 @@
 ---
-import RestMoneyCaseStudy from '@components/RestMoneyCaseStudy.astro';
+import CaseStudy from '@components/CaseStudy.astro';
+import { restMoneyCaseStudy } from '../../../data/case-studies/restmoney';
 ---
 
-<RestMoneyCaseStudy locale="en" />
+<CaseStudy locale="en" caseStudy={restMoneyCaseStudy} />
