@@ -36,30 +36,26 @@ const content = {
 		problemTitle: 'Savoir ce qu’il me reste, au fil de l’année',
 		problem:
 			'En tant qu’auto-entrepreneur, je voulais savoir, à chaque encaissement, ce que je pouvais vraiment considérer comme disponible. Le chiffre d’affaires seul ne suffit pas : RestMoney affiche les montants à mettre de côté pour les cotisations et les impôts, puis estime ce qu’il me reste. C’est un repère pour suivre mon année, pas un outil de conseil comptable.',
-		builtTitle: "Ce que j'ai construit",
+		builtTitle: 'Les enjeux de conception',
 		built: [
-			'Un tableau de bord annuel qui relie revenus, cotisations et montant restant.',
-			'L’ajout, la modification, la suppression, la recherche, le tri et l’historique des revenus.',
-			'Le réglage du taux URSSAF afin d’adapter les calculs à ma situation.',
-			'Une démo invitée avec des données fictives, séparées de mes données personnelles.',
+			'Faire évoluer le taux de cotisation sans modifier les calculs des revenus déjà enregistrés.',
+			'Montrer l’impact d’un encaissement sur l’estimation annuelle, y compris lorsqu’il est modifié ou déplacé sur une autre année.',
+			'Permettre de manipuler et de réinitialiser la démo sans toucher à mes données personnelles.',
 		],
-		roleTitle: 'Mon rôle',
-		roleText:
-			'J’ai imaginé puis développé RestMoney, des calculs visibles dans l’interface jusqu’à l’architecture full-stack, l’authentification, les données de démonstration et la mise en ligne.',
-		decisionsEyebrow: 'Décisions techniques',
+		decisionsEyebrow: 'Les choix d’architecture',
 		decisionsTitle: 'Des choix techniques adaptés à un outil personnel',
 		decisions: [
 			{
-				title: 'Une application full-stack TypeScript',
-				text: 'TanStack Start réunit le rendu côté serveur, le routage et les fonctions serveur dans un même projet React. Le typage suit les données d’un bout à l’autre, sans API REST séparée à maintenir.',
+				title: 'Un taux conservé avec chaque revenu',
+				text: 'Le taux de cotisation est enregistré avec chaque encaissement. Les calculs réutilisent cette valeur plutôt que le réglage courant, pour éviter qu’un changement de taux ne modifie les montants déjà suivis.',
 			},
 			{
-				title: 'Des données isolées par compte',
-				text: 'Better Auth gère les comptes et les sessions. Les revenus et réglages de chaque personne sont enregistrés dans leur propre fichier SQLite : les données personnelles restent ainsi séparées de celles de la démo.',
+				title: 'Une logique de calcul partagée et testée',
+				text: 'Les calculs sont regroupés dans des fonctions utilisées par le tableau de bord et les formulaires. L’impact d’un revenu est estimé à partir du cumul de l’année concernée ; des tests couvrent le franchissement d’un seuil et le changement d’année lors d’une modification.',
 			},
 			{
-				title: 'Des opérations protégées et validées',
-				text: 'Les changements de revenus et de réglages passent par des fonctions serveur authentifiées. Les données sont vérifiées avant l’enregistrement pour garder des calculs cohérents.',
+				title: 'Une démo isolée et réinitialisable',
+				text: 'La démo utilise un fichier SQLite distinct de mes données personnelles. Sa réinitialisation remplace les revenus et les réglages de démonstration dans une même transaction, pour retrouver un état cohérent.',
 			},
 		],
 		dashboardAlt:
@@ -95,30 +91,26 @@ const content = {
 		problemTitle: 'Knowing what remains throughout the year',
 		problem:
 			'As a self-employed professional, I wanted to know, with each payment, what I could actually treat as available. Revenue alone does not answer that: RestMoney shows the amounts to set aside for contributions and taxes, then estimates what remains. It is a practical way to follow my year, not accounting advice.',
-		builtTitle: 'What I built',
+		builtTitle: 'Design challenges',
 		built: [
-			'An annual dashboard connecting income, contributions and the remaining amount.',
-			'Income creation, editing, deletion, search, sorting and history.',
-			'URSSAF rate settings to adapt calculations to my situation.',
-			'A guest demo with fictional data, kept separate from my personal data.',
+			'Updating the contribution rate without changing calculations for income that has already been recorded.',
+			'Showing how an income entry affects the annual estimate, including when it is edited or moved to another year.',
+			'Letting people use and reset the demo without affecting my personal data.',
 		],
-		roleTitle: 'My role',
-		roleText:
-			'I shaped and developed RestMoney, from the calculations shown in the interface through to the full-stack architecture, authentication, demonstration data and deployment.',
-		decisionsEyebrow: 'Technical decisions',
+		decisionsEyebrow: 'Architecture choices',
 		decisionsTitle: 'Technical choices suited to a personal tool',
 		decisions: [
 			{
-				title: 'A full-stack TypeScript application',
-				text: 'TanStack Start brings server-side rendering, routing and server functions together in one React project. Data stays typed end to end, with no separate REST API to maintain.',
+				title: 'A rate stored with each income entry',
+				text: 'The contribution rate is stored with each payment. Calculations reuse that value instead of the current setting, so a rate change does not alter amounts that have already been tracked.',
 			},
 			{
-				title: 'Data isolated by account',
-				text: 'Better Auth manages accounts and sessions. Each person’s income and settings are stored in their own SQLite file, keeping personal data separate from the demo.',
+				title: 'Shared, tested calculation logic',
+				text: 'Calculations are grouped into functions used by the dashboard and forms. An income entry’s impact is estimated from the total for its year; tests cover crossing a threshold and changing the year when editing an entry.',
 			},
 			{
-				title: 'Protected, validated operations',
-				text: 'Income and settings changes go through authenticated server functions. Data is checked before it is saved, keeping calculations consistent.',
+				title: 'An isolated, resettable demo',
+				text: 'The demo uses a SQLite file separate from my personal data. Resetting it replaces its sample income and settings in one transaction, restoring a consistent state.',
 			},
 		],
 		dashboardAlt: 'Annual overview of income and provisions on the RestMoney dashboard',
@@ -252,7 +244,7 @@ const structuredData = {
 					</h3>
 					<p class="text-16 leading-relaxed text-base-100">{copy.problem}</p>
 				</div>
-				<div class="grid gap-24 sm:grid-cols-2">
+				<div>
 					<div class="rounded-24 bg-base-700 p-24">
 						<h3 class="mb-12 font-jetbrains text-20 text-base-0">{copy.builtTitle}</h3>
 						<ul
@@ -260,10 +252,6 @@ const structuredData = {
 						>
 							{copy.built.map((item) => <li>{item}</li>)}
 						</ul>
-					</div>
-					<div class="rounded-24 border border-base-600 p-24">
-						<h3 class="mb-12 font-jetbrains text-20 text-base-0">{copy.roleTitle}</h3>
-						<p class="text-16 leading-relaxed text-base-100">{copy.roleText}</p>
 					</div>
 				</div>
 			</section>

@@ -13,9 +13,8 @@ mission: 'Conception et développement full-stack'
 ---
 
 EcoKwa rassemble des indicateurs provenant de l'Insee, de la DREES et du Conseil
-d'orientation des retraites. L'application permet de rechercher une donnée publique, de
-consulter son évolution et de comparer plusieurs séries, avec leur source et leur
-méthodologie.
+d'orientation des retraites. L'application permet de rechercher une donnée publique et de
+consulter son évolution, avec sa source et sa méthodologie.
 
 J'ai conçu et développé l'application, des imports de données jusqu'au
 front-end, aux tests et au déploiement. La fiche complète présente les principaux choix
