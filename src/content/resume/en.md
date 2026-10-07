@@ -16,7 +16,7 @@ navigationLabel: 'Resume navigation'
 navigation:
     experience: 'Experience'
     skills: 'Skills'
-    project: 'Project'
+    project: 'Projects'
     education: 'Education'
 experienceEyebrow: 'Experience'
 experienceTitle: 'Professional experience'
@@ -93,13 +93,18 @@ skills:
     - title: 'Production'
       items: ['Git', 'Vite', 'Docker', 'GitLab CI', 'MySQL']
 project:
-    eyebrow: 'Project'
+    eyebrow: 'Projects'
     intro: 'Design, experiment, ship.'
-    title: 'EcoKwa'
-    text: 'An application for searching, tracking and comparing French public data.'
     cta: 'View case study'
-    stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
-    route: 'ecokwa'
+    items:
+        - title: 'EcoKwa'
+          text: 'An application for searching, tracking and comparing French public data.'
+          stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
+          route: 'ecokwa'
+        - title: 'RestMoney'
+          text: 'An application for tracking freelance income and estimating what remains after contributions and taxes.'
+          stack: ['React', 'TypeScript', 'TanStack', 'SQLite']
+          route: 'restmoney'
 educationEyebrow: 'Education'
 educationTitle: 'Studies & Languages'
 education:
