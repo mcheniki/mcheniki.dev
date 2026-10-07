@@ -121,11 +121,15 @@ const resume = defineCollection({
 		project: z.object({
 			eyebrow: z.string(),
 			intro: z.string(),
-			title: z.string(),
-			text: z.string(),
 			cta: z.string(),
-			stack: z.array(z.string()),
-			route: z.enum(routeIds),
+			items: z.array(
+				z.object({
+					title: z.string(),
+					text: z.string(),
+					stack: z.array(z.string()),
+					route: z.enum(routeIds),
+				}),
+			),
 		}),
 		educationEyebrow: z.string(),
 		educationTitle: z.string(),

@@ -21,7 +21,21 @@ if (!resume) {
 const content = resume.data;
 const contactUrl = `${getRoutePath(locale, 'home')}#contact`;
 const homeUrl = getRoutePath(locale, 'home');
-const projectUrl = getRoutePath(locale, content.project.route);
+// Full literal class strings: Tailwind cannot detect interpolated colour names.
+const projectAccents = [
+	{
+		card: 'border-primary-800 hover:border-primary-600',
+		divider: 'md:border-primary-900',
+		chip: 'border-primary-800 text-primary-200',
+		link: 'text-primary-300 group-hover:text-primary-100',
+	},
+	{
+		card: 'border-secondary-800 hover:border-secondary-600',
+		divider: 'md:border-secondary-900',
+		chip: 'border-secondary-800 text-secondary-200',
+		link: 'text-secondary-300 group-hover:text-secondary-100',
+	},
+];
 const structuredData = {
 	'@context': 'https://schema.org',
 	'@type': 'ProfilePage',
@@ -297,34 +311,60 @@ const structuredData = {
 						{content.project.intro}
 					</p>
 				</div>
-				<article
-					class="group grid gap-32 rounded-24 border border-secondary-800 bg-base-700/45 p-24 transition-colors duration-300 hover:border-secondary-600 md:grid-cols-[1.2fr_0.8fr] md:p-32"
-				>
-					<div>
-						<h3 class="text-36 font-bold">{content.project.title}</h3>
-						<p class="mt-6 max-w-[680px] text-base-100">{content.project.text}</p>
-					</div>
-					<div
-						class="flex flex-col justify-between md:border-l md:border-secondary-900 md:pl-32"
-					>
-						<ul class="flex flex-wrap gap-6">
-							{
-								content.project.stack.map((item) => (
-									<li class="rounded-full border border-secondary-800 px-12 py-6 font-jetbrains text-10 font-bold text-secondary-200">
-										{item}
-									</li>
-								))
-							}
-						</ul>
-						<a
-							href={projectUrl}
-							class="mt-24 flex w-fit items-center gap-6 font-jetbrains text-12 font-bold text-secondary-300 transition-colors group-hover:text-secondary-100 focus-visible:outline-2 focus-visible:outline-offset-4 print:hidden"
-						>
-							{content.project.cta}
-							<ArrowRight width="16" height="16" fill="currentColor" />
-						</a>
-					</div>
-				</article>
+				<div class="grid gap-24">
+					{
+						content.project.items.map((item, index) => {
+							const accent = projectAccents[index % projectAccents.length];
+
+							return (
+								<article
+									class:list={[
+										'group grid gap-32 rounded-24 border bg-base-700/45 p-24 transition-colors duration-300 md:grid-cols-[1.2fr_0.8fr] md:p-32',
+										accent.card,
+									]}
+								>
+									<div>
+										<h3 class="text-36 font-bold">{item.title}</h3>
+										<p class="mt-6 max-w-[680px] text-base-100">{item.text}</p>
+									</div>
+									<div
+										class:list={[
+											'flex flex-col justify-between md:border-l md:pl-32',
+											accent.divider,
+										]}
+									>
+										<ul class="flex flex-wrap gap-6">
+											{item.stack.map((tech) => (
+												<li
+													class:list={[
+														'rounded-full border px-12 py-6 font-jetbrains text-10 font-bold',
+														accent.chip,
+													]}
+												>
+													{tech}
+												</li>
+											))}
+										</ul>
+										<a
+											href={getRoutePath(locale, item.route)}
+											class:list={[
+												'mt-24 flex w-fit items-center gap-6 font-jetbrains text-12 font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 print:hidden',
+												accent.link,
+											]}
+										>
+											{content.project.cta}
+											<ArrowRight
+												width="16"
+												height="16"
+												fill="currentColor"
+											/>
+										</a>
+									</div>
+								</article>
+							);
+						})
+					}
+				</div>
 			</Container>
 		</section>
 		<section id="education" class="scroll-mt-160 py-64" data-resume-section>

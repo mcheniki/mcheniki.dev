@@ -16,7 +16,7 @@ navigationLabel: 'Navigation dans le parcours'
 navigation:
     experience: 'Expériences'
     skills: 'Compétences'
-    project: 'Projet'
+    project: 'Projets'
     education: 'Formation'
 experienceEyebrow: 'Expériences'
 experienceTitle: 'Expériences professionnelles'
@@ -93,13 +93,18 @@ skills:
     - title: 'Production'
       items: ['Git', 'Vite', 'Docker', 'GitLab CI', 'MySQL']
 project:
-    eyebrow: 'Projet'
+    eyebrow: 'Projets'
     intro: 'Concevoir, expérimenter, livrer.'
-    title: 'EcoKwa'
-    text: 'Une application pour rechercher, suivre et comparer des données publiques françaises.'
     cta: 'Voir l’étude de cas'
-    stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
-    route: 'ecokwa'
+    items:
+        - title: 'EcoKwa'
+          text: 'Une application pour rechercher, suivre et comparer des données publiques françaises.'
+          stack: ['Laravel', 'React', 'TypeScript', 'PostgreSQL']
+          route: 'ecokwa'
+        - title: 'RestMoney'
+          text: 'Une application pour suivre ses encaissements d’auto-entrepreneur et estimer ce qu’il reste après cotisations et impôts.'
+          stack: ['React', 'TypeScript', 'TanStack', 'SQLite']
+          route: 'restmoney'
 educationEyebrow: 'Formation'
 educationTitle: 'Études & langues'
 education:
