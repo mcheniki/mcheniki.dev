@@ -13,11 +13,12 @@ Azoria souhaitait enrichir son site Craft CMS avec une expérience permettant au
 d'explorer, de personnaliser et de choisir leur piscine en 3D, avant de transmettre une
 demande commerciale complète.
 
-Intervenant en freelance pour le compte d'une agence, j'étais le seul développeur dédié à
-cette partie du projet. J'ai structuré les contenus dans Craft, développé les templates Twig,
-l'interface responsive et le moteur Three.js. J'ai également conçu une architecture
-réutilisable afin de partager les scènes 3D et leur état entre le configurateur, les pages
-produit et le formulaire multi-étapes.
+Intervenant en freelance pour le compte d'une agence, j'étais le seul développeur dédié à cette
+partie du projet. J'ai structuré les contenus dans Craft, développé les templates Twig,
+l'interface responsive et le moteur Three.js. J'ai également conçu un module 3D unique,
+intégrable sur l'accueil, les pages produit et dans une modale. Le principal défi était de
+synchroniser l'état de ses instances : un choix fait sur l'accueil devait se poursuivre à
+l'étape suivante dans la modale, puis se réinitialiser à sa fermeture.
 
 Le parcours réunit des variantes administrables, l'autocomplétion d'adresse et la capture du
 modèle configuré, puis transmet l'ensemble à Zoho CRM. J'ai aussi développé la création et la

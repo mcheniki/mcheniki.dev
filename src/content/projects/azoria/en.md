@@ -14,8 +14,10 @@ customize and choose their swimming pool in 3D before submitting a complete sale
 
 Brought in as a freelancer through an agency, I was the sole developer dedicated to this part
 of the project. I structured the content in Craft and built the Twig templates, responsive
-interface and Three.js engine. I also designed a reusable architecture to share 3D scenes and
-their state across the configurator, product pages and multi-step form.
+interface and Three.js engine. I also designed a single 3D module that can be embedded on the
+home page, product pages and in a modal. The main challenge was synchronizing the state of its
+instances: a choice made on the home page had to continue at the next step in the modal, then
+reset when it closed.
 
 The resulting journey brings together CMS-managed variants, address autocomplete and a
 snapshot of the configured model, then sends everything to Zoho CRM. I also implemented lead

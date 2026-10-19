@@ -13,4 +13,4 @@ For three years on-site at Prisma Media, I contributed to Télé-Loisirs and sev
 
 As a front-end developer in a mixed front-end/back-end Agile team, I contributed to a redesign built around a React-inspired modular architecture using Twig and vanilla JavaScript. I developed new features, ran A/B tests and refactored the code to improve readability and performance.
 
-I also established unit-test coverage with Jest and took part in code reviews. This assignment highlights my front-end experience outside the WordPress ecosystem, working on high-traffic web products.
+I also contributed, alongside the whole team, to introducing unit tests with Jest, and took part in code reviews. This assignment highlights my front-end experience outside the WordPress ecosystem, working on high-traffic web products.

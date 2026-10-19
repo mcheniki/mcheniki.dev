@@ -76,8 +76,8 @@ export const restMoneyCaseStudy = {
 					text: 'Les calculs sont regroupés dans des fonctions utilisées par le tableau de bord et les formulaires. L’impact d’un revenu est estimé à partir du cumul de l’année concernée ; des tests couvrent le franchissement d’un seuil et le changement d’année lors d’une modification.',
 				},
 				{
-					title: 'Une démo isolée et réinitialisable',
-					text: 'La démo utilise un fichier SQLite distinct de mes données personnelles. Sa réinitialisation remplace les revenus et les réglages de démonstration dans une même transaction, pour retrouver un état cohérent.',
+					title: 'Une base par utilisateur, une démo réinitialisable',
+					text: 'Chaque utilisateur dispose de son propre fichier SQLite, et la démo du sien : mes données personnelles restent isolées par construction. La réinitialisation de la démo remplace ses revenus et ses réglages dans une même transaction, pour retrouver un état cohérent.',
 				},
 			],
 			imagesEyebrow: 'En images',
@@ -125,8 +125,8 @@ export const restMoneyCaseStudy = {
 					text: 'Calculations are grouped into functions used by the dashboard and forms. An income entry’s impact is estimated from the total for its year; tests cover crossing a threshold and changing the year when editing an entry.',
 				},
 				{
-					title: 'An isolated, resettable demo',
-					text: 'The demo uses a SQLite file separate from my personal data. Resetting it replaces its sample income and settings in one transaction, restoring a consistent state.',
+					title: 'One database per user, a resettable demo',
+					text: 'Each user has their own SQLite file, and so does the demo, so my personal data stays isolated by design. Resetting the demo replaces its sample income and settings in one transaction, restoring a consistent state.',
 				},
 			],
 			imagesEyebrow: 'In pictures',

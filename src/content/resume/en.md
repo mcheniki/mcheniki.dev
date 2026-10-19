@@ -50,7 +50,7 @@ experiences:
           end: { label: 'Sept. 2024', datetime: '2024-09' }
       role: 'Tech Lead / Senior Web Developer'
       company: 'Redbox Media'
-      location: 'Montréal, Canada'
+      location: 'Montréal, Canada · Remote from Toronto'
       summary: 'I led technical delivery across agency projects while staying directly involved in development.'
       highlights:
           - 'Architecture choices, development standards, code reviews and technical mentoring.'

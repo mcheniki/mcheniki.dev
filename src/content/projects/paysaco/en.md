@@ -11,4 +11,4 @@ mission: 'Full-Stack WordPress Developer'
 
 Paysaco provides hedge-maintenance services. The client needed to synchronize order data between her WooCommerce store and an external CRM to centralize customer follow-up.
 
-I built a WordPress plugin from scratch to automatically synchronize WooCommerce orders with the CRM. When the client decided to migrate to Salesforce, I designed a second version of the plugin tailored to the new platform. I worked independently on backend development, coordinating through the agency's project manager.
+I took over an existing PHP WordPress plugin that automatically synchronizes WooCommerce orders with the CRM, and evolved it as the requirements changed. When the client migrated to Salesforce, I adapted it to the new API in coordination with a Salesforce consultant, and used the opportunity to clean it up thoroughly. I worked independently, mainly on the back end with some front-end changes, coordinating with the agency's project manager.

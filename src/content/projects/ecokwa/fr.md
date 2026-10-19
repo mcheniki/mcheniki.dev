@@ -16,6 +16,7 @@ EcoKwa rassemble des indicateurs provenant de l'Insee, de la DREES et du Conseil
 d'orientation des retraites. L'application permet de rechercher une donnée publique et de
 consulter son évolution, avec sa source et sa méthodologie.
 
-J'ai conçu et développé l'application, des imports de données jusqu'au
-front-end, aux tests et au déploiement. La fiche complète présente les principaux choix
-techniques réalisés pour fiabiliser les données et les rendre compréhensibles.
+J'ai conçu et développé l'application, des imports de données jusqu'au front-end, aux tests et
+au déploiement. C'était aussi l'occasion d'approfondir Laravel, après des années dans
+l'écosystème PHP. La fiche complète présente les principaux choix techniques réalisés pour
+fiabiliser les données et les rendre compréhensibles.

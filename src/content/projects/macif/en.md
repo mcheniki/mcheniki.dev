@@ -13,4 +13,4 @@ MACIF needed to strengthen a multi-site WordPress architecture used for several 
 
 Within a team of three developers, I worked on the parent theme shared by all child themes. I built the blocks with PHP and ACF for rendering, then developed their editing interface in React to move beyond ACF's limitations and provide a Gutenberg-like experience.
 
-My role also covered cross-cutting concerns: following the design system, maintaining a modular architecture, diagnosing performance issues and making deployments of the new WordPress stack more reliable.
+My role also covered cross-cutting concerns: following the design system, maintaining a modular architecture, making deployments of the new WordPress stack more reliable, and diagnosing a slowdown in the admin, which I traced to a copy of the ACF plugin that differed from the official release and made each block send four times as many requests.
