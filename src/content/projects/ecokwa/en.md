@@ -16,6 +16,7 @@ EcoKwa brings together indicators from Insee, DREES and the French Pensions Advi
 Council. The application lets people search for public data and follow its evolution, with its
 source and methodology.
 
-I designed and developed the application, from data imports through to the
-front end, tests and deployment. The full case study presents the main technical choices made
-to keep the data dependable and understandable.
+I designed and developed the application, from data imports through to the front end, tests and
+deployment. It was also a chance to deepen my Laravel skills after years in the PHP ecosystem.
+The full case study presents the main technical choices made to keep the data dependable and
+understandable.

@@ -13,4 +13,4 @@ La MACIF avait besoin de renforcer une architecture multi-sites WordPress destin
 
 Au sein d'une équipe de trois développeurs, j'ai travaillé sur le thème parent partagé par l'ensemble des thèmes enfants. J'ai conçu les blocs en PHP et ACF côté rendu, puis développé leur interface d'édition en React pour dépasser les limites d'ACF et proposer une expérience plus proche de Gutenberg.
 
-Mon rôle couvrait aussi les sujets transverses : respect du design system, architecture modulaire, diagnostic de problèmes de performance et fiabilisation du déploiement de cette nouvelle stack WordPress.
+Mon rôle couvrait aussi les sujets transverses : respect du design system, architecture modulaire, fiabilisation du déploiement de cette nouvelle stack WordPress et diagnostic d'un ralentissement de l'administration, que j'ai isolé dans une copie du plugin ACF différente de la version officielle, qui multipliait par quatre les requêtes de chaque bloc.
