@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro dev",
-		"start": "astro dev",
+		"start": "bun ./dist/server/entry.mjs",
 		"build": "sh scripts/fetch-knowledge.sh && astro check && astro build",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
