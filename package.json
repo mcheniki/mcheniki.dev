@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "astro check && astro build",
+		"build": "sh scripts/fetch-knowledge.sh && astro check && astro build",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"preview": "astro preview",
