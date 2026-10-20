@@ -12,6 +12,7 @@ import node from '@astrojs/node';
 
 import tailwindcss from '@tailwindcss/vite';
 import { getRouteIdFromPath, getRoutePath } from './src/i18n/routes';
+import { knowledgeCheck } from './src/knowledge/integration';
 
 export default defineConfig({
 	site: PUBLIC_URL_WEBSITE ?? 'http://localhost:4321',
@@ -31,6 +32,7 @@ export default defineConfig({
 		},
 	},
 	integrations: [
+		knowledgeCheck(),
 		react({
 			include: ['**/react/*'],
 			babel: {

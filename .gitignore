@@ -27,3 +27,6 @@ pnpm-debug.log*
 /PRODUCT.md
 /DESIGN.md
 /.impeccable/**/*.md
+
+# private knowledge repository cloned at build time (scripts/fetch-knowledge.sh)
+/.knowledge/
