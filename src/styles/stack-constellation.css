@@ -748,7 +748,13 @@
 	.constellation__reset,
 	.constellation__node-motion,
 	.constellation__node[data-secondary='true'] .constellation__icon,
-	.constellation__node[data-secondary='true'] .constellation__label {
+	.constellation__node[data-secondary='true'] .constellation__label,
+	.constellation[data-selected='true'] .constellation__galaxy[data-chosen='true'],
+	.constellation[data-selected='true'][data-handoff-ready='true']
+		.constellation__galaxy[data-chosen='true'] {
 		transition: none;
+	}
+	.constellation-mobile__tools {
+		animation: none;
 	}
 }
