@@ -33,11 +33,7 @@ export function useStackConstellationMotion({ technologies, selectedId, paused }
 	);
 	const orbitTracks = useMemo<OrbitTrack[]>(() => {
 		if (!selectedId) return [];
-		const nodeClearance = viewportSize.width < 640 ? 52 : 64;
-		const maxRadiusX = Math.min(
-			viewportSize.width * 0.43,
-			viewportSize.width / 2 - nodeClearance,
-		);
+		const maxRadiusX = Math.min(viewportSize.width * 0.43, viewportSize.width / 2 - 64);
 		const maxRadiusY = Math.min(viewportSize.height * 0.4, viewportSize.height / 2 - 72);
 		return Array.from({ length: 3 }, (_, index) => ({
 			radiusX: maxRadiusX * (0.67 + index * 0.165),
@@ -171,7 +167,6 @@ export function useStackConstellationMotion({ technologies, selectedId, paused }
 		entryMotionEnabled,
 		nodeMotionRefs,
 		orbitTracks,
-		reducedMotion,
 		viewportRef,
 		viewportSize,
 	};

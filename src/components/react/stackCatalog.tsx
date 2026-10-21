@@ -44,7 +44,6 @@ import {
 type Galaxy = {
 	order: number;
 	position: readonly [number, number];
-	mobilePosition: readonly [number, number];
 	scale: number;
 	drift: readonly [number, number];
 	driftDuration: number;
@@ -54,7 +53,6 @@ type Galaxy = {
 export type StackTechnology = {
 	id: string;
 	label: string;
-	kind?: 'group';
 	position: readonly [number, number];
 	icon: ReactNode;
 	mark?: ReactNode;
@@ -100,7 +98,6 @@ export const technologies = [
 		galaxy: {
 			order: 3,
 			position: [33, 70],
-			mobilePosition: [25, 70],
 			scale: 0.96,
 			drift: [22, 12],
 			driftDuration: 16,
@@ -120,7 +117,6 @@ export const technologies = [
 		galaxy: {
 			order: 1,
 			position: [18, 25],
-			mobilePosition: [25, 26],
 			scale: 1.08,
 			drift: [20, -14],
 			driftDuration: 20,
@@ -147,7 +143,6 @@ export const technologies = [
 		galaxy: {
 			order: 4,
 			position: [67, 70],
-			mobilePosition: [75, 70],
 			scale: 1.05,
 			drift: [-20, -18],
 			driftDuration: 24,
@@ -167,7 +162,6 @@ export const technologies = [
 		galaxy: {
 			order: 2,
 			position: [50, 20],
-			mobilePosition: [75, 26],
 			scale: 0.98,
 			drift: [-18, 16],
 			driftDuration: 22,
@@ -177,7 +171,6 @@ export const technologies = [
 	{
 		id: 'other-tools',
 		label: 'Other tools',
-		kind: 'group',
 		position: [82, 25],
 		icon: <ToolboxIcon />,
 		mark: (
@@ -188,7 +181,6 @@ export const technologies = [
 		galaxy: {
 			order: 5,
 			position: [82, 25],
-			mobilePosition: [50, 88],
 			scale: 0.94,
 			drift: [14, -10],
 			driftDuration: 18,
