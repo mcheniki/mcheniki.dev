@@ -1,6 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { StackContent } from '../../content/home';
-import { directNeighbors, entryGalaxies, technologies, type TechnologyId } from './stackCatalog';
+import {
+	directNeighbors,
+	entryGalaxies,
+	technologies,
+	technologyById,
+	type TechnologyId,
+} from './stackCatalog';
 import { useStackConstellationMotion } from './useStackConstellationMotion';
 
 import '../../styles/stack-constellation.css';
@@ -32,10 +38,6 @@ function GalaxyEntrance({ technology }: { technology: (typeof entryGalaxies)[num
 }
 
 export default function StackConstellation({ text }: { text: StackConstellationText }) {
-	const byId = useMemo(
-		() => new Map(technologies.map((technology) => [technology.id, technology])),
-		[technologies],
-	);
 	const [selectedId, setSelectedId] = useState<TechnologyId | null>(null);
 	const [handoffId, setHandoffId] = useState<TechnologyId | null>(null);
 	const [handoffReady, setHandoffReady] = useState(false);
@@ -45,17 +47,13 @@ export default function StackConstellation({ text }: { text: StackConstellationT
 	const lastEntryIdRef = useRef<TechnologyId | null>(null);
 	const keyboardInputRef = useRef(false);
 	const handoffViewportRef = useRef<string | null>(null);
-	const selected = selectedId ? byId.get(selectedId) : undefined;
+	const selected = selectedId ? technologyById.get(selectedId) : undefined;
 	const selectedAndNeighbors = useMemo(() => {
 		if (!selectedId) return [];
 		return [selectedId, ...directNeighbors(selectedId)];
 	}, [selectedId]);
 	const { entryMotionEnabled, nodeMotionRefs, orbitTracks, viewportRef, viewportSize } =
-		useStackConstellationMotion({
-			technologies,
-			selectedId,
-			paused: focusWithin,
-		});
+		useStackConstellationMotion({ selectedId, paused: focusWithin });
 	const visibleIds = new Set<TechnologyId>(selectedAndNeighbors);
 	const freezeGalaxyDrift = (id: TechnologyId) => {
 		const button = entryButtonRefs.current.get(id);

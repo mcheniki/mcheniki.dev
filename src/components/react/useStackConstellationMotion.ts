@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+	directNeighbors,
 	orbitTrack,
-	orderedOrbitNeighbors,
-	type CatalogTechnology,
+	technologies,
+	technologyById,
 	type TechnologyId,
 } from './stackCatalog';
 
@@ -12,25 +13,19 @@ type OrbitTrack = {
 };
 
 type MotionOptions = {
-	technologies: readonly CatalogTechnology[];
 	selectedId: TechnologyId | null;
 	paused: boolean;
 };
 
-export function useStackConstellationMotion({ technologies, selectedId, paused }: MotionOptions) {
+export function useStackConstellationMotion({ selectedId, paused }: MotionOptions) {
 	const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
 	const [reducedMotion, setReducedMotion] = useState(false);
 	const [entryMotionEnabled, setEntryMotionEnabled] = useState(false);
 	const viewportRef = useRef<HTMLDivElement>(null);
-	const viewportSizeRef = useRef(viewportSize);
 	const nodeMotionRefs = useRef(new Map<TechnologyId, HTMLSpanElement>());
 	const elapsedRef = useRef(0);
 	const lastFrameAtRef = useRef<number | null>(null);
 	const motionKeyRef = useRef<TechnologyId | 'overview' | null>(null);
-	const byId = useMemo(
-		() => new Map(technologies.map((technology) => [technology.id, technology])),
-		[technologies],
-	);
 	const orbitTracks = useMemo<OrbitTrack[]>(() => {
 		if (!selectedId) return [];
 		const maxRadiusX = Math.min(viewportSize.width * 0.43, viewportSize.width / 2 - 64);
@@ -45,9 +40,7 @@ export function useStackConstellationMotion({ technologies, selectedId, paused }
 		const viewport = viewportRef.current;
 		if (!viewport) return;
 		const observer = new ResizeObserver(([entry]) => {
-			const size = { width: entry.contentRect.width, height: entry.contentRect.height };
-			viewportSizeRef.current = size;
-			setViewportSize(size);
+			setViewportSize({ width: entry.contentRect.width, height: entry.contentRect.height });
 		});
 		observer.observe(viewport);
 		return () => observer.disconnect();
@@ -74,21 +67,19 @@ export function useStackConstellationMotion({ technologies, selectedId, paused }
 		}
 
 		const render = () => {
-			const size = viewportSizeRef.current;
 			const offsets: Partial<Record<TechnologyId, [number, number]>> = {};
 			const movingIds = new Set<TechnologyId>();
 			if (selectedId && orbitTracks.length) {
-				const centerX = size.width / 2;
-				const centerY = size.height / 2;
-				const selectedPosition = byId.get(selectedId)!.position;
+				const centerX = viewportSize.width / 2;
+				const centerY = viewportSize.height / 2;
+				const selectedPosition = technologyById.get(selectedId)!.position;
 				movingIds.add(selectedId);
 				offsets[selectedId] = [
-					centerX - (selectedPosition[0] / 100) * size.width,
-					centerY - (selectedPosition[1] / 100) * size.height,
+					centerX - (selectedPosition[0] / 100) * viewportSize.width,
+					centerY - (selectedPosition[1] / 100) * viewportSize.height,
 				];
-				const orbitalNeighbors = orderedOrbitNeighbors(selectedId);
-				orbitalNeighbors.forEach((id, index, neighbors) => {
-					const technology = byId.get(id)!;
+				directNeighbors(selectedId).forEach((id, index, neighbors) => {
+					const technology = technologyById.get(id)!;
 					const trackIndex = orbitTrack(selectedId, id) ?? index % orbitTracks.length;
 					const track = orbitTracks[trackIndex];
 					const phase = (index / neighbors.length) * Math.PI * 2 - 0.4;
@@ -99,10 +90,10 @@ export function useStackConstellationMotion({ technologies, selectedId, paused }
 					offsets[id] = [
 						centerX +
 							Math.cos(angle) * track.radiusX -
-							(position[0] / 100) * size.width,
+							(position[0] / 100) * viewportSize.width,
 						centerY +
 							Math.sin(angle) * track.radiusY -
-							(position[1] / 100) * size.height,
+							(position[1] / 100) * viewportSize.height,
 					];
 				});
 			}
@@ -161,7 +152,7 @@ export function useStackConstellationMotion({ technologies, selectedId, paused }
 			observer.disconnect();
 			document.removeEventListener('visibilitychange', sync);
 		};
-	}, [byId, orbitTracks, paused, reducedMotion, selectedId, technologies, viewportSize]);
+	}, [orbitTracks, paused, reducedMotion, selectedId, viewportSize]);
 
 	return {
 		entryMotionEnabled,
