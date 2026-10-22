@@ -1,12 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import { ecoKwaCaseStudy } from '../data/case-studies/ecokwa';
-import { restMoneyCaseStudy } from '../data/case-studies/restmoney';
+import { caseStudies } from '../data/case-studies';
 import type { Locale } from '../i18n/config';
-
-/** Case studies with a page of their own; their `route` is the project slug. */
-export const caseStudies = [ecoKwaCaseStudy, restMoneyCaseStudy];
 
 export interface PublishedDocument {
 	/** Project slug, or the page name for home and resume. */
@@ -49,7 +45,7 @@ export function loadPublishedContent(locale: Locale, contentDir?: string): Publi
 			name: slug,
 			content: read('projects', slug, `${locale}.md`),
 		})),
-		caseStudies: caseStudies.map((caseStudy) => ({
+		caseStudies: Object.values(caseStudies).map((caseStudy) => ({
 			name: caseStudy.route,
 			content: JSON.stringify(
 				{

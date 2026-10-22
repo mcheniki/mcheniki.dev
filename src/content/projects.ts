@@ -1,5 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
 import { locales, type Locale } from '../i18n/config';
+import { caseStudyRouteIds } from '../i18n/routes';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 
@@ -13,8 +14,9 @@ function haveSameStack(first: string[], second: string[]) {
 }
 
 /**
- * Ensures every project has exactly one French and English entry and that the
- * shared metadata stays identical across both translations.
+ * Ensures every project has exactly one French and English entry, that the
+ * shared metadata stays identical across both translations, and that every
+ * case study route id matches a project.
  */
 export function validateProjectTranslations(projects: readonly ProjectEntry[]) {
 	const projectsByTranslationKey = new Map<string, Map<Locale, ProjectEntry>>();
@@ -50,7 +52,6 @@ export function validateProjectTranslations(projects: readonly ProjectEntry[]) {
 		const divergentFields = [
 			...(french.order !== english.order ? ['order'] : []),
 			...(french.url !== english.url ? ['url'] : []),
-			...(french.caseStudy !== english.caseStudy ? ['caseStudy'] : []),
 			...(french.projectType !== english.projectType ? ['projectType'] : []),
 			...(french.image.src !== english.image.src ? ['image'] : []),
 			...(!haveSameStack(french.stack, english.stack) ? ['stack'] : []),
@@ -60,6 +61,12 @@ export function validateProjectTranslations(projects: readonly ProjectEntry[]) {
 			errors.push(
 				`Translations for project "${translationKey}" diverge on: ${divergentFields.join(', ')}.`,
 			);
+		}
+	}
+
+	for (const caseStudyRouteId of caseStudyRouteIds) {
+		if (!projectsByTranslationKey.has(caseStudyRouteId)) {
+			errors.push(`Missing project for case study "${caseStudyRouteId}".`);
 		}
 	}
 

@@ -1,24 +1,29 @@
 import type { Locale } from './config';
 
-export const routeIds = ['home', 'resume', 'ecokwa', 'restmoney'] as const;
+/**
+ * Projects with a case study page. A case study route id is the project slug (its
+ * `translationKey`); every other case study list derives from this one.
+ */
 export const caseStudyRouteIds = ['ecokwa', 'restmoney'] as const;
+export const routeIds = ['home', 'resume', ...caseStudyRouteIds] as const;
 
 export type RouteId = (typeof routeIds)[number];
 export type CaseStudyRouteId = (typeof caseStudyRouteIds)[number];
 
+export function isCaseStudyRouteId(slug: string): slug is CaseStudyRouteId {
+	return (caseStudyRouteIds as readonly string[]).includes(slug);
+}
+
+function caseStudyPaths(prefix: string) {
+	return Object.fromEntries(caseStudyRouteIds.map((id) => [id, `${prefix}${id}/`])) as Record<
+		CaseStudyRouteId,
+		string
+	>;
+}
+
 export const routePaths = {
-	fr: {
-		home: '/',
-		resume: '/parcours/',
-		ecokwa: '/projets/ecokwa/',
-		restmoney: '/projets/restmoney/',
-	},
-	en: {
-		home: '/en/',
-		resume: '/en/resume/',
-		ecokwa: '/en/projects/ecokwa/',
-		restmoney: '/en/projects/restmoney/',
-	},
+	fr: { home: '/', resume: '/parcours/', ...caseStudyPaths('/projets/') },
+	en: { home: '/en/', resume: '/en/resume/', ...caseStudyPaths('/en/projects/') },
 } as const satisfies Record<Locale, Record<RouteId, string>>;
 
 export function getRoutePath(locale: Locale, route: RouteId) {

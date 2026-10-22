@@ -1,6 +1,5 @@
 import type { Locale } from '../i18n/config';
-import { routePaths } from '../i18n/routes';
-import { caseStudies } from './content';
+import { isCaseStudyRouteId, routePaths } from '../i18n/routes';
 import type { Proof } from './schema';
 
 /**
@@ -15,9 +14,8 @@ export function buildProofs(
 	const known = [...new Set(slugs)].filter((slug) => projectSlugs.includes(slug));
 
 	return known.map((slug) => {
-		const caseStudy = caseStudies.find(({ route }) => route === slug);
-		const url = caseStudy
-			? routePaths[locale][caseStudy.route]
+		const url = isCaseStudyRouteId(slug)
+			? routePaths[locale][slug]
 			: `${routePaths[locale].home}#${slug}`;
 		return { slug, url };
 	});
