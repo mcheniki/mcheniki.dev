@@ -1,5 +1,5 @@
 import type { StackContent } from '../../content/home';
-import { mobileDisclosureGroups, mobileOtherTechnologies } from './stackCatalog';
+import { mobileDisclosureGroups, mobileToolboxTechnologies } from './stackCatalog';
 
 type Text = StackContent['constellation'];
 
@@ -15,7 +15,7 @@ function GyroMotif() {
 function TechnologyList({
 	technologies,
 }: {
-	technologies: readonly (typeof mobileOtherTechnologies)[number][];
+	technologies: readonly (typeof mobileToolboxTechnologies)[number][];
 }) {
 	return (
 		<ul className="constellation-mobile__tools">
@@ -49,7 +49,7 @@ export default function StackConstellationMobile({ text }: { text: Text }) {
 					<span>{text.otherTools}</span>
 					<span aria-hidden="true" className="constellation-mobile__toggle" />
 				</summary>
-				<TechnologyList technologies={mobileOtherTechnologies} />
+				<TechnologyList technologies={mobileToolboxTechnologies} />
 			</details>
 		</div>
 	);

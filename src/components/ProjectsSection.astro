@@ -8,7 +8,7 @@ import ShapeH2 from '@svgs/shape-h2.svg';
 import type { ProjectsContent } from '../content/home';
 import { validateProjectTranslations } from '../content/projects';
 import type { Locale } from '../i18n/config';
-import { getRoutePath } from '../i18n/routes';
+import { getRoutePath, isCaseStudyRouteId } from '../i18n/routes';
 
 type Props = {
 	locale: Locale;
@@ -121,8 +121,8 @@ const personalProjects = sortedProjects.filter(
 					mission={project.data.mission}
 					url={project.data.url}
 					caseStudyUrl={
-						project.data.caseStudy
-							? getRoutePath(locale, project.data.caseStudy)
+						isCaseStudyRouteId(project.data.translationKey)
+							? getRoutePath(locale, project.data.translationKey)
 							: undefined
 					}
 					locale={locale}

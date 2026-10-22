@@ -1,6 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import type { StackContent } from '../../content/home';
-import { directNeighbors, entryGalaxies, technologies, type TechnologyId } from './stackCatalog';
+import {
+	directNeighbors,
+	entryGalaxies,
+	technologies,
+	technologyById,
+	type TechnologyId,
+} from './stackCatalog';
 import { useStackConstellationMotion } from './useStackConstellationMotion';
 
 import '../../styles/stack-constellation.css';
@@ -32,60 +38,32 @@ function GalaxyEntrance({ technology }: { technology: (typeof entryGalaxies)[num
 }
 
 export default function StackConstellation({ text }: { text: StackConstellationText }) {
-	const byId = useMemo(
-		() => new Map(technologies.map((technology) => [technology.id, technology])),
-		[technologies],
-	);
 	const [selectedId, setSelectedId] = useState<TechnologyId | null>(null);
 	const [handoffId, setHandoffId] = useState<TechnologyId | null>(null);
 	const [handoffReady, setHandoffReady] = useState(false);
-	const [handoffComplete, setHandoffComplete] = useState(false);
 	const [focusWithin, setFocusWithin] = useState(false);
 	const nodeButtonRefs = useRef(new Map<TechnologyId, HTMLElement>());
 	const entryButtonRefs = useRef(new Map<TechnologyId, HTMLButtonElement>());
 	const lastEntryIdRef = useRef<TechnologyId | null>(null);
 	const keyboardInputRef = useRef(false);
 	const handoffViewportRef = useRef<string | null>(null);
-	const selected = selectedId ? byId.get(selectedId) : undefined;
+	const selected = selectedId ? technologyById.get(selectedId) : undefined;
 	const selectedAndNeighbors = useMemo(() => {
 		if (!selectedId) return [];
 		return [selectedId, ...directNeighbors(selectedId)];
 	}, [selectedId]);
-	const {
-		entryMotionEnabled,
-		nodeMotionRefs,
-		orbitTracks,
-		reducedMotion,
-		viewportRef,
-		viewportSize,
-	} = useStackConstellationMotion({
-		technologies,
-		selectedId,
-		paused: focusWithin,
-	});
-	const visibleIds = new Set<TechnologyId>(selectedId ? selectedAndNeighbors : []);
+	const { entryMotionEnabled, nodeMotionRefs, orbitTracks, viewportRef, viewportSize } =
+		useStackConstellationMotion({ selectedId, paused: focusWithin });
+	const visibleIds = new Set<TechnologyId>(selectedAndNeighbors);
 	const freezeGalaxyDrift = (id: TechnologyId) => {
 		const button = entryButtonRefs.current.get(id);
 		const drift = button?.querySelector<HTMLElement>('.constellation__galaxy-drift');
-		const planet = button?.querySelector<HTMLElement>('.constellation__galaxy-entrance');
-		const viewport = viewportRef.current;
-		if (!button || !drift || !planet || !viewport) return;
+		if (!button || !drift) return;
 
 		const transform = window.getComputedStyle(drift).transform;
 		if (transform !== 'none') drift.style.transform = transform;
-		const planetRect = planet.getBoundingClientRect();
-		const viewportRect = viewport.getBoundingClientRect();
-		button.style.setProperty(
-			'--handoff-x',
-			`${viewportRect.left + viewportRect.width / 2 - (planetRect.left + planetRect.width / 2)}px`,
-		);
-		button.style.setProperty(
-			'--handoff-y',
-			`${viewportRect.top + viewportRect.height / 2 - (planetRect.top + planetRect.height / 2)}px`,
-		);
 		setHandoffId(id);
 		setHandoffReady(false);
-		setHandoffComplete(false);
 	};
 	const resetSelection = () => {
 		entryButtonRefs.current.forEach((button) => {
@@ -97,7 +75,6 @@ export default function StackConstellation({ text }: { text: StackConstellationT
 		});
 		setHandoffId(null);
 		setHandoffReady(false);
-		setHandoffComplete(false);
 		setSelectedId(null);
 	};
 
@@ -135,7 +112,6 @@ export default function StackConstellation({ text }: { text: StackConstellationT
 		button.style.setProperty('--handoff-scale', String(iconRect.width / planetRect.width));
 		handoffViewportRef.current = `${viewportSize.width}:${viewportSize.height}`;
 		setHandoffReady(true);
-		setHandoffComplete(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 	}, [handoffId, handoffReady, selectedId, viewportSize, viewportRef, nodeMotionRefs]);
 
 	useEffect(() => {
@@ -144,14 +120,7 @@ export default function StackConstellation({ text }: { text: StackConstellationT
 		if (handoffViewportRef.current === viewportKey) return;
 		setHandoffId(null);
 		setHandoffReady(false);
-		setHandoffComplete(false);
 	}, [handoffReady, viewportSize]);
-
-	useEffect(() => {
-		if (!handoffReady || reducedMotion) return;
-		const timeout = window.setTimeout(() => setHandoffComplete(true), 580);
-		return () => window.clearTimeout(timeout);
-	}, [handoffReady, reducedMotion]);
 
 	useEffect(() => {
 		if (selectedId) {
@@ -165,10 +134,6 @@ export default function StackConstellation({ text }: { text: StackConstellationT
 		<div
 			className="constellation"
 			data-entry-motion={entryMotionEnabled}
-			data-handoff-complete={handoffComplete}
-			data-handoff-persistent={
-				handoffId === selectedId && selected ? 'mark' in selected : false
-			}
 			data-handoff-ready={handoffReady}
 			data-selected={Boolean(selectedId)}
 			data-selected-id={selectedId ?? undefined}
@@ -233,8 +198,6 @@ export default function StackConstellation({ text }: { text: StackConstellationT
 										{
 											'--galaxy-x': `${galaxyMotion.position[0]}%`,
 											'--galaxy-y': `${galaxyMotion.position[1]}%`,
-											'--galaxy-mobile-x': `${galaxyMotion.mobilePosition[0]}%`,
-											'--galaxy-mobile-y': `${galaxyMotion.mobilePosition[1]}%`,
 											'--galaxy-scale': galaxyMotion.scale,
 											'--galaxy-drift-x': `${galaxyMotion.drift[0]}px`,
 											'--galaxy-drift-y': `${galaxyMotion.drift[1]}px`,
