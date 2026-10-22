@@ -1,4 +1,0 @@
-# The nixpacks base image installs git but not an SSH client, which
-# scripts/fetch-knowledge.sh needs to clone the private knowledge repository.
-[phases.setup]
-aptPkgs = ['...', 'openssh-client']
